@@ -37,7 +37,14 @@
     }
 
     .navbar-brand img {
-      height: 80px;
+      height: 110px; /* Increased from 80px to 110px */
+      transition: height 0.3s;
+    }
+
+    @media (max-width: 768px) {
+      .navbar-brand img {
+        height: 70px; /* Slightly bigger for mobile too */
+      }
     }
 
     .hero-section {

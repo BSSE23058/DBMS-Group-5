@@ -1,289 +1,471 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SkillConnect - FAQs</title>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <style>
-    html {
-      scroll-behavior: smooth;
-    }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>SkillConnect - FAQs</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      html {
+        scroll-behavior: smooth;
+      }
 
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #f8f9fa;
-      transition: background 0.3s, color 0.3s;
-    }
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        background-color: #f8f9fa;
+        transition: background 0.3s, color 0.3s;
+      }
 
-    /* Navigation Bar Styling */
-    .navbar {
-      padding: 1rem 2rem;
-    }
-    .navbar-nav .nav-link {
-      font-weight: 600;
-      margin: 0 10px;
-    }
-    .nav-icons i {
-      font-size: 1.3rem;
-      margin-right: 15px;
-      color: #1e1e2f;
-      cursor: pointer;
-    }
-    .nav-buttons .btn {
-      margin-left: 10px;
-    }
-    .navbar-brand img {
-      height: 80px;
-    }
+      /* Navigation Bar Styling */
+      .navbar {
+        padding: 1rem 2rem;
+      }
+      .navbar-nav .nav-link {
+        font-weight: 600;
+        margin: 0 10px;
+      }
+      .nav-icons i {
+        font-size: 1.3rem;
+        margin-right: 15px;
+        color: #1e1e2f;
+        cursor: pointer;
+      }
+      .nav-buttons .btn {
+        margin-left: 10px;
+      }
+      .navbar-brand img {
+        height: 80px;
+      }
 
-    /* FAQ Section Styling */
-    .faq-hero {
-      background: linear-gradient(135deg, #220359, #4906bf);
-      color: white;
-      padding: 4rem 0;
-      margin-bottom: 3rem;
-    }
-    
-    .faq-container {
-      max-width: 800px;
-      margin: 0 auto;
-    }
-    
-    .faq-item {
-      background: white;
-      border-radius: 10px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-      margin-bottom: 1.5rem;
-      overflow: hidden;
-    }
-    
-    .faq-question {
-      padding: 1.5rem;
-      font-weight: 600;
-      cursor: pointer;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: #f8f9fa;
-      border-bottom: 1px solid #e9ecef;
-    }
-    
-    .faq-answer {
-      padding: 1.5rem;
-      display: none;
-    }
-    
-    .faq-item.active .faq-answer {
-      display: block;
-    }
-    
-    .faq-toggle {
-      transition: transform 0.3s;
-    }
-    
-    .faq-item.active .faq-toggle {
-      transform: rotate(180deg);
-    }
+      /* FAQ Section Styling */
+      .faq-hero {
+        background: linear-gradient(135deg, #220359, #4906bf);
+        color: white;
+        padding: 4rem 0;
+        margin-bottom: 3rem;
+      }
 
-    /* Footer Styling */
-    footer {
-      background-color: #343a40;
-      color: white;
-      padding: 3rem 0 2rem;
-    }
-    
-    .footer-links a {
-      color: rgba(255,255,255,.6);
-      text-decoration: none;
-      transition: color 0.3s;
-    }
-    
-    .footer-links a:hover {
-      color: white;
-    }
-    
-    .copyright {
-      color: rgba(255,255,255,.5);
-      font-size: 0.9rem;
-    }
-  </style>
-</head>
-<body>
+      .faq-container {
+        max-width: 800px;
+        margin: 0 auto;
+      }
 
-<!-- Navigation Bar -->
-<nav class="navbar navbar-expand-lg bg-white shadow-sm">
-  <div class="container-fluid">
-    <!-- Logo -->
-    <a class="navbar-brand d-flex align-items-center" href="#">
-      <img src="./logo.jpeg" alt="SkillConnect Logo"/>
-    </a>
+      .faq-item {
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        margin-bottom: 1.5rem;
+        overflow: hidden;
+      }
 
-    <!-- Navigation links + Icons + Buttons -->
-    <div class="collapse navbar-collapse justify-content-between">
-      <!-- Center nav links -->
-      <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
-        <li class="nav-item"><a class="nav-link" href="./landing_page.html">Home</a></li>
-        <li class="nav-item"><a class="nav-link" href="#">All Jobs</a></li>
-        <li class="nav-item"><a class="nav-link" href="#">All Courses</a></li>
-        <li class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-            Services
-          </a>
-          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <li><a class="dropdown-item" href="./registration_form_students_tutor.html">Tutoring</a></li>
-            <li><a class="dropdown-item" href="./registration_form_jobSeekers_Employeers.html">Job Matching</a></li>
-          </ul>
-        </li>
-        <li class="nav-item"><a class="nav-link" href="./faq.html">Contact</a></li>
-        <li class="nav-item"><a class="nav-link" href="./aboutUs.html">About Us</a></li>
-      </ul>
+      .faq-question {
+        padding: 1.5rem;
+        font-weight: 600;
+        cursor: pointer;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: #f8f9fa;
+        border-bottom: 1px solid #e9ecef;
+      }
 
-      <!-- Right side icons and buttons -->
-      <div class="d-flex align-items-center nav-icons">
-        <i class="bi bi-search"></i>
-        <span class="me-2">0.0 $</span>
-        <i class="bi bi-bag"></i>
-        <i class="bi bi-person-circle"></i>
-        <div class="nav-buttons">
-          <a href="./login.html" class="btn btn-primary">Login</a>
-          <a href="./registration_form_jobSeekers_Employeers.html" class="btn btn-outline-primary">Register</a>
-        </div>
-      </div>
-    </div>
-  </div>
-</nav>
+      .faq-answer {
+        padding: 1.5rem;
+        display: none;
+      }
 
-<!-- FAQ Hero Section -->
-<section class="faq-hero">
-  <div class="container text-center">
-    <h1 class="display-4 fw-bold mb-3">Frequently Asked Questions</h1>
-    <p class="lead">Find answers to common questions about SkillConnect</p>
-  </div>
-</section>
+      .faq-item.active .faq-answer {
+        display: block;
+      }
 
-<!-- FAQ Content -->
-<section class="py-5">
-  <div class="container faq-container">
-    <div class="faq-item">
-      <div class="faq-question">
-        <span>How do I sign up as a tutor on SkillConnect?</span>
-        <i class="bi bi-chevron-down faq-toggle"></i>
-      </div>
-      <div class="faq-answer">
-        <p>To sign up as a tutor, click on the "Become an Instructor" button on our homepage and fill out the application form. We'll review your qualifications and get back to you within 3-5 business days.</p>
-      </div>
-    </div>
-    
-    <div class="faq-item">
-      <div class="faq-question">
-        <span>What payment methods do you accept?</span>
-        <i class="bi bi-chevron-down faq-toggle"></i>
-      </div>
-      <div class="faq-answer">
-        <p>We accept all major credit cards (Visa, MasterCard, American Express), PayPal, and bank transfers for payments.</p>
-      </div>
-    </div>
-    
-    <div class="faq-item">
-      <div class="faq-question">
-        <span>How does the refund policy work?</span>
-        <i class="bi bi-chevron-down faq-toggle"></i>
-      </div>
-      <div class="faq-answer">
-        <p>We offer a 30-day money-back guarantee for all courses. If you're not satisfied with your purchase, simply contact our support team within 30 days for a full refund.</p>
-      </div>
-    </div>
-    
-    <div class="faq-item">
-      <div class="faq-question">
-        <span>Can I access courses on mobile devices?</span>
-        <i class="bi bi-chevron-down faq-toggle"></i>
-      </div>
-      <div class="faq-answer">
-        <p>Yes! SkillConnect is fully responsive and works on all devices including smartphones and tablets through our mobile app or web browser.</p>
-      </div>
-    </div>
-    
-    <div class="faq-item">
-      <div class="faq-question">
-        <span>How do I contact customer support?</span>
-        <i class="bi bi-chevron-down faq-toggle"></i>
-      </div>
-      <div class="faq-answer">
-        <p>You can reach our support team 24/7 through the contact form on our website, or by emailing support@skillconnect.com. Average response time is under 2 hours.</p>
-      </div>
-    </div>
-    
-    <div class="text-center mt-5">
-      <h3 class="mb-3">Still have questions?</h3>
-      <a href="#" class="btn btn-primary btn-lg">Contact Support</a>
-    </div>
-  </div>
-</section>
+      .faq-toggle {
+        transition: transform 0.3s;
+      }
 
-<!-- Footer -->
-<footer class="bg-dark text-white pt-5 pb-4">
-  <div class="container">
-    <div class="row">
-      <!-- Logo and Tagline -->
-      <div class="col-lg-4 mb-4">
-        <a class="navbar-brand d-flex align-items-center mb-3" href="#">
-          <img src="./logo.jpeg" alt="SkillConnect Logo" height="60">
+      .faq-item.active .faq-toggle {
+        transform: rotate(180deg);
+      }
+
+      /* Footer Styling */
+      footer {
+        background-color: #343a40;
+        color: white;
+        padding: 3rem 0 2rem;
+      }
+
+      .footer-links a {
+        color: rgba(255, 255, 255, 0.6);
+        text-decoration: none;
+        transition: color 0.3s;
+      }
+
+      .footer-links a:hover {
+        color: white;
+      }
+
+      .copyright {
+        color: rgba(255, 255, 255, 0.5);
+        font-size: 0.9rem;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Navigation Bar -->
+    <nav class="navbar navbar-expand-lg bg-white shadow-sm">
+      <div class="container-fluid">
+        <!-- Logo -->
+        <a class="navbar-brand d-flex align-items-center" href="#">
+          <img src="./logo.jpeg" alt="SkillConnect Logo" />
         </a>
-        <p class="text-muted">Empower minds. Share skills. Shape the future – with skillConnect.</p>
-        <p class="text-muted small">Group 5</p>
-      </div>
 
-      <!-- Quick Links -->
-      <div class="col-lg-2 col-md-4 mb-4">
-        <h5 class="text-uppercase fw-bold mb-4">All Pages</h5>
-        <ul class="list-unstyled">
-          <li class="mb-2"><a href="#" class="text-white text-decoration-none">Home</a></li>
-          <li class="mb-2"><a href="#" class="text-white text-decoration-none">AI Courses</a></li>
-          <li class="mb-2"><a href="#" class="text-white text-decoration-none">Contact</a></li>
-          <li class="mb-2"><a href="#" class="text-white text-decoration-none">About Us</a></li>
-          <li class="mb-2"><a href="#" class="text-white text-decoration-none">Tag</a></li>
-        </ul>
-      </div>
+        <!-- Navigation links + Icons + Buttons -->
+        <div class="collapse navbar-collapse justify-content-between">
+          <!-- Center nav links -->
+          <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link" href="./landing_page.html">Home</a>
+            </li>
+            <li class="nav-item"><a class="nav-link" href="#">All Jobs</a></li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">All Courses</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a
+                class="nav-link dropdown-toggle"
+                href="#"
+                id="navbarDropdown"
+                role="button"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+              >
+                Services
+              </a>
+              <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="./registration_form_students_tutor.html"
+                    >Tutoring</a
+                  >
+                </li>
+                <li>
+                  <a
+                    class="dropdown-item"
+                    href="./registration_form_jobSeekers_Employeers.html"
+                    >Job Matching</a
+                  >
+                </li>
+              </ul>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="./faq.html">Contact</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="./aboutUs.html">About Us</a>
+            </li>
+          </ul>
 
-      <!-- Policies -->
-      <div class="col-lg-3 col-md-4 mb-4">
-        <h5 class="text-uppercase fw-bold mb-4">Policies</h5>
-        <ul class="list-unstyled">
-          <li class="mb-2"><a href="#" class="text-white text-decoration-none">Privacy Policy</a></li>
-          <li class="mb-2"><a href="#" class="text-white text-decoration-none">Terms and Conditions</a></li>
-          <li class="mb-2"><a href="#" class="text-white text-decoration-none">Refund and Review Policy</a></li>
-        </ul>
-      </div>
-
-      <!-- Newsletter -->
-      <div class="col-lg-3 col-md-4 mb-4">
-        <h5 class="text-uppercase fw-bold mb-4">Stay Updated</h5>
-        <p class="text-muted">Subscribe to our newsletter for the latest updates.</p>
-        <div class="input-group mb-3">
-          <input type="email" class="form-control" placeholder="Your Email">
-          <button class="btn btn-primary" type="button">Subscribe</button>
+          <!-- Right side icons and buttons -->
+          <div class="d-flex align-items-center nav-icons">
+            <div class="nav-buttons">
+              <a href="./login.html" class="btn btn-primary">Login</a>
+              <!-- Register dropdown for all registration options -->
+              <div class="btn-group">
+                <a
+                  href="#"
+                  class="btn btn-outline-primary dropdown-toggle"
+                  data-bs-toggle="dropdown"
+                  aria-expanded="false"
+                >
+                  Register
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end">
+                  <li>
+                    <a
+                      class="dropdown-item"
+                      href="./registration_form_students_tutor.html"
+                    >
+                      Student / Tutor Registration
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      class="dropdown-item"
+                      href="./registration_form_employer.html"
+                    >
+                      Employer Registration
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      class="dropdown-item"
+                      href="./registration_form_jobseeker.html"
+                    >
+                      Job Seeker Registration
+                    </a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="d-flex">
-          <a href="#" class="text-white me-3"><i class="bi bi-facebook"></i></a>
-          <a href="#" class="text-white me-3"><i class="bi bi-twitter"></i></a>
-          <a href="#" class="text-white me-3"><i class="bi bi-instagram"></i></a>
-          <a href="#" class="text-white me-3"><i class="bi bi-linkedin"></i></a>
+      </div>
+    </nav>
+
+    <!-- FAQ Hero Section -->
+    <section class="faq-hero">
+      <div class="container text-center">
+        <h1 class="display-4 fw-bold mb-3">Frequently Asked Questions</h1>
+        <p class="lead">Find answers to common questions about SkillConnect</p>
+      </div>
+    </section>
+
+    <!-- FAQ Content -->
+    <section class="py-5">
+      <div class="container faq-container">
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>How do I sign up as a tutor on SkillConnect?</span>
+            <i class="bi bi-chevron-down faq-toggle"></i>
+          </div>
+          <div class="faq-answer">
+            <p>
+              To sign up as a tutor, click on the "Student / Tutor Registration"
+              link in the Register menu, fill out the required information, and
+              submit your application. Our team will review your details and
+              notify you once your account is approved.
+            </p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>What payment methods do you accept?</span>
+            <i class="bi bi-chevron-down faq-toggle"></i>
+          </div>
+          <div class="faq-answer">
+            <p>
+              We accept all major credit cards (Visa, MasterCard, American
+              Express), PayPal, and bank transfers for payments.
+            </p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>How does the refund policy work?</span>
+            <i class="bi bi-chevron-down faq-toggle"></i>
+          </div>
+          <div class="faq-answer">
+            <p>
+              We offer a 30-day money-back guarantee for all courses. If you're
+              not satisfied with your purchase, simply contact our support team
+              within 30 days for a full refund.
+            </p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>Can I access courses on mobile devices?</span>
+            <i class="bi bi-chevron-down faq-toggle"></i>
+          </div>
+          <div class="faq-answer">
+            <p>
+              Yes! SkillConnect is fully responsive and works on all devices
+              including smartphones and tablets through our mobile app or web
+              browser.
+            </p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>How do I contact customer support?</span>
+            <i class="bi bi-chevron-down faq-toggle"></i>
+          </div>
+          <div class="faq-answer">
+            <p>
+              You can reach our support team 24/7 through the contact form on
+              our website, or by emailing support@skillconnect.com. Average
+              response time is under 2 hours.
+            </p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>How do employers register and post jobs?</span>
+            <i class="bi bi-chevron-down faq-toggle"></i>
+          </div>
+          <div class="faq-answer">
+            <p>
+              Employers can register by selecting "Employer Registration" from the
+              Register menu. Once registered and logged in, you can post job
+              openings and manage applications from your dashboard.
+            </p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>How do job seekers apply for jobs?</span>
+            <i class="bi bi-chevron-down faq-toggle"></i>
+          </div>
+          <div class="faq-answer">
+            <p>
+              Job seekers should register using the "Job Seeker Registration"
+              form. After logging in, you can browse available jobs and apply
+              directly through the platform.
+            </p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>Is my personal information safe?</span>
+            <i class="bi bi-chevron-down faq-toggle"></i>
+          </div>
+          <div class="faq-answer">
+            <p>
+              Yes, we use industry-standard security measures to protect your data
+              and never share your personal information without your consent.
+            </p>
+          </div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-question">
+            <span>Can I register as both a tutor and a job seeker?</span>
+            <i class="bi bi-chevron-down faq-toggle"></i>
+          </div>
+          <div class="faq-answer">
+            <p>
+              Yes, you can register for multiple roles using the appropriate
+              registration forms. Each role will have its own dashboard and
+              features.
+            </p>
+          </div>
+        </div>
+
+        <div class="text-center mt-5">
+          <h3 class="mb-3">Still have questions?</h3>
+          <a href="#" class="btn btn-primary btn-lg">Contact Support</a>
         </div>
       </div>
-    </div>
-    <hr class="my-4 bg-secondary">
-    <div class="row">
-      <div class="col-12 text-center">
-        <p class="copyright mb-0">Copyright © 2025 @SkillConnect</p>
-      </div>
-    </div>
-  </div>
-</footer>
+    </section>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
-</body>
+    <!-- Footer -->
+    <footer class="bg-dark text-white pt-5 pb-4">
+      <div class="container">
+        <div class="row">
+          <!-- Logo and Tagline -->
+          <div class="col-lg-4 mb-4">
+            <a class="navbar-brand d-flex align-items-center mb-3" href="#">
+              <img src="./logo.jpeg" alt="SkillConnect Logo" height="60" />
+            </a>
+            <p class="text-muted">
+              Empower minds. Share skills. Shape the future – with skillConnect.
+            </p>
+            <p class="text-muted small">Group 5</p>
+          </div>
+
+          <!-- Quick Links -->
+          <div class="col-lg-2 col-md-4 mb-4">
+            <h5 class="text-uppercase fw-bold mb-4">All Pages</h5>
+            <ul class="list-unstyled">
+              <li class="mb-2">
+                <a href="#" class="text-white text-decoration-none">Home</a>
+              </li>
+              <li class="mb-2">
+                <a href="#" class="text-white text-decoration-none"
+                  >AI Courses</a
+                >
+              </li>
+              <li class="mb-2">
+                <a href="#" class="text-white text-decoration-none">Contact</a>
+              </li>
+              <li class="mb-2">
+                <a href="#" class="text-white text-decoration-none">About Us</a>
+              </li>
+              <li class="mb-2">
+                <a href="#" class="text-white text-decoration-none">Tag</a>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Policies -->
+          <div class="col-lg-3 col-md-4 mb-4">
+            <h5 class="text-uppercase fw-bold mb-4">Policies</h5>
+            <ul class="list-unstyled">
+              <li class="mb-2">
+                <a href="#" class="text-white text-decoration-none"
+                  >Privacy Policy</a
+                >
+              </li>
+              <li class="mb-2">
+                <a href="#" class="text-white text-decoration-none"
+                  >Terms and Conditions</a
+                >
+              </li>
+              <li class="mb-2">
+                <a href="#" class="text-white text-decoration-none"
+                  >Refund and Review Policy</a
+                >
+              </li>
+            </ul>
+          </div>
+
+          <!-- Newsletter -->
+          <div class="col-lg-3 col-md-4 mb-4">
+            <h5 class="text-uppercase fw-bold mb-4">Stay Updated</h5>
+            <p class="text-muted">
+              Subscribe to our newsletter for the latest updates.
+            </p>
+            <div class="input-group mb-3">
+              <input
+                type="email"
+                class="form-control"
+                placeholder="Your Email"
+              />
+              <button class="btn btn-primary" type="button">Subscribe</button>
+            </div>
+            <div class="d-flex">
+              <a href="#" class="text-white me-3"
+                ><i class="bi bi-facebook"></i
+              ></a>
+              <a href="#" class="text-white me-3"
+                ><i class="bi bi-twitter"></i
+              ></a>
+              <a href="#" class="text-white me-3"
+                ><i class="bi bi-instagram"></i
+              ></a>
+              <a href="#" class="text-white me-3"
+                ><i class="bi bi-linkedin"></i
+              ></a>
+            </div>
+          </div>
+        </div>
+        <hr class="my-4 bg-secondary" />
+        <div class="row">
+          <div class="col-12 text-center">
+            <p class="copyright mb-0">Copyright © 2025 @SkillConnect</p>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
 </html>
