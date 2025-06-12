@@ -161,7 +161,7 @@
           <h2 class="text-center mb-4 fw-bold">Create Your Account</h2>
           <div class="col-lg-8">
             <div class="card registration-card p-4 p-md-5">
-              <form id="tutorForm" action="tutor_register.php" method="POST">
+              <form action="tutor_register.php" method="POST">
                 <h3 class="text-center mb-4 fw-bold">Tutor Registration</h3>
 
                 <div class="mb-3">
@@ -171,6 +171,18 @@
                     class="form-control"
                     id="name"
                     name="name"
+                    required
+                  />
+                </div>
+
+                <!-- Add Username field -->
+                <div class="mb-3">
+                  <label for="username" class="form-label">Username</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="username"
+                    name="username"
                     required
                   />
                 </div>
@@ -187,12 +199,12 @@
                 </div>
 
                 <div class="mb-3">
-                  <label for="number" class="form-label">Phone Number</label>
+                  <label for="phone" class="form-label">Phone Number</label>
                   <input
-                    type="tel"
+                    type="text"
                     class="form-control"
-                    id="number"
-                    name="number"
+                    id="phone"
+                    name="phone"
                     required
                   />
                 </div>
@@ -220,6 +232,19 @@
                 </div>
 
                 <div class="mb-3">
+                  <label for="confirm_password" class="form-label"
+                    >Confirm Password</label
+                  >
+                  <input
+                    type="password"
+                    class="form-control"
+                    id="confirm_password"
+                    name="confirm_password"
+                    required
+                  />
+                </div>
+
+                <div class="mb-3">
                   <label for="bio" class="form-label">Bio</label>
                   <textarea
                     class="form-control"
@@ -229,21 +254,20 @@
                   ></textarea>
                 </div>
 
-                <div class="mb-3">
-                  <label for="feeType">Fee Type</label>
-                  <select
-                    name="fee_type"
-                    id="feeType"
-                    class="form-control"
-                    required
-                  >
-                    <option value="">Select fee type</option>
-                    <option value="hourly">Hourly</option>
-                    <option value="monthly">Monthly</option>
-                    <option value="weekly">Weekly</option>
-                    <option value="student_based">Student Based</option>
-                  </select>
-                </div>
+                <!-- Add this label above the feeType select -->
+                <label id="feeLabel" class="form-label" for="feeType">Fee Type</label>
+                <select
+                  name="fee_type"
+                  id="feeType"
+                  class="form-control"
+                  required
+                >
+                  <option value="">Select fee type</option>
+                  <option value="hourly">Hourly</option>
+                  <option value="monthly">Monthly</option>
+                  <option value="weekly">Weekly</option>
+                  <option value="student_based">Student Based</option>
+                </select>
 
                 <button type="submit" class="btn btn-register">
                   Register as Tutor

@@ -1,0 +1,1268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>SkillConnect Admin - Reports</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+    
+    <style>
+        html { scroll-behavior: smooth; }
+        body { background-color: #f8f9fa; }
+        .navbar { padding: 1rem 2rem; }
+        .navbar-nav .nav-link { font-weight: 600; margin: 0 10px; }
+        .navbar-brand img { height: 80px; }
+
+        .admin-sidebar {
+            background: linear-gradient(to bottom, #220359, #4906bf);
+            color: white;
+            padding-top: 20px;
+            min-height: calc(100vh - 80px);
+            position: sticky;
+            top: 0;
+            left: 0;
+            z-index: 1000; 
+        }
+
+        .admin-sidebar .nav-link {
+            color: rgba(255, 255, 255, 0.8);
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        .admin-sidebar .nav-link:hover,
+        .admin-sidebar .nav-link.active {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            border-left: 3px solid #ffc107;
+        }
+
+        .admin-sidebar .nav-link i { margin-right: 10px; font-size: 1.1rem; }
+        .admin-content { padding: 30px; flex-grow: 1; }
+        .admin-card {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .btn-primary { background-color: #0d6efd; border-color: #0d6efd; }
+        .btn-primary:hover { background-color: #0b5ed7; border-color: #0a58ca; }
+        .btn-outline-primary { color: #0d6efd; border-color: #0d6efd; }
+        .btn-outline-primary:hover { background-color: #0d6efd; color: white; }
+        .text-primary { color: #0d6efd !important; }
+
+        .badge.bg-success { background-color: #198754 !important; }
+        .badge.bg-danger { background-color: #dc3545 !important; }
+        .badge.bg-warning { background-color: #ffc107 !important; }
+        .badge.bg-info { background-color: #0dcaf0 !important; }
+        .badge.bg-secondary { background-color: #6c757d !important; }
+        
+        footer { background-color: #212529 !important; color: white; }
+        footer .text-muted { color: rgba(255, 255, 255, 0.7) !important; }
+
+        .offcanvas { transition: none !important; }
+        
+        @media (max-width: 767.98px) {
+            .admin-sidebar { display: none; }
+            .offcanvas-start { width: 250px; }
+            .admin-content { width: 100%; }
+            .navbar-toggler { display: block; }
+        }
+
+        @media (min-width: 768px) {
+            .navbar-toggler { display: none; }
+            .admin-sidebar { display: block !important; }
+            .offcanvas { visibility: hidden; }
+            .offcanvas.show { transform: translateX(-100%); }
+        }
+
+        .sub-content-section { display: none; }
+        .sub-content-section.active { display: block; }
+
+        #loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 1.5rem;
+            z-index: 9999;
+            display: none; /* Hidden by default */
+        }
+    </style>
+</head>
+<body>
+
+<div id="loading-overlay">
+    <div class="spinner-border text-light" role="status">
+        <span class="visually-hidden">Loading...</span>
+    </div>
+    <span class="ms-3">Generating PDF...</span>
+</div>
+
+<nav class="navbar navbar-expand-lg bg-white shadow-sm">
+    <div class="container-fluid">
+        <button class="navbar-toggler me-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#adminSidebarOffcanvas" aria-controls="adminSidebarOffcanvas">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <a class="navbar-brand d-flex align-items-center" href="./landing_page.html">
+            <img src="./logo.jpeg" alt="SkillConnect Logo" crossorigin="anonymous"/>
+        </a>
+        <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
+            <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+                <li class="nav-item"><a class="nav-link" href="./landing_page.html">Home (Go to Main Site)</a></li>
+                <li class="nav-item"><a class="nav-link" href="./admin_dashboard.html">Admin Dashboard</a></li>
+                <li class="nav-item"><a class="nav-link" href="./admin_user_management.html">Users</a></li>
+                <li class="nav-item"><a class="nav-link" href="./admin_courses.html">Courses</a></li>
+                <li class="nav-item"><a class="nav-link" href="./admin_tutoring.html">Tutoring</a></li>
+                <li class="nav-item"><a class="nav-link" href="./admin_job_listings.html">Jobs</a></li>
+                <li class="nav-item"><a class="nav-link" href="./admin_messages.html">Messages</a></li>
+                <li class="nav-item"><a class="nav-link" href="./admin_applications.html">Applications</a></li>
+                <li class="nav-item"><a class="nav-link active" href="./admin_reports.html">Reports</a></li>
+                <li class="nav-item"><a class="nav-link" href="./admin_system_settings.html">Settings</a></li>
+            </ul>
+            <div class="d-flex align-items-center nav-icons">
+                <span class="me-3 fw-bold">Admin User</span>
+                <i class="bi bi-person-circle fs-4 me-3"></i>
+                <div class="nav-buttons">
+                    <a href="./login.html" id="logout-btn" class="btn btn-outline-primary">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<div class="d-flex">
+    <div class="admin-sidebar col-md-2">
+        <ul class="nav flex-column">
+            <li class="nav-item"><a class="nav-link" href="./admin_dashboard.html"><i class="bi bi-speedometer2"></i> Dashboard</a></li>
+            <li class="nav-item"><a class="nav-link" href="./admin_user_management.html"><i class="bi bi-people"></i> Users</a></li>
+            <li class="nav-item"><a class="nav-link" href="./admin_courses.html"><i class="bi bi-book"></i> Courses</a></li>
+            <li class="nav-item"><a class="nav-link" href="./admin_tutoring.html"><i class="bi bi-calendar-check"></i> Tutoring Sessions</a></li>
+            <li class="nav-item"><a class="nav-link" href="./admin_job_listings.html"><i class="bi bi-briefcase"></i> Job Listings</a></li>
+            <li class="nav-item"><a class="nav-link" href="./admin_applications.html"><i class="bi bi-file-earmark-text"></i> Applications</a></li>
+            <li class="nav-item"><a class="nav-link" href="./admin_messages.html"><i class="bi bi-chat-dots"></i> Messages</a></li>
+            <li class="nav-item"><a class="nav-link active" href="./admin_reports.html"><i class="bi bi-graph-up"></i> Reports</a></li>
+            <li class="nav-item"><a class="nav-link" href="./admin_system_settings.html"><i class="bi bi-box-seam"></i> System Settings</a></li>
+        </ul>
+    </div>
+
+    <div class="offcanvas offcanvas-start admin-sidebar" tabindex="-1" id="adminSidebarOffcanvas">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title text-white">Admin Navigation</h5>
+            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body p-0">
+            <ul class="nav flex-column">
+                <li class="nav-item"><a class="nav-link" href="./admin_dashboard.html"><i class="bi bi-speedometer2"></i> Dashboard</a></li>
+                <li class="nav-item"><a class="nav-link" href="./admin_user_management.html"><i class="bi bi-people"></i> Users</a></li>
+                <li class="nav-item"><a class="nav-link" href="./admin_courses.html"><i class="bi bi-book"></i> Courses</a></li>
+                <li class="nav-item"><a class="nav-link" href="./admin_tutoring.html"><i class="bi bi-calendar-check"></i> Tutoring Sessions</a></li>
+                <li class="nav-item"><a class="nav-link" href="./admin_job_listings.html"><i class="bi bi-briefcase"></i> Job Listings</a></li>
+                <li class="nav-item"><a class="nav-link" href="./admin_applications.html"><i class="bi bi-file-earmark-text"></i> Applications</a></li>
+                <li class="nav-item"><a class="nav-link" href="./admin_messages.html"><i class="bi bi-chat-dots"></i> Messages</a></li>
+                <li class="nav-item"><a class="nav-link active" href="./admin_reports.html"><i class="bi bi-graph-up"></i> Reports</a></li>
+                <li class="nav-item"><a class="nav-link" href="./admin_system_settings.html"><i class="bi bi-box-seam"></i> System Settings</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="admin-content col-md-10">
+        <img src="image_8b06c1.png" alt="Reports Header" class="img-fluid mb-4" crossorigin="anonymous">
+        <h1 class="mb-4 fw-bold text-primary">Platform Reports & Analytics</h1>
+
+        <ul class="nav nav-tabs mb-4">
+            <li class="nav-item">
+                <a class="nav-link active" href="#" data-target="reports-overview-content">Overview</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" data-target="reports-user-analytics-content">User Analytics</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" data-target="reports-job-analytics-content">Job & Application Analytics</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" data-target="reports-course-tutoring-analytics-content">Course & Tutoring Analytics</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" data-target="reports-financial-content">Financial Reports</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" data-target="reports-system-health-content">System Health & Logs</a>
+            </li>
+        </ul>
+
+        <!-- Date Range Selector (Global for reports where applicable) -->
+        <div class="row mb-4 align-items-center">
+            <div class="col-md-3">
+                <label for="reportDateRange" class="form-label">Select Date Range:</label>
+                <select class="form-select" id="reportDateRange">
+                    <option value="last7days">Last 7 Days</option>
+                    <option value="last30days" selected>Last 30 Days</option>
+                    <option value="thismonth">This Month</option>
+                    <option value="lastmonth">Last Month</option>
+                    <option value="last90days">Last 90 Days</option>
+                    <option value="thisyear">This Year</option>
+                    <option value="custom">Custom Range</option>
+                </select>
+            </div>
+            <div class="col-md-3">
+                <label for="customStartDate" class="form-label">Start Date:</label>
+                <input type="date" class="form-control" id="customStartDate" disabled>
+            </div>
+            <div class="col-md-3">
+                <label for="customEndDate" class="form-label">End Date:</label>
+                <input type="date" class="form-control" id="customEndDate" disabled>
+            </div>
+            <div class="col-md-3 text-end">
+                <button class="btn btn-primary mt-4" id="generateReportBtn"><i class="bi bi-arrow-clockwise"></i> Generate Report</button>
+            </div>
+        </div>
+
+        <!-- Overview / Dashboard Content -->
+        <div id="reports-overview-content" class="sub-content-section active">
+            <div class="admin-card" id="overview-report-card">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h4 class="text-primary mb-0">Platform Overview</h4>
+                    <button class="btn btn-outline-danger generate-pdf-btn" data-target-id="overview-report-card" data-filename="Platform_Overview_Report.pdf"><i class="bi bi-file-earmark-pdf"></i> Download PDF</button>
+                </div>
+                
+                <div class="row text-center mb-4">
+                    <div class="col-md-3">
+                        <div class="p-3 border rounded">
+                            <h5>Total Users</h5>
+                            <h2 class="fw-bold text-success">5,230</h2>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="p-3 border rounded">
+                            <h5>Active Job Listings</h5>
+                            <h2 class="fw-bold text-info">480</h2>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="p-3 border rounded">
+                            <h5>Applications This Period</h5>
+                            <h2 class="fw-bold text-primary">1,125</h2>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="p-3 border rounded">
+                            <h5>New Enrollments This Period</h5>
+                            <h2 class="fw-bold text-warning">235</h2>
+                        </div>
+                    </div>
+                </div>
+                <h5 class="mt-4">New Users Over Time</h5>
+                <canvas id="newUsersChart"></canvas>
+                <h5 class="mt-4">Top 5 Job Categories (by Listings)</h5>
+                <canvas id="topJobCategoriesChart"></canvas>
+            </div>
+        </div>
+
+        <!-- User Analytics Content -->
+        <div id="reports-user-analytics-content" class="sub-content-section">
+            <div class="admin-card" id="user-analytics-report-card">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h4 class="text-primary mb-0">User Analytics</h4>
+                    <button class="btn btn-outline-danger generate-pdf-btn" data-target-id="user-analytics-report-card" data-filename="User_Analytics_Report.pdf"><i class="bi bi-file-earmark-pdf"></i> Download PDF</button>
+                </div>
+                
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <select id="user-role-filter" class="form-select">
+                            <option value="">Filter by Role</option>
+                            <option value="Student">Student</option>
+                            <option value="Job Seeker">Job Seeker</option>
+                            <option value="Employer">Employer</option>
+                            <option value="Tutor">Tutor</option>
+                        </select>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="input-group">
+                            <input type="text" id="user-search-input" class="form-control" placeholder="Search by User Name or Email...">
+                            <button class="btn btn-outline-primary" type="button"><i class="bi bi-search"></i></button>
+                        </div>
+                    </div>
+                </div>
+                <h5>User Growth</h5>
+                <canvas id="userGrowthChart"></canvas>
+                <h5 class="mt-4">Users by Role</h5>
+                <canvas id="usersByRoleChart"></canvas>
+                <h5 class="mt-4">Recent User Registrations</h5>
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover align-middle">
+                        <thead>
+                            <tr>
+                                <th scope="col">User ID</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Role</th>
+                                <th scope="col">Registration Date</th>
+                            </tr>
+                        </thead>
+                        <tbody id="user-registrations-table">
+                            <!-- Data populated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Job & Application Analytics Content -->
+        <div id="reports-job-analytics-content" class="sub-content-section">
+            <div class="admin-card" id="job-analytics-report-card">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h4 class="text-primary mb-0">Job & Application Analytics</h4>
+                    <button class="btn btn-outline-danger generate-pdf-btn" data-target-id="job-analytics-report-card" data-filename="Job_Application_Analytics_Report.pdf"><i class="bi bi-file-earmark-pdf"></i> Download PDF</button>
+                </div>
+                
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <select id="job-category-filter" class="form-select">
+                            <option value="">Filter by Category</option>
+                            <option value="IT">IT</option>
+                            <option value="Marketing">Marketing</option>
+                            <option value="Design">Design</option>
+                            <option value="Finance">Finance</option>
+                        </select>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="input-group">
+                            <input type="text" id="job-app-search-input" class="form-control" placeholder="Search by Job Title or Company...">
+                            <button class="btn btn-outline-primary" type="button"><i class="bi bi-search"></i></button>
+                        </div>
+                    </div>
+                </div>
+                <h5>Job Listings Trend</h5>
+                <canvas id="jobListingsTrendChart"></canvas>
+                <h5 class="mt-4">Applications by Status</h5>
+                <canvas id="applicationsByStatusChart"></canvas>
+                <h5 class="mt-4">Top 10 Most Applied Jobs</h5>
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover align-middle">
+                        <thead>
+                            <tr>
+                                <th scope="col">Job Title</th>
+                                <th scope="col">Company</th>
+                                <th scope="col">Total Applications</th>
+                                <th scope="col">Date Posted</th>
+                            </tr>
+                        </thead>
+                        <tbody id="top-applied-jobs-table">
+                            <!-- Data populated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Course & Tutoring Analytics Content -->
+        <div id="reports-course-tutoring-analytics-content" class="sub-content-section">
+            <div class="admin-card" id="course-tutoring-report-card">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h4 class="text-primary mb-0">Course & Tutoring Analytics</h4>
+                    <button class="btn btn-outline-danger generate-pdf-btn" data-target-id="course-tutoring-report-card" data-filename="Course_Tutoring_Analytics_Report.pdf"><i class="bi bi-file-earmark-pdf"></i> Download PDF</button>
+                </div>
+                
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <select id="course-tutoring-type-filter" class="form-select">
+                            <option value="">Filter by Type</option>
+                            <option value="Course">Course</option>
+                            <option value="Tutoring">Tutoring</option>
+                        </select>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="input-group">
+                            <input type="text" id="course-tutoring-search-input" class="form-control" placeholder="Search by Course/Subject/Instructor...">
+                            <button class="btn btn-outline-primary" type="button"><i class="bi bi-search"></i></button>
+                        </div>
+                    </div>
+                </div>
+                <h5>Course Enrollment Trends</h5>
+                <canvas id="courseEnrollmentChart"></canvas>
+                <h5 class="mt-4">Tutoring Sessions by Subject</h5>
+                <canvas id="tutoringSubjectChart"></canvas>
+                <h5 class="mt-4">Top 5 Most Popular Courses</h5>
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover align-middle">
+                        <thead>
+                            <tr>
+                                <th scope="col">Course Name</th>
+                                <th scope="col">Instructor</th>
+                                <th scope="col">Total Enrollments</th>
+                            </tr>
+                        </thead>
+                        <tbody id="popular-courses-table">
+                            <!-- Data populated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- Financial Reports Content -->
+        <div id="reports-financial-content" class="sub-content-section">
+            <div class="admin-card" id="financial-report-card">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h4 class="text-primary mb-0">Financial Reports</h4>
+                    <button class="btn btn-outline-danger generate-pdf-btn" data-target-id="financial-report-card" data-filename="Financial_Report.pdf"><i class="bi bi-file-earmark-pdf"></i> Download PDF</button>
+                </div>
+                
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <select id="financial-type-filter" class="form-select">
+                            <option value="">Filter by Transaction Type</option>
+                            <option value="Course Purchase">Course Purchase</option>
+                            <option value="Job Post Payment">Job Post Payment</option>
+                            <option value="Tutoring Payment">Tutoring Payment</option>
+                            <option value="Refund">Refund</option>
+                        </select>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="input-group">
+                            <input type="text" id="financial-search-input" class="form-control" placeholder="Search by User or Transaction ID...">
+                            <button class="btn btn-outline-primary" type="button"><i class="bi bi-search"></i></button>
+                        </div>
+                    </div>
+                </div>
+                <h5>Revenue Overview</h5>
+                <canvas id="revenueOverviewChart"></canvas>
+                <h5 class="mt-4">Recent Transactions</h5>
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover align-middle">
+                        <thead>
+                            <tr>
+                                <th scope="col">Transaction ID</th>
+                                <th scope="col">User</th>
+                                <th scope="col">Type</th>
+                                <th scope="col">Amount</th>
+                                <th scope="col">Date</th>
+                                <th scope="col">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="recent-transactions-table">
+                            <!-- Data populated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <!-- System Health & Logs Content -->
+        <div id="reports-system-health-content" class="sub-content-section">
+            <div class="admin-card" id="system-health-report-card">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h4 class="text-primary mb-0">System Health & Logs</h4>
+                    <button class="btn btn-outline-danger generate-pdf-btn" data-target-id="system-health-report-card" data-filename="System_Health_Logs_Report.pdf"><i class="bi bi-file-earmark-pdf"></i> Download PDF</button>
+                </div>
+                
+                <div class="row mb-3">
+                    <div class="col-md-4">
+                        <select id="log-level-filter" class="form-select">
+                            <option value="">Filter by Level</option>
+                            <option value="Critical">Critical</option>
+                            <option value="Warning">Warning</option>
+                            <option value="Info">Info</option>
+                        </select>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="input-group">
+                            <input type="text" id="log-search-input" class="form-control" placeholder="Search log messages...">
+                            <button class="btn btn-outline-primary" type="button"><i class="bi bi-search"></i></button>
+                        </div>
+                    </div>
+                </div>
+                <h5>Recent System Errors</h5>
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover align-middle">
+                        <thead>
+                            <tr>
+                                <th scope="col">Timestamp</th>
+                                <th scope="col">Level</th>
+                                <th scope="col">Message</th>
+                                <th scope="col">Source</th>
+                                <th scope="col">User (if applicable)</th>
+                            </tr>
+                        </thead>
+                        <tbody id="system-logs-table">
+                            <!-- Data populated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+                <div class="mt-4">
+                    <button class="btn btn-outline-secondary"><i class="bi bi-download"></i> Export Full Logs</button>
+                    <button class="btn btn-outline-danger"><i class="bi bi-eraser"></i> Clear Old Logs</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<footer class="bg-dark text-white pt-5 pb-4">
+    <div class="container text-center p-4 text-muted">© 2025 SkillConnect. All rights reserved.</div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const mainTabs = document.querySelectorAll('.nav-tabs .nav-link');
+    const contentSections = document.querySelectorAll('.admin-content .sub-content-section');
+    const reportDateRange = document.getElementById('reportDateRange');
+    const customStartDateInput = document.getElementById('customStartDate');
+    const customEndDateInput = document.getElementById('customEndDate');
+    const generateReportBtn = document.getElementById('generateReportBtn');
+    const loadingOverlay = document.getElementById('loading-overlay');
+
+    // Function to show/hide content based on tab click
+    function showContent(targetId) {
+        contentSections.forEach(section => section.classList.remove('active'));
+        const targetContent = document.getElementById(targetId);
+        if (targetContent) {
+            targetContent.classList.add('active');
+        }
+        mainTabs.forEach(tab => tab.classList.toggle('active', tab.dataset.target === targetId));
+
+        // Update sidebar active link - important for consistent highlighting
+        document.querySelectorAll('.admin-sidebar .nav-link').forEach(link => {
+            link.classList.remove('active');
+            const linkHref = link.getAttribute('href');
+            // If the sidebar link points to this page, activate it
+            if (linkHref && linkHref.includes('admin_reports.html')) {
+                link.classList.add('active');
+            }
+        });
+        // Trigger chart renders for the active tab (if charts exist)
+        renderChartsForActiveTab();
+    }
+
+    // Attach event listeners for main tab clicks
+    mainTabs.forEach(tab => {
+        tab.addEventListener('click', function(e) {
+            e.preventDefault();
+            showContent(this.dataset.target);
+        });
+    });
+
+    // Date Range Logic
+    reportDateRange.addEventListener('change', function() {
+        const selectedValue = this.value;
+        if (selectedValue === 'custom') {
+            customStartDateInput.disabled = false;
+            customEndDateInput.disabled = false;
+        } else {
+            customStartDateInput.disabled = true;
+            customEndDateInput.disabled = true;
+            // Optionally set dates based on preset, for demo purposes we skip this
+        }
+    });
+
+    generateReportBtn.addEventListener('click', function() {
+        alert('Generating report for selected date range (simulated).');
+        // In a real app, this would trigger data fetching and re-rendering of all reports
+        renderAllReports(); // Re-render all reports with current filters
+        renderChartsForActiveTab(); // Ensure charts are redrawn
+    });
+
+    // Dummy Data for Reports
+    const dummyUsers = [
+        { id: 'USR-001', name: 'Alice Johnson', email: 'alice@example.com', role: 'Job Seeker', date: '2025-05-15' },
+        { id: 'USR-002', name: 'Bob Williams', email: 'bob@example.com', role: 'Employer', date: '2025-05-18' },
+        { id: 'USR-003', name: 'Charlie Brown', email: 'charlie@example.com', role: 'Student', date: '2025-05-20' },
+        { id: 'USR-004', name: 'Diana Prince', email: 'diana@example.com', role: 'Student', date: '2025-05-22' },
+        { id: 'USR-005', name: 'Ethan Hunt', email: 'ethan@example.com', role: 'Tutor', date: '2025-05-25' },
+        { id: 'USR-006', name: 'Fiona Apple', email: 'fiona@example.com', role: 'Job Seeker', date: '2025-06-01' },
+        { id: 'USR-007', name: 'George Harrison', email: 'george@example.com', role: 'Employer', date: '2025-06-05' },
+    ];
+
+    const dummyJobs = [
+        { title: 'Senior Frontend Developer', company: 'Tech Solutions Inc.', applications: 120, datePosted: '2025-05-10', category: 'IT' },
+        { title: 'Marketing Specialist', company: 'Global Brands', applications: 85, datePosted: '2025-05-12', category: 'Marketing' },
+        { title: 'UX/UI Designer', company: 'Creative Designs', applications: 95, datePosted: '2025-05-15', category: 'Design' },
+        { title: 'Financial Analyst', company: 'InvestCo', applications: 70, datePosted: '2025-05-18', category: 'Finance' },
+        { title: 'Data Scientist', company: 'Quant Insights', applications: 110, datePosted: '2025-05-20', category: 'IT' },
+    ];
+
+    const dummyApplications = [
+        { id: 'APP-001', jobTitle: 'Senior Frontend Developer', applicant: 'Alice Johnson', status: 'New', date: '2025-06-01' },
+        { id: 'APP-002', jobTitle: 'Marketing Specialist', applicant: 'Jane Doe', status: 'Reviewed', date: '2025-06-02' },
+        { id: 'APP-003', jobTitle: 'UX/UI Designer', applicant: 'John Smith', status: 'Shortlisted', date: '2025-06-03' },
+        { id: 'APP-004', jobTitle: 'Data Scientist', applicant: 'Bob Williams', status: 'New', date: '2025-06-04' },
+    ];
+
+    const dummyCourses = [
+        { name: 'Introduction to Python', instructor: 'Dr. Emily White', enrollments: 350 },
+        { name: 'Advanced JavaScript', instructor: 'Prof. Alex Jones', enrollments: 280 },
+        { name: 'Digital Marketing Fundamentals', instructor: 'Ms. Brenda Lee', enrollments: 180 },
+        { name: 'Data Science with R', instructor: 'Dr. Emily White', enrollments: 150 },
+        { name: 'UI/UX Design Principles', instructor: 'Mr. Chris Green', enrollments: 220 },
+    ];
+
+    const dummyTutoringRequests = [
+        { subject: 'Mathematics', count: 120 },
+        { subject: 'Programming', count: 90 },
+        { subject: 'Science', count: 70 },
+        { subject: 'Languages', count: 50 },
+    ];
+
+    const dummyTransactions = [
+        { id: 'TXN-001', user: 'Alice Johnson', type: 'Course Purchase', amount: 49.99, date: '2025-06-10', status: 'Completed' },
+        { id: 'TXN-002', user: 'Bob Williams', type: 'Job Post Payment', amount: 199.00, date: '2025-06-09', status: 'Completed' },
+        { id: 'TXN-003', user: 'Charlie Brown', type: 'Tutoring Payment', amount: 25.00, date: '2025-06-08', status: 'Pending' },
+        { id: 'TXN-004', user: 'Diana Prince', type: 'Course Purchase', amount: 29.99, date: '2025-06-07', status: 'Refunded' },
+        { id: 'TXN-005', user: 'Ethan Hunt', type: 'Job Post Payment', amount: 199.00, date: '2025-06-06', status: 'Failed' },
+    ];
+
+    const dummyLogs = [
+        { timestamp: '2025-06-12 14:00:00', level: 'Critical', message: 'Database connection lost.', source: 'Backend API', user: 'N/A' },
+        { timestamp: '2025-06-12 13:45:00', level: 'Warning', message: 'High CPU usage detected.', source: 'Server Monitor', user: 'N/A' },
+        { timestamp: '2025-06-12 13:30:00', level: 'Info', message: 'User Alice Johnson logged in.', source: 'Auth Service', user: 'USR-001' },
+        { timestamp: '2025-06-12 13:15:00', level: 'Error', message: 'Failed to process payment for TXN-005.', source: 'Payment Gateway', user: 'USR-005' },
+    ];
+
+    // --- Chart Instances (to avoid re-creating) ---
+    let newUsersChartInstance, topJobCategoriesChartInstance, userGrowthChartInstance, usersByRoleChartInstance;
+    let jobListingsTrendChartInstance, applicationsByStatusChartInstance, courseEnrollmentChartInstance;
+    let tutoringSubjectChartInstance, revenueOverviewChartInstance;
+
+    // Helper to destroy existing chart if it exists
+    function destroyChart(chartInstance) {
+        if (chartInstance) {
+            chartInstance.destroy();
+            chartInstance = null;
+        }
+        return chartInstance;
+    }
+
+    // --- Chart Rendering Functions ---
+    function renderNewUsersChart() {
+        newUsersChartInstance = destroyChart(newUsersChartInstance); // Destroy previous instance
+        const ctx = document.getElementById('newUsersChart').getContext('2d');
+        newUsersChartInstance = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['May 15', 'May 20', 'May 25', 'Jun 01', 'Jun 05', 'Jun 10', 'Jun 12'],
+                datasets: [{
+                    label: 'New User Registrations',
+                    data: [10, 15, 8, 20, 12, 5, 7],
+                    borderColor: 'rgb(75, 192, 192)',
+                    tension: 0.1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: { y: { beginAtZero: true } }
+            }
+        });
+    }
+
+    function renderTopJobCategoriesChart() {
+        topJobCategoriesChartInstance = destroyChart(topJobCategoriesChartInstance);
+        const ctx = document.getElementById('topJobCategoriesChart').getContext('2d');
+        const categories = {};
+        dummyJobs.forEach(job => {
+            categories[job.category] = (categories[job.category] || 0) + 1;
+        });
+        const labels = Object.keys(categories);
+        const data = Object.values(categories);
+
+        topJobCategoriesChartInstance = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Job Listings by Category',
+                    data: data,
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.6)',
+                        'rgba(54, 162, 235, 0.6)',
+                        'rgba(255, 206, 86, 0.6)',
+                        'rgba(75, 192, 192, 0.6)',
+                        'rgba(153, 102, 255, 0.6)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+            }
+        });
+    }
+
+    function renderUserGrowthChart() {
+        userGrowthChartInstance = destroyChart(userGrowthChartInstance);
+        const ctx = document.getElementById('userGrowthChart').getContext('2d');
+        userGrowthChartInstance = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+                datasets: [{
+                    label: 'New Users per Week',
+                    data: [15, 25, 18, 30],
+                    backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                    borderColor: 'rgba(54, 162, 235, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: { y: { beginAtZero: true } }
+            }
+        });
+    }
+
+    function renderUsersByRoleChart() {
+        usersByRoleChartInstance = destroyChart(usersByRoleChartInstance);
+        const ctx = document.getElementById('usersByRoleChart').getContext('2d');
+        const roles = {};
+        dummyUsers.forEach(user => {
+            roles[user.role] = (roles[user.role] || 0) + 1;
+        });
+        const labels = Object.keys(roles);
+        const data = Object.values(roles);
+
+        usersByRoleChartInstance = new Chart(ctx, {
+            type: 'doughnut',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Users by Role',
+                    data: data,
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.6)',
+                        'rgba(54, 162, 235, 0.6)',
+                        'rgba(255, 206, 86, 0.6)',
+                        'rgba(75, 192, 192, 0.6)'
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+            }
+        });
+    }
+
+    function renderJobListingsTrendChart() {
+        jobListingsTrendChartInstance = destroyChart(jobListingsTrendChartInstance);
+        const ctx = document.getElementById('jobListingsTrendChart').getContext('2d');
+        jobListingsTrendChartInstance = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
+                datasets: [
+                    { label: 'New Listings', data: [30, 45, 28, 50], borderColor: 'rgba(75, 192, 192, 1)', tension: 0.1 },
+                    { label: 'Expired Listings', data: [5, 10, 8, 12], borderColor: 'rgba(255, 99, 132, 1)', tension: 0.1 }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: { y: { beginAtZero: true } }
+            }
+        });
+    }
+
+    function renderApplicationsByStatusChart() {
+        applicationsByStatusChartInstance = destroyChart(applicationsByStatusChartInstance);
+        const ctx = document.getElementById('applicationsByStatusChart').getContext('2d');
+        const statuses = {};
+        dummyApplications.forEach(app => {
+            statuses[app.status] = (statuses[app.status] || 0) + 1;
+        });
+        const labels = Object.keys(statuses);
+        const data = Object.values(statuses);
+
+        applicationsByStatusChartInstance = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Applications by Status',
+                    data: data,
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.6)', // New
+                        'rgba(255, 206, 86, 0.6)', // Reviewed
+                        'rgba(54, 162, 235, 0.6)', // Shortlisted
+                        'rgba(75, 192, 192, 0.6)', // Interview
+                        'rgba(153, 102, 255, 0.6)', // Hired
+                        'rgba(201, 203, 207, 0.6)' // Rejected
+                    ],
+                    borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(153, 102, 255, 1)',
+                        'rgba(201, 203, 207, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: { y: { beginAtZero: true } }
+            }
+        });
+    }
+
+    function renderCourseEnrollmentChart() {
+        courseEnrollmentChartInstance = destroyChart(courseEnrollmentChartInstance);
+        const ctx = document.getElementById('courseEnrollmentChart').getContext('2d');
+        courseEnrollmentChartInstance = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                datasets: [{
+                    label: 'New Course Enrollments',
+                    data: [50, 65, 40, 70, 60, 80],
+                    borderColor: 'rgb(255, 159, 64)',
+                    tension: 0.1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: { y: { beginAtZero: true } }
+            }
+        });
+    }
+
+    function renderTutoringSubjectChart() {
+        tutoringSubjectChartInstance = destroyChart(tutoringSubjectChartInstance);
+        const ctx = document.getElementById('tutoringSubjectChart').getContext('2d');
+        const labels = dummyTutoringRequests.map(req => req.subject);
+        const data = dummyTutoringRequests.map(req => req.count);
+
+        tutoringSubjectChartInstance = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Tutoring Requests by Subject',
+                    data: data,
+                    backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: { y: { beginAtZero: true } }
+            }
+        });
+    }
+
+    function renderRevenueOverviewChart() {
+        revenueOverviewChartInstance = destroyChart(revenueOverviewChartInstance);
+        const ctx = document.getElementById('revenueOverviewChart').getContext('2d');
+        revenueOverviewChartInstance = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                datasets: [{
+                    label: 'Total Revenue ($)',
+                    data: [1200, 1500, 1100, 1800, 1600, 2000],
+                    borderColor: 'rgb(153, 102, 255)',
+                    tension: 0.1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: { y: { beginAtZero: true } }
+            }
+        });
+    }
+
+    // Function to render charts for the currently active tab
+    function renderChartsForActiveTab() {
+        const activeTab = document.querySelector('.sub-content-section.active');
+        if (activeTab) {
+            // Destroy all chart instances before rendering to ensure clean redraws
+            newUsersChartInstance = destroyChart(newUsersChartInstance);
+            topJobCategoriesChartInstance = destroyChart(topJobCategoriesChartInstance);
+            userGrowthChartInstance = destroyChart(userGrowthChartInstance);
+            usersByRoleChartInstance = destroyChart(usersByRoleChartInstance);
+            jobListingsTrendChartInstance = destroyChart(jobListingsTrendChartInstance);
+            applicationsByStatusChartInstance = destroyChart(applicationsByStatusChartInstance);
+            courseEnrollmentChartInstance = destroyChart(courseEnrollmentChartInstance);
+            tutoringSubjectChartInstance = destroyChart(tutoringSubjectChartInstance);
+            revenueOverviewChartInstance = destroyChart(revenueOverviewChartInstance);
+
+            // Render only charts in the active tab
+            // Adding a small delay to allow the tab content to be fully visible and rendered
+            // before Chart.js tries to calculate dimensions.
+            setTimeout(() => {
+                switch (activeTab.id) {
+                    case 'reports-overview-content':
+                        renderNewUsersChart();
+                        renderTopJobCategoriesChart();
+                        break;
+                    case 'reports-user-analytics-content':
+                        renderUserGrowthChart();
+                        renderUsersByRoleChart();
+                        break;
+                    case 'reports-job-analytics-content':
+                        renderJobListingsTrendChart();
+                        renderApplicationsByStatusChart();
+                        break;
+                    case 'reports-course-tutoring-analytics-content':
+                        renderCourseEnrollmentChart();
+                        renderTutoringSubjectChart();
+                        break;
+                    case 'reports-financial-content':
+                        renderRevenueOverviewChart();
+                        break;
+                    // No charts for system health & logs, just tables
+                }
+                // Force resize for all active charts after rendering with a small delay
+                // This is crucial for charts inside initially hidden elements that might not have correct dimensions initially
+                if (newUsersChartInstance) newUsersChartInstance.resize();
+                if (topJobCategoriesChartInstance) topJobCategoriesChartInstance.resize();
+                if (userGrowthChartInstance) userGrowthChartInstance.resize();
+                if (usersByRoleChartInstance) usersByRoleChartInstance.resize();
+                if (jobListingsTrendChartInstance) jobListingsTrendChartInstance.resize();
+                if (applicationsByStatusChartInstance) applicationsByStatusChartInstance.resize();
+                if (courseEnrollmentChartInstance) courseEnrollmentChartInstance.resize();
+                if (tutoringSubjectChartInstance) tutoringSubjectChartInstance.resize();
+                if (revenueOverviewChartInstance) revenueOverviewChartInstance.resize();
+            }, 200); // Increased delay
+        }
+    }
+
+    // --- Table Rendering Functions ---
+    function renderUserRegistrationsTable(data) {
+        const tableBody = document.getElementById('user-registrations-table');
+        tableBody.innerHTML = '';
+        data.forEach(user => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${user.id}</td>
+                <td>${user.name}</td>
+                <td>${user.email}</td>
+                <td>${user.role}</td>
+                <td>${user.date}</td>
+            `;
+            tableBody.appendChild(row);
+        });
+    }
+
+    function renderTopAppliedJobsTable(data) {
+        const tableBody = document.getElementById('top-applied-jobs-table');
+        tableBody.innerHTML = '';
+        // Sort by applications in descending order for "top" jobs
+        data.sort((a, b) => b.applications - a.applications);
+        data.slice(0, 10).forEach(job => { // Show top 10
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${job.title}</td>
+                <td>${job.company}</td>
+                <td>${job.applications}</td>
+                <td>${job.datePosted}</td>
+            `;
+            tableBody.appendChild(row);
+        });
+    }
+
+    function renderPopularCoursesTable(data) {
+        const tableBody = document.getElementById('popular-courses-table');
+        tableBody.innerHTML = '';
+        data.sort((a, b) => b.enrollments - a.enrollments); // Sort by enrollments
+        data.slice(0, 5).forEach(course => { // Show top 5
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${course.name}</td>
+                <td>${course.instructor}</td>
+                <td>${course.enrollments}</td>
+            `;
+            tableBody.appendChild(row);
+        });
+    }
+
+    function renderRecentTransactionsTable(data) {
+        const tableBody = document.getElementById('recent-transactions-table');
+        tableBody.innerHTML = '';
+        data.forEach(txn => {
+            const row = document.createElement('tr');
+            let statusBadgeClass = 'bg-secondary';
+            if (txn.status === 'Completed') statusBadgeClass = 'bg-success';
+            if (txn.status === 'Pending') statusBadgeClass = 'bg-warning';
+            if (txn.status === 'Failed' || txn.status === 'Refunded') statusBadgeClass = 'bg-danger';
+
+            row.innerHTML = `
+                <td>${txn.id}</td>
+                <td>${txn.user}</td>
+                <td>${txn.type}</td>
+                <td>$${txn.amount.toFixed(2)}</td>
+                <td>${txn.date}</td>
+                <td><span class="badge ${statusBadgeClass}">${txn.status}</span></td>
+            `;
+            tableBody.appendChild(row);
+        });
+    }
+
+    function renderSystemLogsTable(data) {
+        const tableBody = document.getElementById('system-logs-table');
+        tableBody.innerHTML = '';
+        data.forEach(log => {
+            const row = document.createElement('tr');
+            let levelBadgeClass = 'bg-secondary';
+            if (log.level === 'Critical') levelBadgeClass = 'bg-danger';
+            if (log.level === 'Warning') levelBadgeClass = 'bg-warning';
+            if (log.level === 'Info') levelBadgeClass = 'bg-info';
+
+            row.innerHTML = `
+                <td>${log.timestamp}</td>
+                <td><span class="badge ${levelBadgeClass}">${log.level}</span></td>
+                <td>${log.message}</td>
+                <td>${log.source}</td>
+                <td>${log.user}</td>
+            `;
+            tableBody.appendChild(row);
+        });
+    }
+
+    // --- Filtering Logic for Tables ---
+    function filterUsersTable() {
+        const searchInput = document.getElementById('user-search-input').value.toLowerCase();
+        const roleFilter = document.getElementById('user-role-filter').value;
+        const filteredData = dummyUsers.filter(user => {
+            const matchesSearch = user.name.toLowerCase().includes(searchInput) || user.email.toLowerCase().includes(searchInput);
+            const matchesRole = roleFilter === '' || user.role === roleFilter;
+            return matchesSearch && matchesRole;
+        });
+        renderUserRegistrationsTable(filteredData);
+    }
+    document.getElementById('user-search-input').addEventListener('keyup', filterUsersTable);
+    document.getElementById('user-role-filter').addEventListener('change', filterUsersTable);
+
+    function filterJobAppTable() {
+        const searchInput = document.getElementById('job-app-search-input').value.toLowerCase();
+        const categoryFilter = document.getElementById('job-category-filter').value;
+        const filteredData = dummyJobs.filter(job => {
+            const matchesSearch = job.title.toLowerCase().includes(searchInput) || job.company.toLowerCase().includes(searchInput);
+            const matchesCategory = categoryFilter === '' || job.category === categoryFilter;
+            return matchesSearch && matchesCategory;
+        });
+        renderTopAppliedJobsTable(filteredData);
+    }
+    document.getElementById('job-app-search-input').addEventListener('keyup', filterJobAppTable);
+    document.getElementById('job-category-filter').addEventListener('change', filterJobAppTable);
+
+    function filterCourseTutoringTable() {
+        const searchInput = document.getElementById('course-tutoring-search-input').value.toLowerCase();
+        const typeFilter = document.getElementById('course-tutoring-type-filter').value;
+
+        let combinedData = [];
+        if (typeFilter === '' || typeFilter === 'Course') {
+            dummyCourses.forEach(c => combinedData.push({ ...c, type: 'Course', searchField: `${c.name} ${c.instructor}`.toLowerCase() }));
+        }
+        if (typeFilter === '' || typeFilter === 'Tutoring') {
+            dummyTutoringRequests.forEach(t => combinedData.push({ ...t, type: 'Tutoring', searchField: `${t.subject}`.toLowerCase() }));
+        }
+
+        const filteredData = combinedData.filter(item => item.searchField.includes(searchInput));
+        
+        // This is a simplified rendering. In a real app, you'd likely have separate tables or a more complex combined table.
+        // For this demo, we'll just re-render popular courses if that's the main focus of this section.
+        if (typeFilter === 'Course' || typeFilter === '') {
+            renderPopularCoursesTable(filteredData.filter(item => item.type === 'Course'));
+        } else if (typeFilter === 'Tutoring') {
+            // Placeholder for rendering tutoring specific table if needed
+            const tableBody = document.getElementById('popular-courses-table'); // Reusing existing table
+            tableBody.innerHTML = `<tr><td colspan="3">Tutoring requests data will show here in a real app based on search/filter.</td></tr>`;
+        }
+    }
+    document.getElementById('course-tutoring-search-input').addEventListener('keyup', filterCourseTutoringTable);
+    document.getElementById('course-tutoring-type-filter').addEventListener('change', filterCourseTutoringTable);
+
+
+    function filterFinancialTable() {
+        const searchInput = document.getElementById('financial-search-input').value.toLowerCase();
+        const typeFilter = document.getElementById('financial-type-filter').value;
+        const filteredData = dummyTransactions.filter(txn => {
+            const matchesSearch = txn.user.toLowerCase().includes(searchInput) || txn.id.toLowerCase().includes(searchInput);
+            const matchesType = typeFilter === '' || txn.type === typeFilter;
+            return matchesSearch && matchesType;
+        });
+        renderRecentTransactionsTable(filteredData);
+    }
+    document.getElementById('financial-search-input').addEventListener('keyup', filterFinancialTable);
+    document.getElementById('financial-type-filter').addEventListener('change', filterFinancialTable);
+
+    function filterLogsTable() {
+        const searchInput = document.getElementById('log-search-input').value.toLowerCase();
+        const levelFilter = document.getElementById('log-level-filter').value;
+        const filteredData = dummyLogs.filter(log => {
+            const matchesSearch = log.message.toLowerCase().includes(searchInput) || log.source.toLowerCase().includes(searchInput) || log.user.toLowerCase().includes(searchInput);
+            const matchesLevel = levelFilter === '' || log.level === levelFilter;
+            return matchesSearch && matchesLevel;
+        });
+        renderSystemLogsTable(filteredData);
+    }
+    document.getElementById('log-search-input').addEventListener('keyup', filterLogsTable);
+    document.getElementById('log-level-filter').addEventListener('change', filterLogsTable);
+
+
+    // Initial rendering of all tables and charts
+    function renderAllReports() {
+        renderUserRegistrationsTable(dummyUsers);
+        renderTopAppliedJobsTable(dummyJobs);
+        renderPopularCoursesTable(dummyCourses);
+        renderRecentTransactionsTable(dummyTransactions);
+        renderSystemLogsTable(dummyLogs);
+        // Charts are rendered based on active tab
+    }
+    renderAllReports();
+    renderChartsForActiveTab(); // Render charts for the default active tab
+
+    // PDF Generation Logic
+    window.jsPDF = window.jspdf.jsPDF; // Assign jsPDF to window object for easier access
+
+    document.querySelectorAll('.generate-pdf-btn').forEach(button => {
+        button.addEventListener('click', async function() {
+            const targetId = this.dataset.targetId;
+            const filename = this.dataset.filename || 'report.pdf';
+            const element = document.getElementById(targetId);
+
+            if (!element) {
+                alert('Report section not found for PDF generation.');
+                return;
+            }
+
+            // Show loading overlay
+            loadingOverlay.style.display = 'flex';
+
+            // Temporarily resize charts to ensure they render correctly in the canvas
+            // This is a common workaround for html2canvas with Chart.js
+            const chartCanvases = element.querySelectorAll('canvas');
+            const originalChartWidths = [];
+            const originalChartHeights = [];
+            const chartInstances = [];
+
+            chartCanvases.forEach(canvas => {
+                const chartInstance = Chart.getChart(canvas);
+                if (chartInstance) {
+                    chartInstances.push(chartInstance);
+                    originalChartWidths.push(canvas.style.width);
+                    originalChartHeights.push(canvas.style.height);
+                    canvas.style.width = canvas.offsetWidth + 'px'; // Set explicit width
+                    canvas.style.height = canvas.offsetHeight + 'px'; // Set explicit height
+                    chartInstance.resize(); // Re-render chart at new size
+                }
+            });
+
+            // Delay for charts to re-render
+            await new Promise(resolve => setTimeout(resolve, 200)); // Increased delay to 200ms
+
+            try {
+                const canvas = await html2canvas(element, {
+                    scale: 1, // Reduced scale to 1 (from 2) for better stability
+                    useCORS: true, // Important if your images are from different origins
+                    allowTaint: false, // Set to false after adding crossorigin to images, as it can cause issues
+                    logging: true // Enable logging for debugging
+                });
+
+                const imgData = canvas.toDataURL('image/png');
+                const pdf = new jsPDF('p', 'mm', 'a4'); // 'p' for portrait, 'mm' for millimeters, 'a4' size
+                const imgWidth = 210; // A4 width in mm
+                const pageHeight = 297; // A4 height in mm
+                const imgHeight = canvas.height * imgWidth / canvas.width;
+                let heightLeft = imgHeight;
+
+                let position = 0;
+
+                pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+                heightLeft -= pageHeight;
+
+                while (heightLeft >= 0) {
+                    position = heightLeft - imgHeight;
+                    pdf.addPage();
+                    pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
+                    heightLeft -= pageHeight;
+                }
+
+                pdf.save(filename);
+            } catch (error) {
+                console.error("Error generating PDF:", error);
+                alert("Failed to generate PDF. This might be due to images or complex elements. Please try again or check console for details.");
+            } finally {
+                // Hide loading overlay
+                loadingOverlay.style.display = 'none';
+
+                // Restore original chart sizes
+                chartCanvases.forEach((canvas, index) => {
+                    canvas.style.width = originalChartWidths[index];
+                    canvas.style.height = originalChartHeights[index];
+                    const chartInstance = Chart.getChart(canvas);
+                    if (chartInstance) {
+                        chartInstance.resize(); // Restore original chart size and render
+                    }
+                });
+            }
+        });
+    });
+
+
+    // Handle offcanvas toggle (from previous pages, ensures no sliding)
+    document.querySelectorAll('[data-bs-toggle="offcanvas"]').forEach(element => {
+        element.addEventListener('click', function(e) {
+            const offcanvasElement = document.querySelector(this.getAttribute('data-bs-target'));
+            const offcanvas = new bootstrap.Offcanvas(offcanvasElement, {
+                backdrop: true, keyboard: true, scroll: false
+            });
+            offcanvas.show();
+            e.preventDefault();
+        });
+    });
+
+    // Universal Logout Button
+    document.getElementById('logout-btn')?.addEventListener('click', function(e) {
+        e.preventDefault();
+        if (confirm('Are you sure you want to logout?')) {
+            alert('You have been logged out.');
+            window.location.href = './login.html'; // Redirect to login page
+        }
+    });
+    
+    // Set initial active content section
+    showContent('reports-overview-content');
+});
+</script>
+</body>
+</html>

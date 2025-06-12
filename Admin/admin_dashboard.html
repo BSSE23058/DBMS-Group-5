@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>SkillConnect Admin Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+    
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            transition: background 0.3s, color 0.3s;
+            background-color: #f8f9fa; /* Light grey background for admin */
+        }
+
+        .navbar {
+            padding: 1rem 2rem;
+        }
+
+        .navbar-nav .nav-link {
+            font-weight: 600;
+            margin: 0 10px;
+        }
+
+        .nav-icons i {
+            font-size: 1.3rem;
+            margin-right: 15px;
+            color: #1e1e2f; /* Dark text for icons */
+            cursor: pointer;
+        }
+
+        .nav-buttons .btn {
+            margin-left: 10px;
+        }
+
+        .navbar-brand img {
+            height: 80px;
+        }
+
+        /* Admin specific styles */
+        .admin-sidebar {
+            background: linear-gradient(to bottom, #220359, #4906bf); /* Dark gradient from hero section */
+            color: white;
+            padding-top: 20px;
+            /* Using calc for min-height to ensure it fills the viewport below the navbar */
+            min-height: calc(100vh - 80px); /* Assuming navbar height around 80px, adjust if needed */
+            position: sticky;
+            top: 0;
+            left: 0;
+            z-index: 1000; 
+        }
+
+        .admin-sidebar .nav-link {
+            color: rgba(255, 255, 255, 0.8);
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        .admin-sidebar .nav-link:hover,
+        .admin-sidebar .nav-link.active {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            border-left: 3px solid #ffc107; /* Highlight color from hero */
+        }
+
+        .admin-sidebar .nav-link i {
+            margin-right: 10px;
+            font-size: 1.1rem;
+        }
+
+        .admin-content {
+            padding: 30px;
+            background-color: #f8f9fa;
+            flex-grow: 1; /* Allow content to take remaining space */
+        }
+
+        .admin-card {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        /* Consistent button styles from landing page */
+        .btn-primary {
+            background-color: #0d6efd; /* Bootstrap primary blue */
+            border-color: #0d6efd;
+        }
+        .btn-primary:hover {
+            background-color: #0b5ed7;
+            border-color: #0a58ca;
+        }
+
+        .btn-outline-primary {
+            color: #0d6efd;
+            border-color: #0d6efd;
+        }
+        .btn-outline-primary:hover {
+            background-color: #0d6efd;
+            color: white;
+        }
+
+        .text-primary {
+            color: #0d6efd !important;
+        }
+
+        .bg-primary {
+            background-color: #0d6efd !important;
+        }
+        
+        .highlight {
+            background-color: #ffc107; /* Yellow highlight */
+            color: #000;
+            padding: 0 6px;
+            border-radius: 4px;
+        }
+
+        /* Specific badge color from landing page */
+        .badge.bg-success { background-color: #198754 !important; } /* Bootstrap green */
+        .badge.bg-danger { background-color: #dc3545 !important; } /* Bootstrap red */
+        .badge.bg-info { background-color: #0dcaf0 !important; } /* Bootstrap info */
+        .badge.bg-warning { background-color: #ffc107 !important; } /* Bootstrap warning */
+        .badge.bg-purple { background-color: #6f42c1 !important; } /* Custom purple, adjust if needed */
+
+        /* Footer specific styles to match */
+        footer {
+            background-color: #212529 !important; /* Dark background */
+            color: white;
+        }
+
+        footer .text-muted {
+            color: rgba(255, 255, 255, 0.7) !important;
+        }
+
+        footer .text-white {
+            color: white !important;
+        }
+
+        footer .text-white:hover {
+            color: #ffc107 !important; /* Yellow highlight on hover for consistency */
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg bg-white shadow-sm">
+    <div class="container-fluid">
+        <a class="navbar-brand d-flex align-items-center" href="./landing_page.html">
+            <img src="./logo.jpeg" alt="SkillConnect Logo"/>
+        </a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
+            <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+                <li class="nav-item"><a class="nav-link" href="./landing_page.html">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">All Jobs</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">All Courses</a></li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Services
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="./registration_form_students_tutor.html">Tutoring</a></li>
+                        <li><a class="dropdown-item" href="./registration_form_jobSeekers_Employeers.html">Job Matching</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item"><a class="nav-link" href="./faq.html">Contact</a></li>
+                <li class="nav-item"><a class="nav-link" href="./aboutUs.html">About Us</a></li>
+            </ul>
+
+            <div class="d-flex align-items-center nav-icons">
+                <span class="me-3 fw-bold">Admin User</span>
+                <i class="bi bi-person-circle fs-4 me-3"></i>
+                <div class="nav-buttons">
+                    <a href="./login.html" class="btn btn-outline-primary">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<div class="d-flex">
+    <div class="admin-sidebar col-md-2">
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link active" href="admin_dashboard.html">
+                    <i class="bi bi-speedometer2"></i> Dashboard
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="user_management.html">
+                    <i class="bi bi-people"></i> Users
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">
+                    <i class="bi bi-person-badge"></i> Roles
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="courses_page_admin.html">
+                    <i class="bi bi-book"></i> Courses
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">
+                    <i class="bi bi-calendar-check"></i> Tutoring Sessions
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">
+                    <i class="bi bi-briefcase"></i> Job Listings
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">
+                    <i class="bi bi-file-earmark-text"></i> Applications
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">
+                    <i class="bi bi-chat-dots"></i> Messages
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">
+                    <i class="bi bi-box-seam"></i> System Settings
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">
+                    <i class="bi bi-graph-up"></i> Reports
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="admin-content col-md-10">
+        <h1 class="mb-4 fw-bold text-primary">Admin Dashboard</h1>
+
+        <div class="row">
+            <div class="col-md-4">
+                <div class="admin-card text-center">
+                    <h3 class="fw-bold text-info">Total Users</h3>
+                    <p class="fs-1 fw-bold">15,000</p>
+                    <a href="#" class="btn btn-outline-primary btn-sm">View All Users</a>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="admin-card text-center">
+                    <h3 class="fw-bold text-success">Active Tutors</h3>
+                    <p class="fs-1 fw-bold">500</p>
+                    <a href="#" class="btn btn-outline-success btn-sm">Manage Tutors</a>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="admin-card text-center">
+                    <h3 class="fw-bold text-warning">New Job Postings</h3>
+                    <p class="fs-1 fw-bold">75</p>
+                    <a href="#" class="btn btn-outline-warning btn-sm">Review Jobs</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="admin-card">
+                    <h4 class="mb-3 text-primary">Recent Activity Log</h4>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            User "John Doe" registered as a <span class="badge bg-primary">Learner</span>.
+                            <span class="text-muted small">2 minutes ago</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            New job posting by "Tech Solutions Inc." - <span class="badge bg-warning">Pending Approval</span>.
+                            <span class="text-muted small">1 hour ago</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Tutoring session #123 completed by "Jane Smith" and "Alice Brown".
+                            <span class="text-muted small">3 hours ago</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            User "Emily White" updated her profile.
+                            <span class="text-muted small">Yesterday</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="admin-card">
+                    <h4 class="mb-3 text-primary">Pending Actions</h4>
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Action Type</th>
+                                <th scope="col">Details</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th scope="row">1</th>
+                                <td>Job Approval</td>
+                                <td>"Senior PHP Developer" by XYZ Corp.</td>
+                                <td><span class="badge bg-warning">Pending</span></td>
+                                <td>
+                                    <button class="btn btn-success btn-sm me-2"><i class="bi bi-check-lg"></i> Approve</button>
+                                    <button class="btn btn-danger btn-sm"><i class="bi bi-x-lg"></i> Reject</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th scope="row">2</th>
+                                <td>User Review</td>
+                                <td>"Mark Johnson" reported for spam.</td>
+                                <td><span class="badge bg-danger">Flagged</span></td>
+                                <td>
+                                    <button class="btn btn-primary btn-sm me-2"><i class="bi bi-eye"></i> Review</button>
+                                    <button class="btn btn-secondary btn-sm"><i class="bi bi-slash-circle"></i> Block</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<footer class="bg-dark text-white pt-5 pb-4">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 mb-4">
+                <a class="navbar-brand d-flex align-items-center mb-3" href="./landing_page.html">
+                    <img src="./logo.jpeg" alt="SkillConnect Logo" height="60">
+                </a>
+                <p class="text-muted">Temporary minds. Share skills. Shape the future – with skillConnect.</p>
+                <p class="text-muted small">© 2023 SkillConnect. All rights reserved.</p>
+                <p class="text-muted small mb-0">Group B</p>
+            </div>
+
+            <div class="col-lg-2 col-md-4 mb-4">
+                <h5 class="text-uppercase fw-bold mb-4">All Pages</h5>
+                <ul class="list-unstyled">
+                    <li class="mb-2"><a href="./landing_page.html" class="text-white text-decoration-none">Home</a></li>
+                    <li class="mb-2"><a href="#" class="text-white text-decoration-none">All Courses</a></li>
+                    <li class="mb-2"><a href="./faq.html" class="text-white text-decoration-none">Contact</a></li>
+                    <li class="mb-2"><a href="./aboutUs.html" class="text-white text-decoration-none">About Us</a></li>
+                    <li class="mb-2"><a href="#" class="text-white text-decoration-none">Jobs</a></li>
+                </ul>
+            </div>
+
+            <div class="col-lg-3 col-md-4 mb-4">
+                <h5 class="text-uppercase fw-bold mb-4">Policies</h5>
+                <ul class="list-unstyled">
+                    <li class="mb-2"><a href="#" class="text-white text-decoration-none">Privacy Policy</a></li>
+                    <li class="mb-2"><a href="#" class="text-white text-decoration-none">Terms and Conditions</a></li>
+                    <li class="mb-2"><a href="#" class="text-white text-decoration-none">Refund and Returns Policy</a></li>
+                </ul>
+            </div>
+
+            <div class="col-lg-3 col-md-4 mb-4">
+                <h5 class="text-uppercase fw-bold mb-4">Stay Updated</h5>
+                <p class="text-muted">Subscribe to our newsletter for the latest updates.</p>
+                <div class="input-group mb-3">
+                    <input type="email" class="form-control" placeholder="Your Email">
+                    <button class="btn btn-primary" type="button">Subscribe</button>
+                </div>
+                <div class="d-flex">
+                    <a href="#" class="text-white me-3"><i class="bi bi-facebook"></i></a>
+                    <a href="#" class="text-white me-3"><i class="bi bi-twitter"></i></a>
+                    <a href="#" class="text-white me-3"><i class="bi bi-instagram"></i></a>
+                    <a href="#" class="text-white me-3"><i class="bi bi-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+        <hr class="my-4 bg-secondary">
+        <div class="row">
+            <div class="col-md-6 text-center text-md-start">
+                <p class="small text-muted mb-0">© 2023 SkillConnect. All rights reserved.</p>
+            </div>
+            <div class="col-md-6 text-center text-md-end">
+                <p class="small text-muted mb-0">Group B</p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

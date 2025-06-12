@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>SkillConnect Admin - User Management</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+    
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            transition: background 0.3s, color 0.3s;
+            background-color: #f8f9fa;
+        }
+
+        .navbar {
+            padding: 1rem 2rem;
+        }
+
+        .navbar-nav .nav-link {
+            font-weight: 600;
+            margin: 0 10px;
+        }
+
+        .nav-icons i {
+            font-size: 1.3rem;
+            margin-right: 15px;
+            color: #1e1e2f;
+            cursor: pointer;
+        }
+
+        .nav-buttons .btn {
+            margin-left: 10px;
+        }
+
+        .navbar-brand img {
+            height: 80px;
+        }
+
+        .admin-sidebar {
+            background: linear-gradient(to bottom, #220359, #4906bf);
+            color: white;
+            padding-top: 20px;
+            min-height: calc(100vh - 80px);
+            position: sticky;
+            top: 0;
+            left: 0;
+            z-index: 1000; 
+        }
+
+        .admin-sidebar .nav-link {
+            color: rgba(255, 255, 255, 0.8);
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        .admin-sidebar .nav-link:hover,
+        .admin-sidebar .nav-link.active {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            border-left: 3px solid #ffc107;
+        }
+
+        .admin-sidebar .nav-link i {
+            margin-right: 10px;
+            font-size: 1.1rem;
+        }
+
+        .admin-content {
+            padding: 30px;
+            background-color: #f8f9fa;
+            flex-grow: 1;
+        }
+
+        .admin-card {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .btn-primary {
+            background-color: #0d6efd;
+            border-color: #0d6efd;
+        }
+        .btn-primary:hover {
+            background-color: #0b5ed7;
+            border-color: #0a58ca;
+        }
+
+        .btn-outline-primary {
+            color: #0d6efd;
+            border-color: #0d6efd;
+        }
+        .btn-outline-primary:hover {
+            background-color: #0d6efd;
+            color: white;
+        }
+
+        .text-primary {
+            color: #0d6efd !important;
+        }
+
+        .bg-primary {
+            background-color: #0d6efd !important;
+        }
+        
+        .highlight {
+            background-color: #ffc107;
+            color: #000;
+            padding: 0 6px;
+            border-radius: 4px;
+        }
+
+        .badge.bg-success { background-color: #198754 !important; }
+        .badge.bg-danger { background-color: #dc3545 !important; }
+        .badge.bg-info { background-color: #0dcaf0 !important; }
+        .badge.bg-warning { background-color: #ffc107 !important; }
+        .badge.bg-purple { background-color: #6f42c1 !important; }
+
+        footer {
+            background-color: #212529 !important;
+            color: white;
+        }
+
+        footer .text-muted {
+            color: rgba(255, 255, 255, 0.7) !important;
+        }
+
+        footer .text-white {
+            color: white !important;
+        }
+
+        footer .text-white:hover {
+            color: #ffc107 !important;
+        }
+
+        /* Remove all transitions for offcanvas */
+        .offcanvas {
+            transition: none !important;
+        }
+
+        @media (max-width: 767.98px) {
+            .admin-sidebar {
+                display: none;
+            }
+            .offcanvas-start {
+                width: 250px;
+            }
+            .admin-content {
+                width: 100%;
+            }
+            .navbar-toggler {
+                display: block;
+            }
+        }
+
+        @media (min-width: 768px) {
+            .navbar-toggler {
+                display: none;
+            }
+            .admin-sidebar {
+                display: block !important;
+            }
+            .offcanvas {
+                visibility: hidden;
+            }
+            .offcanvas.show {
+                transform: translateX(-100%); 
+            }
+        }
+
+        .sub-content-section {
+            display: none;
+        }
+        .sub-content-section.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg bg-white shadow-sm">
+    <div class="container-fluid">
+        <button class="navbar-toggler me-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#adminSidebarOffcanvas" aria-controls="adminSidebarOffcanvas" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <a class="navbar-brand d-flex align-items-center" href="./landing_page.html">
+            <img src="./logo.jpeg" alt="SkillConnect Logo"/>
+        </a>
+
+        <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
+            <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+                <li class="nav-item"><a class="nav-link" href="./landing_page.html">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="./admin_dashboard.html">Admin Dashboard</a></li> 
+                <li class="nav-item"><a class="nav-link" href="#">All Jobs</a></li>
+                <li class="nav-item"><a class="nav-link" href="./courses_page.html">All Courses</a></li> <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Services
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="./registration_form_students_tutor.html">Tutoring</a></li>
+                        <li><a class="dropdown-item" href="./registration_form_jobSeekers_Employeers.html">Job Matching</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item"><a class="nav-link" href="./faq.html">Contact</a></li>
+                <li class="nav-item"><a class="nav-link" href="./aboutUs.html">About Us</a></li>
+            </ul>
+
+            <div class="d-flex align-items-center nav-icons">
+                <span class="me-3 fw-bold">Admin User</span>
+                <i class="bi bi-person-circle fs-4 me-3"></i>
+                <div class="nav-buttons">
+                    <a href="./login.html" class="btn btn-outline-primary" id="logout-btn">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<div class="d-flex">
+    <div class="admin-sidebar col-md-2">
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link" href="./admin_dashboard.html">
+                    <i class="bi bi-speedometer2"></i> Dashboard
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="user_management.html" data-target="user-list-content">
+                    <i class="bi bi-people"></i> Users
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" data-target="roles-content">
+                    <i class="bi bi-person-badge"></i> Roles
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="./courses_page_admin.html"> <i class="bi bi-book"></i> Courses
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" data-target="tutoring-sessions-content">
+                    <i class="bi bi-calendar-check"></i> Tutoring Sessions
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" data-target="job-listings-content">
+                    <i class="bi bi-briefcase"></i> Job Listings
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" data-target="applications-content">
+                    <i class="bi bi-file-earmark-text"></i> Applications
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" data-target="messages-content">
+                    <i class="bi bi-chat-dots"></i> Messages
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" data-target="system-settings-content">
+                    <i class="bi bi-box-seam"></i> System Settings
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" data-target="reports-content">
+                    <i class="bi bi-graph-up"></i> Reports
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="offcanvas offcanvas-start admin-sidebar" tabindex="-1" id="adminSidebarOffcanvas" aria-labelledby="adminSidebarOffcanvasLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title text-white" id="adminSidebarOffcanvasLabel">Admin Navigation</h5>
+            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body p-0">
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link" href="./admin_dashboard.html">
+                        <i class="bi bi-speedometer2"></i> Dashboard
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="#" data-target="user-list-content">
+                        <i class="bi bi-people"></i> Users
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" data-target="roles-content">
+                        <i class="bi bi-person-badge"></i> Roles
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="./courses_page_admin.html"> <i class="bi bi-book"></i> Courses
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" data-target="tutoring-sessions-content">
+                        <i class="bi bi-calendar-check"></i> Tutoring Sessions
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" data-target="job-listings-content">
+                        <i class="bi bi-briefcase"></i> Job Listings
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" data-target="applications-content">
+                        <i class="bi bi-file-earmark-text"></i> Applications
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" data-target="messages-content">
+                        <i class="bi bi-chat-dots"></i> Messages
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" data-target="system-settings-content">
+                        <i class="bi bi-box-seam"></i> System Settings
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" data-target="reports-content">
+                        <i class="bi bi-graph-up"></i> Reports
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="admin-content col-md-10">
+        <h1 class="mb-4 fw-bold text-primary">User Management</h1>
+
+        <ul class="nav nav-tabs mb-4">
+            <li class="nav-item">
+                <a class="nav-link active" href="#" data-target="user-list-content">All Users</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" data-target="pending-approvals-content">Pending Approvals</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" data-target="flagged-users-content">Flagged Users</a>
+            </li>
+        </ul>
+
+        <div id="user-list-content" class="sub-content-section active">
+            <div class="admin-card">
+                <h4 class="mb-3 text-primary">All Registered Users</h4>
+                <div class="input-group mb-3">
+                    <input type="text" id="user-search-input" class="form-control" placeholder="Search users by name or email...">
+                    <button class="btn btn-outline-primary" type="button"><i class="bi bi-search"></i> Search</button>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover align-middle">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Role</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Registered On</th>
+                                <th scope="col">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="all-users-table">
+                            <tr>
+                                <td>1</td>
+                                <td class="user-name">Alice Johnson</td>
+                                <td class="user-email">alice@example.com</td>
+                                <td>Learner</td>
+                                <td><span class="badge bg-success">Active</span></td>
+                                <td>2023-01-15</td>
+                                <td>
+                                    <button class="btn btn-sm btn-info me-1 action-btn" data-action="edit" title="Edit User"><i class="bi bi-pencil"></i></button>
+                                    <button class="btn btn-sm btn-danger me-1 action-btn" data-action="deactivate" title="Deactivate User"><i class="bi bi-slash-circle"></i></button>
+                                    <button class="btn btn-sm btn-secondary action-btn" data-action="view" title="View Profile"><i class="bi bi-eye"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td class="user-name">Bob Williams</td>
+                                <td class="user-email">bob@example.com</td>
+                                <td>Tutor</td>
+                                <td><span class="badge bg-success">Active</span></td>
+                                <td>2023-02-20</td>
+                                <td>
+                                    <button class="btn btn-sm btn-info me-1 action-btn" data-action="edit" title="Edit User"><i class="bi bi-pencil"></i></button>
+                                    <button class="btn btn-sm btn-danger me-1 action-btn" data-action="deactivate" title="Deactivate User"><i class="bi bi-slash-circle"></i></button>
+                                    <button class="btn btn-sm btn-secondary action-btn" data-action="view" title="View Profile"><i class="bi bi-eye"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td class="user-name">Charlie Brown</td>
+                                <td class="user-email">charlie@example.com</td>
+                                <td>Employer</td>
+                                <td><span class="badge bg-success">Active</span></td>
+                                <td>2023-03-10</td>
+                                <td>
+                                    <button class="btn btn-sm btn-info me-1 action-btn" data-action="edit" title="Edit User"><i class="bi bi-pencil"></i></button>
+                                    <button class="btn btn-sm btn-danger me-1 action-btn" data-action="deactivate" title="Deactivate User"><i class="bi bi-slash-circle"></i></button>
+                                    <button class="btn btn-sm btn-secondary action-btn" data-action="view" title="View Profile"><i class="bi bi-eye"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td class="user-name">Diana Prince</td>
+                                <td class="user-email">diana@example.com</td>
+                                <td>Job Seeker</td>
+                                <td><span class="badge bg-success">Active</span></td>
+                                <td>2023-04-01</td>
+                                <td>
+                                    <button class="btn btn-sm btn-info me-1 action-btn" data-action="edit" title="Edit User"><i class="bi bi-pencil"></i></button>
+                                    <button class="btn btn-sm btn-danger me-1 action-btn" data-action="deactivate" title="Deactivate User"><i class="bi bi-slash-circle"></i></button>
+                                    <button class="btn btn-sm btn-secondary action-btn" data-action="view" title="View Profile"><i class="bi bi-eye"></i></button>
+                                </td>
+                            </tr>
+                            </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div id="pending-approvals-content" class="sub-content-section">
+            <div class="admin-card">
+                <h4 class="mb-3 text-primary">New User Approvals</h4>
+                <p class="text-muted">Review and approve new user registrations, especially for roles requiring verification (e.g., Tutors, Employers).</p>
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover align-middle">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Requested Role</th>
+                                <th scope="col">Registered On</th>
+                                <th scope="col">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td class="user-name">Eva Green</td>
+                                <td>eva.g@example.com</td>
+                                <td>Tutor</td>
+                                <td>2023-05-01</td>
+                                <td>
+                                    <button class="btn btn-sm btn-success me-1 action-btn" data-action="approve" title="Approve User"><i class="bi bi-check-lg"></i> Approve</button>
+                                    <button class="btn btn-sm btn-danger me-1 action-btn" data-action="reject" title="Reject User"><i class="bi bi-x-lg"></i> Reject</button>
+                                    <button class="btn btn-sm btn-secondary action-btn" data-action="view-details" title="View Details"><i class="bi bi-eye"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td class="user-name">Frank Black</td>
+                                <td>frank.b@example.com</td>
+                                <td>Employer</td>
+                                <td>2023-05-05</td>
+                                <td>
+                                    <button class="btn btn-sm btn-success me-1 action-btn" data-action="approve" title="Approve User"><i class="bi bi-check-lg"></i> Approve</button>
+                                    <button class="btn btn-sm btn-danger me-1 action-btn" data-action="reject" title="Reject User"><i class="bi bi-x-lg"></i> Reject</button>
+                                    <button class="btn btn-sm btn-secondary action-btn" data-action="view-details" title="View Details"><i class="bi bi-eye"></i></button>
+                                </td>
+                            </tr>
+                            </tbody>
+                    </table>
+                </div>
+                <p class="text-muted small mt-3">No pending user approvals at this time.</p>
+            </div>
+        </div>
+
+        <div id="flagged-users-content" class="sub-content-section">
+            <div class="admin-card">
+                <h4 class="mb-3 text-primary">Flagged Users for Review</h4>
+                <p class="text-muted">Users reported for policy violations, suspicious activity, or other issues.</p>
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover align-middle">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Reason for Flag</th>
+                                <th scope="col">Reported By</th>
+                                <th scope="col">Date Flagged</th>
+                                <th scope="col">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td class="user-name">Grace Hopper</td>
+                                <td>grace.h@example.com</td>
+                                <td>Spamming messages</td>
+                                <td>User #101</td>
+                                <td>2023-04-10</td>
+                                <td>
+                                    <button class="btn btn-sm btn-primary me-1 action-btn" data-action="review" title="Review Details"><i class="bi bi-eye"></i> Review</button>
+                                    <button class="btn btn-sm btn-warning me-1 action-btn" data-action="warn" title="Issue Warning"><i class="bi bi-exclamation-triangle"></i> Warn</button>
+                                    <button class="btn btn-sm btn-danger action-btn" data-action="block" title="Block User"><i class="bi bi-slash-circle"></i> Block</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td class="user-name">Harry Potter</td>
+                                <td>harry.p@example.com</td>
+                                <td>Inappropriate content in profile</td>
+                                <td>Automated system</td>
+                                <td>2023-05-12</td>
+                                <td>
+                                    <button class="btn btn-sm btn-primary me-1 action-btn" data-action="review" title="Review Details"><i class="bi bi-eye"></i> Review</button>
+                                    <button class="btn btn-sm btn-warning me-1 action-btn" data-action="warn" title="Issue Warning"><i class="bi bi-exclamation-triangle"></i> Warn</button>
+                                    <button class="btn btn-sm btn-danger action-btn" data-action="block" title="Block User"><i class="bi bi-slash-circle"></i> Block</button>
+                                </td>
+                            </tr>
+                            </tbody>
+                    </table>
+                </div>
+                <p class="text-muted small mt-3">No flagged users requiring immediate attention.</p>
+            </div>
+        </div>
+        
+        <div id="roles-content" class="sub-content-section">
+             <div class="admin-card"><h4 class="text-primary">Roles Management</h4><p>Role management functionality would be here.</p></div>
+        </div>
+        <div id="tutoring-sessions-content" class="sub-content-section">
+             <div class="admin-card"><h4 class="text-primary">Tutoring Sessions</h4><p>Tutoring session management functionality would be here.</p></div>
+        </div>
+        <div id="job-listings-content" class="sub-content-section">
+             <div class="admin-card"><h4 class="text-primary">Job Listings</h4><p>Job listings management functionality would be here.</p></div>
+        </div>
+        <div id="applications-content" class="sub-content-section">
+             <div class="admin-card"><h4 class="text-primary">Applications</h4><p>Application management functionality would be here.</p></div>
+        </div>
+        <div id="messages-content" class="sub-content-section">
+             <div class="admin-card"><h4 class="text-primary">Messages</h4><p>Message management functionality would be here.</p></div>
+        </div>
+        <div id="system-settings-content" class="sub-content-section">
+             <div class="admin-card"><h4 class="text-primary">System Settings</h4><p>System settings functionality would be here.</p></div>
+        </div>
+        <div id="reports-content" class="sub-content-section">
+             <div class="admin-card"><h4 class="text-primary">Reports</h4><p>Reporting functionality would be here.</p></div>
+        </div>
+
+
+    </div>
+</div>
+
+<footer class="bg-dark text-white pt-5 pb-4">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 mb-4">
+                <a class="navbar-brand d-flex align-items-center mb-3" href="./landing_page.html">
+                    <img src="./logo.jpeg" alt="SkillConnect Logo" height="60">
+                </a>
+                <p class="text-muted">Temporary minds. Share skills. Shape the future – with skillConnect.</p>
+                <p class="text-muted small">© 2023 SkillConnect. All rights reserved.</p>
+                <p class="text-muted small mb-0">Group B</p>
+            </div>
+
+            <div class="col-lg-2 col-md-4 mb-4">
+                <h5 class="text-uppercase fw-bold mb-4">All Pages</h5>
+                <ul class="list-unstyled">
+                    <li class="mb-2"><a href="./landing_page.html" class="text-white text-decoration-none">Home</a></li>
+                    <li class="mb-2"><a href="./courses_page.html" class="text-white text-decoration-none">All Courses</a></li> <li class="mb-2"><a href="./faq.html" class="text-white text-decoration-none">Contact</a></li>
+                    <li class="mb-2"><a href="./aboutUs.html" class="text-white text-decoration-none">About Us</a></li>
+                    <li class="mb-2"><a href="#" class="text-white text-decoration-none">Jobs</a></li>
+                </ul>
+            </div>
+
+            <div class="col-lg-3 col-md-4 mb-4">
+                <h5 class="text-uppercase fw-bold mb-4">Policies</h5>
+                <ul class="list-unstyled">
+                    <li class="mb-2"><a href="#" class="text-white text-decoration-none">Privacy Policy</a></li>
+                    <li class="mb-2"><a href="#" class="text-white text-decoration-none">Terms and Conditions</a></li>
+                    <li class="mb-2"><a href="#" class="text-white text-decoration-none">Refund and Returns Policy</a></li>
+                </ul>
+            </div>
+
+            <div class="col-lg-3 col-md-4 mb-4">
+                <h5 class="text-uppercase fw-bold mb-4">Stay Updated</h5>
+                <p class="text-muted">Subscribe to our newsletter for the latest updates.</p>
+                <div class="input-group mb-3">
+                    <input type="email" id="newsletter-email" class="form-control" placeholder="Your Email">
+                    <button class="btn btn-primary" type="button" id="subscribe-btn">Subscribe</button>
+                </div>
+                <div class="d-flex">
+                    <a href="#" class="text-white me-3"><i class="bi bi-facebook"></i></a>
+                    <a href="#" class="text-white me-3"><i class="bi bi-twitter"></i></a>
+                    <a href="#" class="text-white me-3"><i class="bi bi-instagram"></i></a>
+                    <a href="#" class="text-white me-3"><i class="bi bi-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+        <hr class="my-4 bg-secondary">
+        <div class="row">
+            <div class="col-md-6 text-center text-md-start">
+                <p class="small text-muted mb-0">© 2023 SkillConnect. All rights reserved.</p>
+            </div>
+            <div class="col-md-6 text-center text-md-end">
+                <p class="small text-muted mb-0">Group B</p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const sidebarLinks = document.querySelectorAll('.admin-sidebar .nav-link');
+    const userManagementTabs = document.querySelectorAll('.nav-tabs .nav-link');
+    const contentSections = document.querySelectorAll('.admin-content .sub-content-section');
+
+    function showContent(targetId) {
+        // Hide all content sections
+        contentSections.forEach(section => section.classList.remove('active'));
+
+        // Show the target content section
+        const targetContent = document.getElementById(targetId);
+        if (targetContent) {
+            targetContent.classList.add('active');
+        }
+
+        // Update active state for sidebar links
+        sidebarLinks.forEach(item => {
+            if (item.dataset.target === targetId) {
+                item.classList.add('active');
+            } else {
+                item.classList.remove('active');
+            }
+        });
+
+        // Update active state for user management tabs
+        userManagementTabs.forEach(tab => {
+             if (tab.dataset.target === targetId) {
+                tab.classList.add('active');
+            } else {
+                tab.classList.remove('active');
+            }
+        });
+    }
+
+    // Event listener for sidebar links
+    sidebarLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+            // Prevent default anchor behavior only if it has a data-target
+            if (this.dataset.target) {
+                e.preventDefault();
+                const targetId = this.dataset.target;
+                showContent(targetId);
+
+                // If using the offcanvas mobile menu, hide it after click
+                const offcanvasElement = document.getElementById('adminSidebarOffcanvas');
+                const offcanvas = bootstrap.Offcanvas.getInstance(offcanvasElement);
+                if (offcanvas) {
+                    offcanvas.hide();
+                }
+            }
+        });
+    });
+
+    // Event listener for user management tabs
+    userManagementTabs.forEach(tab => {
+        tab.addEventListener('click', function(e) {
+            e.preventDefault();
+            const targetId = this.dataset.target;
+            showContent(targetId);
+        });
+    });
+
+    // --- ACTION BUTTONS & ALERTS ---
+    document.body.addEventListener('click', function(e) {
+        const button = e.target.closest('.action-btn');
+        if (!button) return;
+
+        const action = button.dataset.action;
+        const userRow = button.closest('tr');
+        const userName = userRow.querySelector('.user-name')?.textContent.trim() || 'this user';
+
+        switch(action) {
+            case 'edit':
+                alert(`Action: Edit profile of ${userName}.`);
+                break;
+            case 'deactivate':
+                if (confirm(`Are you sure you want to deactivate ${userName}?`)) {
+                    alert(`${userName} has been deactivated.`);
+                    userRow.remove(); // Remove row from the table
+                }
+                break;
+            case 'view':
+                 alert(`Action: View profile of ${userName}.`);
+                break;
+            case 'approve':
+                 if (confirm(`Are you sure you want to approve ${userName}?`)) {
+                    alert(`${userName} has been approved and is now an active user.`);
+                    userRow.remove();
+                }
+                break;
+            case 'reject':
+                 if (confirm(`Are you sure you want to reject ${userName}?`)) {
+                    alert(`${userName}'s registration has been rejected.`);
+                    userRow.remove();
+                }
+                break;
+            case 'view-details':
+                alert(`Action: View registration details for ${userName}.`);
+                break;
+            case 'review':
+                alert(`Action: Reviewing flagged activity for ${userName}.`);
+                break;
+            case 'warn':
+                 if (confirm(`Are you sure you want to issue a warning to ${userName}?`)) {
+                    alert(`A formal warning has been sent to ${userName}.`);
+                }
+                break;
+            case 'block':
+                if (confirm(`Are you sure you want to BLOCK ${userName}? This action is severe.`)) {
+                    alert(`${userName} has been blocked from the platform.`);
+                    userRow.remove();
+                }
+                break;
+        }
+    });
+
+    // --- USER SEARCH FUNCTIONALITY ---
+    const searchInput = document.getElementById('user-search-input');
+    const allUsersTable = document.getElementById('all-users-table');
+    const userRows = allUsersTable.getElementsByTagName('tr');
+
+    searchInput.addEventListener('keyup', function() {
+        const filter = searchInput.value.toLowerCase();
+        
+        for (let i = 0; i < userRows.length; i++) {
+            const nameCell = userRows[i].querySelector('.user-name');
+            const emailCell = userRows[i].querySelector('.user-email');
+            if (nameCell || emailCell) {
+                const nameText = nameCell.textContent || nameCell.innerText;
+                const emailText = emailCell.textContent || emailCell.innerText;
+                if (nameText.toLowerCase().indexOf(filter) > -1 || emailText.toLowerCase().indexOf(filter) > -1) {
+                    userRows[i].style.display = "";
+                } else {
+                    userRows[i].style.display = "none";
+                }
+            }
+        }
+    });
+    
+    // --- FOOTER SUBSCRIBE BUTTON ---
+    const subscribeBtn = document.getElementById('subscribe-btn');
+    const newsletterEmail = document.getElementById('newsletter-email');
+    subscribeBtn.addEventListener('click', function() {
+        const email = newsletterEmail.value;
+        if (email && email.includes('@')) {
+            alert(`Thank you for subscribing with ${email}!`);
+            newsletterEmail.value = ''; // Clear the input
+        } else {
+            alert('Please enter a valid email address.');
+        }
+    });
+    
+     // --- LOGOUT BUTTON ---
+    const logoutBtn = document.getElementById('logout-btn');
+    logoutBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        if (confirm('Are you sure you want to logout?')) {
+            alert('You have been logged out.');
+            // In a real application, you would redirect to the login page
+             window.location.href = 'login.html'; 
+        }
+    });
+
+
+    // Initialize the view
+    showContent('user-list-content');
+});
+</script>
+</body>
+</html>

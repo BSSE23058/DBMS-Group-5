@@ -1,0 +1,1217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>SkillConnect Admin - Application Management</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+    
+    <style>
+        html { scroll-behavior: smooth; }
+        body { background-color: #f8f9fa; }
+        .navbar { padding: 1rem 2rem; }
+        .navbar-nav .nav-link { font-weight: 600; margin: 0 10px; }
+        .navbar-brand img { height: 80px; }
+
+        .admin-sidebar {
+            background: linear-gradient(to bottom, #220359, #4906bf);
+            color: white;
+            padding-top: 20px;
+            min-height: calc(100vh - 80px);
+            position: sticky;
+            top: 0;
+            left: 0;
+            z-index: 1000; 
+        }
+
+        .admin-sidebar .nav-link {
+            color: rgba(255, 255, 255, 0.8);
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        .admin-sidebar .nav-link:hover,
+        .admin-sidebar .nav-link.active {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            border-left: 3px solid #ffc107;
+        }
+
+        .admin-sidebar .nav-link i { margin-right: 10px; font-size: 1.1rem; }
+        .admin-content { padding: 30px; flex-grow: 1; }
+        .admin-card {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .btn-primary { background-color: #0d6efd; border-color: #0d6efd; }
+        .btn-primary:hover { background-color: #0b5ed7; border-color: #0a58ca; }
+        .btn-outline-primary { color: #0d6efd; border-color: #0d6efd; }
+        .btn-outline-primary:hover { background-color: #0d6efd; color: white; }
+        .text-primary { color: #0d6efd !important; }
+
+        .badge.bg-success { background-color: #198754 !important; }
+        .badge.bg-danger { background-color: #dc3545 !important; }
+        .badge.bg-warning { background-color: #ffc107 !important; }
+        .badge.bg-info { background-color: #0dcaf0 !important; }
+        .badge.bg-secondary { background-color: #6c757d !important; }
+        
+        footer { background-color: #212529 !important; color: white; }
+        footer .text-muted { color: rgba(255, 255, 255, 0.7) !important; }
+
+        .offcanvas { transition: none !important; }
+        
+        @media (max-width: 767.98px) {
+            .admin-sidebar { display: none; }
+            .offcanvas-start { width: 250px; }
+            .admin-content { width: 100%; }
+            .navbar-toggler { display: block; }
+        }
+
+        @media (min-width: 768px) {
+            .navbar-toggler { display: none; }
+            .admin-sidebar { display: block !important; }
+            .offcanvas { visibility: hidden; }
+            .offcanvas.show { transform: translateX(-100%); }
+        }
+
+        .sub-content-section { display: none; }
+        .sub-content-section.active { display: block; }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg bg-white shadow-sm">
+    <div class="container-fluid">
+        <button class="navbar-toggler me-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#adminSidebarOffcanvas" aria-controls="adminSidebarOffcanvas">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <a class="navbar-brand d-flex align-items-center" href="./landing_page.html">
+            <img src="./logo.jpeg" alt="SkillConnect Logo"/>
+        </a>
+        <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
+            <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+                <li class="nav-item"><a class="nav-link" href="./landing_page.html">Home (Go to Main Site)</a></li>
+                <li class="nav-item"><a class="nav-link" href="./admin_dashboard.html">Admin Dashboard</a></li>
+                <li class="nav-item"><a class="nav-link" href="./admin_user_management.html">Users</a></li>
+                <li class="nav-item"><a class="nav-link" href="./admin_courses.html">Courses</a></li>
+                <li class="nav-item"><a class="nav-link" href="./admin_tutoring.html">Tutoring</a></li>
+                <li class="nav-item"><a class="nav-link" href="./admin_job_listings.html">Jobs</a></li>
+                <li class="nav-item"><a class="nav-link" href="./admin_messages.html">Messages</a></li>
+                <li class="nav-item"><a class="nav-link active" href="./admin_applications.html">Applications</a></li>
+                <li class="nav-item"><a class="nav-link" href="./admin_reports.html">Reports</a></li>
+            </ul>
+            <div class="d-flex align-items-center nav-icons">
+                <span class="me-3 fw-bold">Admin User</span>
+                <i class="bi bi-person-circle fs-4 me-3"></i>
+                <div class="nav-buttons">
+                    <a href="./login.html" id="logout-btn" class="btn btn-outline-primary">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<div class="d-flex">
+    <div class="admin-sidebar col-md-2">
+        <ul class="nav flex-column">
+            <li class="nav-item"><a class="nav-link" href="./admin_dashboard.html"><i class="bi bi-speedometer2"></i> Dashboard</a></li>
+            <li class="nav-item"><a class="nav-link" href="./admin_user_management.html"><i class="bi bi-people"></i> Users</a></li>
+            <li class="nav-item"><a class="nav-link" href="./admin_courses.html"><i class="bi bi-book"></i> Courses</a></li>
+            <li class="nav-item"><a class="nav-link" href="./admin_tutoring.html"><i class="bi bi-calendar-check"></i> Tutoring Sessions</a></li>
+            <li class="nav-item"><a class="nav-link" href="./admin_job_listings.html"><i class="bi bi-briefcase"></i> Job Listings</a></li>
+            <li class="nav-item"><a class="nav-link active" href="./admin_applications.html"><i class="bi bi-file-earmark-text"></i> Applications</a></li>
+            <li class="nav-item"><a class="nav-link" href="./admin_messages.html"><i class="bi bi-chat-dots"></i> Messages</a></li>
+            <li class="nav-item"><a class="nav-link" href="./admin_reports.html"><i class="bi bi-graph-up"></i> Reports</a></li>
+            <li class="nav-item"><a class="nav-link" href="#"><i class="bi bi-box-seam"></i> System Settings</a></li>
+        </ul>
+    </div>
+
+    <div class="offcanvas offcanvas-start admin-sidebar" tabindex="-1" id="adminSidebarOffcanvas">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title text-white">Admin Navigation</h5>
+            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body p-0">
+            <ul class="nav flex-column">
+                <li class="nav-item"><a class="nav-link" href="./admin_dashboard.html"><i class="bi bi-speedometer2"></i> Dashboard</a></li>
+                <li class="nav-item"><a class="nav-link" href="./admin_user_management.html"><i class="bi bi-people"></i> Users</a></li>
+                <li class="nav-item"><a class="nav-link" href="./admin_courses.html"><i class="bi bi-book"></i> Courses</a></li>
+                <li class="nav-item"><a class="nav-link" href="./admin_tutoring.html"><i class="bi bi-calendar-check"></i> Tutoring Sessions</a></li>
+                <li class="nav-item"><a class="nav-link" href="./admin_job_listings.html"><i class="bi bi-briefcase"></i> Job Listings</a></li>
+                <li class="nav-item"><a class="nav-link active" href="./admin_applications.html"><i class="bi bi-file-earmark-text"></i> Applications</a></li>
+                <li class="nav-item"><a class="nav-link" href="./admin_messages.html"><i class="bi bi-chat-dots"></i> Messages</a></li>
+                <li class="nav-item"><a class="nav-link" href="./admin_reports.html"><i class="bi bi-graph-up"></i> Reports</a></li>
+                <li class="nav-item"><a class="nav-link" href="#"><i class="bi bi-box-seam"></i> System Settings</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="admin-content col-md-10">
+        <h1 class="mb-4 fw-bold text-primary">Application Management</h1>
+
+        <ul class="nav nav-tabs mb-4">
+            <li class="nav-item">
+                <a class="nav-link active" href="#" data-target="all-applications-content">All Applications</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" data-target="job-applications-content">Job Applications</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" data-target="course-enrollments-content">Course Enrollments</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" data-target="tutoring-requests-content">Tutoring Requests</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" data-target="instructor-applications-content">Instructor Applications</a>
+            </li>
+        </ul>
+
+        <!-- All Applications Content -->
+        <div id="all-applications-content" class="sub-content-section active">
+            <div class="admin-card">
+                <h4 class="mb-3 text-primary">Overview of All Applications</h4>
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <div class="input-group">
+                            <input type="text" id="all-app-search-input" class="form-control" placeholder="Search applications...">
+                            <button class="btn btn-outline-primary" type="button"><i class="bi bi-search"></i></button>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <select id="all-app-type-filter" class="form-select">
+                            <option value="">Filter by Type</option>
+                            <option value="Job">Job</option>
+                            <option value="Course">Course</option>
+                            <option value="Tutoring">Tutoring</option>
+                            <option value="Instructor">Instructor</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <select id="all-app-status-filter" class="form-select">
+                            <option value="">Filter by Status</option>
+                            <option value="New">New</option>
+                            <option value="Pending">Pending</option>
+                            <option value="Approved">Approved</option>
+                            <option value="Rejected">Rejected</option>
+                            <option value="Completed">Completed</option>
+                            <option value="Withdrawn">Withdrawn</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover align-middle">
+                        <thead>
+                            <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">Applicant</th>
+                                <th scope="col">Type</th>
+                                <th scope="col">Related Item</th>
+                                <th scope="col">Date</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="all-applications-table">
+                            <!-- Data will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+                <nav>
+                    <ul class="pagination justify-content-center">
+                        <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
+                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+
+        <!-- Job Applications Content -->
+        <div id="job-applications-content" class="sub-content-section">
+            <div class="admin-card">
+                <h4 class="mb-3 text-primary">Job Applications</h4>
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <div class="input-group">
+                            <input type="text" id="job-app-search-input" class="form-control" placeholder="Search job applications...">
+                            <button class="btn btn-outline-primary" type="button"><i class="bi bi-search"></i></button>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <select id="job-app-status-filter" class="form-select">
+                            <option value="">Filter by Status</option>
+                            <option value="New">New</option>
+                            <option value="Reviewed">Reviewed</option>
+                            <option value="Shortlisted">Shortlisted</option>
+                            <option value="Interview Scheduled">Interview Scheduled</option>
+                            <option value="Hired">Hired</option>
+                            <option value="Rejected">Rejected</option>
+                            <option value="Withdrawn">Withdrawn</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover align-middle">
+                        <thead>
+                            <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">Applicant</th>
+                                <th scope="col">Job Title</th>
+                                <th scope="col">Employer</th>
+                                <th scope="col">Date Applied</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="job-applications-table">
+                            <!-- Data will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+                <nav>
+                    <ul class="pagination justify-content-center">
+                        <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
+                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+
+        <!-- Course Enrollments Content -->
+        <div id="course-enrollments-content" class="sub-content-section">
+            <div class="admin-card">
+                <h4 class="mb-3 text-primary">Course Enrollments</h4>
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <div class="input-group">
+                            <input type="text" id="course-enroll-search-input" class="form-control" placeholder="Search enrollments...">
+                            <button class="btn btn-outline-primary" type="button"><i class="bi bi-search"></i></button>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <select id="course-enroll-status-filter" class="form-select">
+                            <option value="">Filter by Status</option>
+                            <option value="New">New</option>
+                            <option value="Approved">Approved</option>
+                            <option value="Rejected">Rejected</option>
+                            <option value="Active">Active</option>
+                            <option value="Completed">Completed</option>
+                            <option value="Withdrawn">Withdrawn</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <select id="course-enroll-payment-filter" class="form-select">
+                            <option value="">Filter by Payment Status</option>
+                            <option value="Paid">Paid</option>
+                            <option value="Pending Payment">Pending Payment</option>
+                            <option value="Refunded">Refunded</option>
+                            <option value="Free">Free</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover align-middle">
+                        <thead>
+                            <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">Student</th>
+                                <th scope="col">Course Name</th>
+                                <th scope="col">Date Enrolled</th>
+                                <th scope="col">Payment Status</th>
+                                <th scope="col">Enrollment Status</th>
+                                <th scope="col">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="course-enrollments-table">
+                            <!-- Data will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+                <nav>
+                    <ul class="pagination justify-content-center">
+                        <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
+                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+
+        <!-- Tutoring Requests Content -->
+        <div id="tutoring-requests-content" class="sub-content-section">
+            <div class="admin-card">
+                <h4 class="mb-3 text-primary">Tutoring Session Requests</h4>
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <div class="input-group">
+                            <input type="text" id="tutoring-req-search-input" class="form-control" placeholder="Search tutoring requests...">
+                            <button class="btn btn-outline-primary" type="button"><i class="bi bi-search"></i></button>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <select id="tutoring-req-status-filter" class="form-select">
+                            <option value="">Filter by Status</option>
+                            <option value="New">New</option>
+                            <option value="Pending Tutor Approval">Pending Tutor Approval</option>
+                            <option value="Accepted">Accepted</option>
+                            <option value="Rejected">Rejected</option>
+                            <option value="Completed">Completed</option>
+                            <option value="Cancelled">Cancelled</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <select id="tutoring-req-subject-filter" class="form-select">
+                            <option value="">Filter by Subject</option>
+                            <option value="Mathematics">Mathematics</option>
+                            <option value="Science">Science</option>
+                            <option value="Programming">Programming</option>
+                            <option value="Languages">Languages</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover align-middle">
+                        <thead>
+                            <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">Student</th>
+                                <th scope="col">Subject</th>
+                                <th scope="col">Requested Tutor</th>
+                                <th scope="col">Date Requested</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tutoring-requests-table">
+                            <!-- Data will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+                <nav>
+                    <ul class="pagination justify-content-center">
+                        <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
+                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+
+        <!-- Instructor Applications Content -->
+        <div id="instructor-applications-content" class="sub-content-section">
+            <div class="admin-card">
+                <h4 class="mb-3 text-primary">Instructor / Tutor Applications</h4>
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <div class="input-group">
+                            <input type="text" id="instructor-app-search-input" class="form-control" placeholder="Search instructor applications...">
+                            <button class="btn btn-outline-primary" type="button"><i class="bi bi-search"></i></button>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <select id="instructor-app-status-filter" class="form-select">
+                            <option value="">Filter by Status</option>
+                            <option value="New">New</option>
+                            <option value="Under Review">Under Review</option>
+                            <option value="Interview Scheduled">Interview Scheduled</option>
+                            <option value="Approved">Approved</option>
+                            <option value="Rejected">Rejected</option>
+                            <option value="Onboarded">Onboarded</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover align-middle">
+                        <thead>
+                            <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">Applicant</th>
+                                <th scope="col">Applying For</th>
+                                <th scope="col">Subjects</th>
+                                <th scope="col">Date Applied</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="instructor-applications-table">
+                            <!-- Data will be populated by JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+                <nav>
+                    <ul class="pagination justify-content-center">
+                        <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
+                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modals for Application Details -->
+
+<!-- Job Application Detail Modal -->
+<div class="modal fade" id="jobApplicationDetailModal" tabindex="-1" aria-labelledby="jobApplicationDetailModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="jobApplicationDetailModalLabel">Job Application Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p><strong>Application ID:</strong> <span id="modal-job-app-id"></span></p>
+                <p><strong>Applicant:</strong> <span id="modal-job-app-applicant"></span> (<a href="#" id="modal-job-app-user-profile" class="text-primary">View Profile</a>)</p>
+                <p><strong>Job Title:</strong> <span id="modal-job-app-title"></span> (<a href="#" id="modal-job-app-job-link" class="text-primary">View Job</a>)</p>
+                <p><strong>Employer:</strong> <span id="modal-job-app-employer"></span></p>
+                <p><strong>Date Applied:</strong> <span id="modal-job-app-date"></span></p>
+                <p><strong>Current Status:</strong> <span id="modal-job-app-status"></span></p>
+                <hr>
+                <h6>Resume:</h6>
+                <p><a href="#" id="modal-job-app-resume-link" target="_blank" class="btn btn-sm btn-outline-primary"><i class="bi bi-file-earmark-arrow-down"></i> Download Resume</a></p>
+                <h6>Cover Letter:</h6>
+                <p id="modal-job-app-cover-letter" class="alert alert-light border"></p>
+                <hr>
+                <h6>Change Status:</h6>
+                <select id="modal-job-app-status-select" class="form-select mb-3">
+                    <option value="New">New</option>
+                    <option value="Reviewed">Reviewed</option>
+                    <option value="Shortlisted">Shortlisted</option>
+                    <option value="Interview Scheduled">Interview Scheduled</option>
+                    <option value="Hired">Hired</option>
+                    <option value="Rejected">Rejected</option>
+                    <option value="Withdrawn">Withdrawn</option>
+                </select>
+                <button type="button" class="btn btn-primary" id="update-job-app-status-btn"><i class="bi bi-check-lg"></i> Update Status</button>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Course Enrollment Detail Modal -->
+<div class="modal fade" id="courseEnrollmentDetailModal" tabindex="-1" aria-labelledby="courseEnrollmentDetailModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="courseEnrollmentDetailModalLabel">Course Enrollment Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p><strong>Enrollment ID:</strong> <span id="modal-course-enroll-id"></span></p>
+                <p><strong>Student:</strong> <span id="modal-course-enroll-student"></span> (<a href="#" id="modal-course-enroll-user-profile" class="text-primary">View Profile</a>)</p>
+                <p><strong>Course Name:</strong> <span id="modal-course-enroll-course-name"></span> (<a href="#" id="modal-course-enroll-course-link" class="text-primary">View Course</a>)</p>
+                <p><strong>Instructor:</strong> <span id="modal-course-enroll-instructor"></span></p>
+                <p><strong>Date Enrolled:</strong> <span id="modal-course-enroll-date"></span></p>
+                <p><strong>Payment Status:</strong> <span id="modal-course-enroll-payment-status"></span></p>
+                <p><strong>Enrollment Status:</strong> <span id="modal-course-enroll-status"></span></p>
+                <hr>
+                <h6>Change Enrollment Status:</h6>
+                <select id="modal-course-enroll-status-select" class="form-select mb-3">
+                    <option value="New">New</option>
+                    <option value="Approved">Approved</option>
+                    <option value="Rejected">Rejected</option>
+                    <option value="Active">Active</option>
+                    <option value="Completed">Completed</option>
+                    <option value="Withdrawn">Withdrawn</option>
+                </select>
+                <button type="button" class="btn btn-primary" id="update-course-enroll-status-btn"><i class="bi bi-check-lg"></i> Update Status</button>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Tutoring Request Detail Modal -->
+<div class="modal fade" id="tutoringRequestDetailModal" tabindex="-1" aria-labelledby="tutoringRequestDetailModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="tutoringRequestDetailModalLabel">Tutoring Request Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p><strong>Request ID:</strong> <span id="modal-tutoring-req-id"></span></p>
+                <p><strong>Student:</strong> <span id="modal-tutoring-req-student"></span> (<a href="#" id="modal-tutoring-req-user-profile" class="text-primary">View Profile</a>)</p>
+                <p><strong>Subject:</strong> <span id="modal-tutoring-req-subject"></span></p>
+                <p><strong>Requested Tutor:</strong> <span id="modal-tutoring-req-tutor"></span> (<a href="#" id="modal-tutoring-req-tutor-profile" class="text-primary">View Profile</a>)</p>
+                <p><strong>Preferred Date/Time:</strong> <span id="modal-tutoring-req-datetime"></span></p>
+                <p><strong>Date Requested:</strong> <span id="modal-tutoring-req-date"></span></p>
+                <p><strong>Current Status:</strong> <span id="modal-tutoring-req-status"></span></p>
+                <hr>
+                <h6>Student Message:</h6>
+                <p id="modal-tutoring-req-message" class="alert alert-light border"></p>
+                <hr>
+                <h6>Assign Tutor:</h6>
+                <select id="modal-tutoring-req-assign-tutor" class="form-select mb-3">
+                    <option value="">Select Tutor</option>
+                    <option value="Jane Smith">Jane Smith (Maths)</option>
+                    <option value="David Lee">David Lee (Programming)</option>
+                </select>
+                <button type="button" class="btn btn-primary me-2" id="assign-tutor-btn"><i class="bi bi-person-check"></i> Assign Tutor</button>
+                <button type="button" class="btn btn-outline-danger" id="reject-tutoring-req-btn"><i class="bi bi-x-lg"></i> Reject Request</button>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Instructor Application Detail Modal -->
+<div class="modal fade" id="instructorApplicationDetailModal" tabindex="-1" aria-labelledby="instructorApplicationDetailModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="instructorApplicationDetailModalLabel">Instructor Application Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p><strong>Application ID:</strong> <span id="modal-instructor-app-id"></span></p>
+                <p><strong>Applicant:</strong> <span id="modal-instructor-app-applicant"></span> (<a href="#" id="modal-instructor-app-user-profile" class="text-primary">View Profile</a>)</p>
+                <p><strong>Applying For:</strong> <span id="modal-instructor-app-type"></span></p>
+                <p><strong>Subjects:</strong> <span id="modal-instructor-app-subjects"></span></p>
+                <p><strong>Date Applied:</strong> <span id="modal-instructor-app-date"></span></p>
+                <p><strong>Current Status:</strong> <span id="modal-instructor-app-status"></span></p>
+                <hr>
+                <h6>Resume/CV:</h6>
+                <p><a href="#" id="modal-instructor-app-resume-link" target="_blank" class="btn btn-sm btn-outline-primary"><i class="bi bi-file-earmark-arrow-down"></i> Download CV</a></p>
+                <h6>Personal Statement:</h6>
+                <p id="modal-instructor-app-statement" class="alert alert-light border"></p>
+                <hr>
+                <h6>Change Status:</h6>
+                <select id="modal-instructor-app-status-select" class="form-select mb-3">
+                    <option value="New">New</option>
+                    <option value="Under Review">Under Review</option>
+                    <option value="Interview Scheduled">Interview Scheduled</option>
+                    <option value="Approved">Approved</option>
+                    <option value="Rejected">Rejected</option>
+                    <option value="Onboarded">Onboarded</option>
+                </select>
+                <button type="button" class="btn btn-primary" id="update-instructor-app-status-btn"><i class="bi bi-check-lg"></i> Update Status</button>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<footer class="bg-dark text-white pt-5 pb-4">
+    <div class="container text-center p-4 text-muted">© 2025 SkillConnect. All rights reserved.</div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const mainTabs = document.querySelectorAll('.nav-tabs .nav-link');
+    const contentSections = document.querySelectorAll('.admin-content .sub-content-section');
+
+    function showContent(targetId) {
+        contentSections.forEach(section => section.classList.remove('active'));
+        const targetContent = document.getElementById(targetId);
+        if (targetContent) {
+            targetContent.classList.add('active');
+        }
+        mainTabs.forEach(tab => tab.classList.toggle('active', tab.dataset.target === targetId));
+
+        // Update sidebar active link - this is important for consistent highlighting
+        document.querySelectorAll('.admin-sidebar .nav-link').forEach(link => {
+            link.classList.remove('active');
+            // Check if the link's href matches the current page, or if it's a data-target link
+            // within this page, then also check if the data-target matches the activated tab
+            const linkHref = link.getAttribute('href');
+            if (linkHref && linkHref.includes('admin_applications.html')) {
+                link.classList.add('active'); // General highlight for being on the applications page
+            } else if (link.dataset.target === targetId) {
+                link.classList.add('active'); // If sidebar link is for internal tab on this page
+            }
+        });
+    }
+
+    mainTabs.forEach(tab => {
+        tab.addEventListener('click', function(e) {
+            e.preventDefault();
+            showContent(this.dataset.target);
+        });
+    });
+
+    // Handle offcanvas toggle (from previous pages, ensures no sliding)
+    document.querySelectorAll('[data-bs-toggle="offcanvas"]').forEach(element => {
+        element.addEventListener('click', function(e) {
+            const offcanvasElement = document.querySelector(this.getAttribute('data-bs-target'));
+            const offcanvas = new bootstrap.Offcanvas(offcanvasElement, {
+                backdrop: true, keyboard: true, scroll: false
+            });
+            offcanvas.show();
+            e.preventDefault();
+        });
+    });
+
+    // Universal Logout Button
+    document.getElementById('logout-btn')?.addEventListener('click', function(e) {
+        e.preventDefault();
+        if (confirm('Are you sure you want to logout?')) {
+            alert('You have been logged out.');
+            window.location.href = './login.html'; // Redirect to login page
+        }
+    });
+
+    // Dummy Data for All Application Types
+    const jobApplicationsData = [
+        { id: 'JA-001', applicant: 'Alice Johnson', userId: 'USR-001', jobTitle: 'Senior Frontend Developer', jobId: 'JOB-501', employer: 'Tech Solutions Inc.', dateApplied: '2025-06-10', status: 'New', resumeLink: 'placeholder.pdf', coverLetter: 'Dear Hiring Manager, I am writing to express my keen interest in the Senior Frontend Developer position at Tech Solutions Inc. My 5 years of experience in React and Vue.js aligns perfectly with your requirements...' },
+        { id: 'JA-002', applicant: 'Bob Williams', userId: 'USR-002', jobTitle: 'UX/UI Designer', jobId: 'JOB-502', employer: 'Creative Minds LLC', dateApplied: '2025-06-08', status: 'Reviewed', resumeLink: 'placeholder.pdf', coverLetter: 'I am a passionate UX/UI Designer with a strong portfolio in web and mobile applications. I believe my design philosophy and proficiency in Figma and Sketch would be a great asset to your team.' },
+        { id: 'JA-003', applicant: 'Charlie Brown', userId: 'USR-003', jobTitle: 'Data Analyst', jobId: 'JOB-503', employer: 'Data Insights Co.', dateApplied: '2025-06-05', status: 'Shortlisted', resumeLink: 'placeholder.pdf', coverLetter: 'With a solid background in data analysis and strong SQL skills, I am confident in my ability to extract valuable insights from complex datasets. My experience in predictive modeling would benefit Data Insights Co.' },
+    ];
+
+    const courseEnrollmentsData = [
+        { id: 'CE-001', student: 'Diana Prince', userId: 'USR-004', courseName: 'Introduction to Python', courseId: 'C-001', instructor: 'Dr. Emily White', dateEnrolled: '2025-06-11', paymentStatus: 'Paid', status: 'Approved' },
+        { id: 'CE-002', student: 'Ethan Hunt', userId: 'USR-005', courseName: 'Advanced Web Development', courseId: 'C-002', instructor: 'Prof. Alex Jones', dateEnrolled: '2025-06-09', paymentStatus: 'Pending Payment', status: 'New' },
+        { id: 'CE-003', student: 'Fiona Apple', userId: 'USR-006', courseName: 'Digital Marketing Fundamentals', courseId: 'C-003', instructor: 'Ms. Brenda Lee', dateEnrolled: '2025-06-07', paymentStatus: 'Free', status: 'Active' },
+    ];
+
+    const tutoringRequestsData = [
+        { id: 'TR-001', student: 'Grace Hopper', userId: 'USR-007', subject: 'Calculus I', requestedTutor: 'Jane Smith', tutorId: 'TUT-001', preferredDateTime: '2025-06-15 10:00 AM', dateRequested: '2025-06-12', status: 'New', message: 'I need urgent help with derivatives for my upcoming exam. My preferred tutor is Jane Smith as she helped me before.' },
+        { id: 'TR-002', student: 'Harry Styles', userId: 'USR-008', subject: 'Python Basics', requestedTutor: 'Any', tutorId: null, preferredDateTime: 'Flexible', dateRequested: '2025-06-11', status: 'Pending Tutor Approval', message: 'Looking for a tutor to help me understand basic Python syntax and data structures. Any available tutor works for me.' },
+    ];
+
+    const instructorApplicationsData = [
+        { id: 'IA-001', applicant: 'Ivy Queen', userId: 'USR-009', applyingFor: 'Instructor', subjects: 'Graphic Design, UX/UI', dateApplied: '2025-06-09', status: 'New', resumeLink: 'placeholder.pdf', personalStatement: 'I am a seasoned graphic designer with over 10 years of industry experience, passionate about teaching the next generation. My expertise includes Adobe Creative Suite, Figma, and design principles.' },
+        { id: 'IA-002', applicant: 'Jack Black', userId: 'USR-010', applyingFor: 'Tutor', subjects: 'Physics, Chemistry', dateApplied: '2025-06-07', status: 'Under Review', resumeLink: 'placeholder.pdf', personalStatement: 'As a graduate student in Physics, I have a deep understanding of scientific concepts and a knack for explaining complex topics simply. I enjoy helping students grasp difficult subjects.' },
+    ];
+
+    // Combine all data for "All Applications" tab
+    function getAllApplicationsData() {
+        const allApps = [];
+        jobApplicationsData.forEach(app => allApps.push({ ...app, type: 'Job', relatedItem: app.jobTitle }));
+        courseEnrollmentsData.forEach(app => allApps.push({ ...app, type: 'Course', relatedItem: app.courseName }));
+        tutoringRequestsData.forEach(app => allApps.push({ ...app, type: 'Tutoring', relatedItem: app.subject }));
+        instructorApplicationsData.forEach(app => allApps.push({ ...app, type: 'Instructor', relatedItem: app.subjects }));
+        return allApps;
+    }
+
+    // --- Rendering Functions ---
+
+    function getStatusBadgeHtml(status) {
+        let badgeClass = 'bg-secondary';
+        switch (status) {
+            case 'New':
+            case 'Pending':
+            case 'Pending Tutor Approval':
+                badgeClass = 'bg-danger';
+                break;
+            case 'Reviewed':
+            case 'Under Review':
+            case 'Open':
+            case 'Interview Scheduled':
+            case 'Pending Payment':
+                badgeClass = 'bg-warning';
+                break;
+            case 'Approved':
+            case 'Active':
+            case 'Completed':
+            case 'Hired':
+            case 'Onboarded':
+            case 'Replied':
+                badgeClass = 'bg-success';
+                break;
+            case 'Rejected':
+            case 'Cancelled':
+            case 'Dismissed':
+            case 'Withdrawn':
+                badgeClass = 'bg-dark'; // Dark for final negative status
+                break;
+            default:
+                badgeClass = 'bg-info';
+        }
+        return `<span class="badge ${badgeClass}">${status}</span>`;
+    }
+
+    function renderAllApplications(data) {
+        const tableBody = document.getElementById('all-applications-table');
+        tableBody.innerHTML = '';
+        data.forEach(app => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${app.id}</td>
+                <td><a href="#" class="text-primary" data-bs-toggle="tooltip" title="View User Profile">${app.applicant || app.student}</a></td>
+                <td>${app.type}</td>
+                <td>${app.relatedItem}</td>
+                <td>${app.dateApplied || app.dateEnrolled || app.dateRequested}</td>
+                <td>${getStatusBadgeHtml(app.status)}</td>
+                <td>
+                    <button class="btn btn-sm btn-info view-app-details-btn" data-app-type="${app.type.toLowerCase()}" data-app-id="${app.id}" title="View Details"><i class="bi bi-eye"></i></button>
+                </td>
+            `;
+            tableBody.appendChild(row);
+        });
+    }
+
+    function renderJobApplications(data) {
+        const tableBody = document.getElementById('job-applications-table');
+        tableBody.innerHTML = '';
+        data.forEach(app => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${app.id}</td>
+                <td><a href="#" class="text-primary" data-bs-toggle="tooltip" title="View User Profile">${app.applicant}</a></td>
+                <td><a href="#" class="text-primary" data-bs-toggle="tooltip" title="View Job Listing">${app.jobTitle}</a></td>
+                <td>${app.employer}</td>
+                <td>${app.dateApplied}</td>
+                <td>${getStatusBadgeHtml(app.status)}</td>
+                <td>
+                    <button class="btn btn-sm btn-info view-job-app-btn" data-bs-toggle="modal" data-bs-target="#jobApplicationDetailModal" data-app-id="${app.id}" title="View Details"><i class="bi bi-eye"></i></button>
+                    <button class="btn btn-sm btn-success approve-job-app-btn" data-app-id="${app.id}" title="Approve"><i class="bi bi-check-lg"></i></button>
+                    <button class="btn btn-sm btn-danger reject-job-app-btn" data-app-id="${app.id}" title="Reject"><i class="bi bi-x-lg"></i></button>
+                </td>
+            `;
+            tableBody.appendChild(row);
+        });
+    }
+
+    function renderCourseEnrollments(data) {
+        const tableBody = document.getElementById('course-enrollments-table');
+        tableBody.innerHTML = '';
+        data.forEach(app => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${app.id}</td>
+                <td><a href="#" class="text-primary" data-bs-toggle="tooltip" title="View User Profile">${app.student}</a></td>
+                <td><a href="#" class="text-primary" data-bs-toggle="tooltip" title="View Course Details">${app.courseName}</a></td>
+                <td>${app.dateEnrolled}</td>
+                <td>${getStatusBadgeHtml(app.paymentStatus)}</td>
+                <td>${getStatusBadgeHtml(app.status)}</td>
+                <td>
+                    <button class="btn btn-sm btn-info view-course-enroll-btn" data-bs-toggle="modal" data-bs-target="#courseEnrollmentDetailModal" data-app-id="${app.id}" title="View Details"><i class="bi bi-eye"></i></button>
+                    <button class="btn btn-sm btn-success approve-course-enroll-btn" data-app-id="${app.id}" title="Approve"><i class="bi bi-check-lg"></i></button>
+                    <button class="btn btn-sm btn-danger reject-course-enroll-btn" data-app-id="${app.id}" title="Reject"><i class="bi bi-x-lg"></i></button>
+                </td>
+            `;
+            tableBody.appendChild(row);
+        });
+    }
+
+    function renderTutoringRequests(data) {
+        const tableBody = document.getElementById('tutoring-requests-table');
+        tableBody.innerHTML = '';
+        data.forEach(app => {
+            const row = document.createElement('tr');
+            const requestedTutorHtml = app.requestedTutor === 'Any' ? 'Any' : `<a href="#" class="text-primary" data-bs-toggle="tooltip" title="View Tutor Profile">${app.requestedTutor}</a>`;
+            row.innerHTML = `
+                <td>${app.id}</td>
+                <td><a href="#" class="text-primary" data-bs-toggle="tooltip" title="View User Profile">${app.student}</a></td>
+                <td>${app.subject}</td>
+                <td>${requestedTutorHtml}</td>
+                <td>${app.dateRequested}</td>
+                <td>${getStatusBadgeHtml(app.status)}</td>
+                <td>
+                    <button class="btn btn-sm btn-info view-tutoring-req-btn" data-bs-toggle="modal" data-bs-target="#tutoringRequestDetailModal" data-app-id="${app.id}" title="View Details"><i class="bi bi-eye"></i></button>
+                    <button class="btn btn-sm btn-primary assign-tutoring-req-btn" data-app-id="${app.id}" title="Assign Tutor"><i class="bi bi-person-check"></i></button>
+                    <button class="btn btn-sm btn-danger reject-tutoring-req-btn" data-app-id="${app.id}" title="Reject"><i class="bi bi-x-lg"></i></button>
+                </td>
+            `;
+            tableBody.appendChild(row);
+        });
+    }
+
+    function renderInstructorApplications(data) {
+        const tableBody = document.getElementById('instructor-applications-table');
+        tableBody.innerHTML = '';
+        data.forEach(app => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td>${app.id}</td>
+                <td><a href="#" class="text-primary" data-bs-toggle="tooltip" title="View User Profile">${app.applicant}</a></td>
+                <td>${app.applyingFor}</td>
+                <td>${app.subjects}</td>
+                <td>${app.dateApplied}</td>
+                <td>${getStatusBadgeHtml(app.status)}</td>
+                <td>
+                    <button class="btn btn-sm btn-info view-instructor-app-btn" data-bs-toggle="modal" data-bs-target="#instructorApplicationDetailModal" data-app-id="${app.id}" title="View Details"><i class="bi bi-eye"></i></button>
+                    <button class="btn btn-sm btn-success approve-instructor-app-btn" data-app-id="${app.id}" title="Approve"><i class="bi bi-check-lg"></i></button>
+                    <button class="btn btn-sm btn-danger reject-instructor-app-btn" data-app-id="${app.id}" title="Reject"><i class="bi bi-x-lg"></i></button>
+                </td>
+            `;
+            tableBody.appendChild(row);
+        });
+    }
+
+    // --- Filtering Functions ---
+
+    function filterAllApplications() {
+        const searchText = document.getElementById('all-app-search-input').value.toLowerCase();
+        const typeFilter = document.getElementById('all-app-type-filter').value;
+        const statusFilter = document.getElementById('all-app-status-filter').value;
+
+        const filteredData = getAllApplicationsData().filter(app => {
+            const matchesSearch = (app.applicant || app.student || '').toLowerCase().includes(searchText) ||
+                                  (app.relatedItem || '').toLowerCase().includes(searchText) ||
+                                  (app.jobTitle || '').toLowerCase().includes(searchText) ||
+                                  (app.courseName || '').toLowerCase().includes(searchText) ||
+                                  (app.subject || '').toLowerCase().includes(searchText) ||
+                                  (app.employer || '').toLowerCase().includes(searchText);
+            const matchesType = typeFilter === '' || app.type === typeFilter;
+            const matchesStatus = statusFilter === '' || app.status === statusFilter;
+            return matchesSearch && matchesType && matchesStatus;
+        });
+        renderAllApplications(filteredData);
+    }
+
+    function filterJobApplications() {
+        const searchText = document.getElementById('job-app-search-input').value.toLowerCase();
+        const statusFilter = document.getElementById('job-app-status-filter').value;
+
+        const filteredData = jobApplicationsData.filter(app => {
+            const matchesSearch = app.applicant.toLowerCase().includes(searchText) ||
+                                  app.jobTitle.toLowerCase().includes(searchText) ||
+                                  app.employer.toLowerCase().includes(searchText) ||
+                                  app.coverLetter.toLowerCase().includes(searchText);
+            const matchesStatus = statusFilter === '' || app.status === statusFilter;
+            return matchesSearch && matchesStatus;
+        });
+        renderJobApplications(filteredData);
+    }
+
+    function filterCourseEnrollments() {
+        const searchText = document.getElementById('course-enroll-search-input').value.toLowerCase();
+        const statusFilter = document.getElementById('course-enroll-status-filter').value;
+        const paymentFilter = document.getElementById('course-enroll-payment-filter').value;
+
+        const filteredData = courseEnrollmentsData.filter(app => {
+            const matchesSearch = app.student.toLowerCase().includes(searchText) ||
+                                  app.courseName.toLowerCase().includes(searchText) ||
+                                  app.instructor.toLowerCase().includes(searchText);
+            const matchesStatus = statusFilter === '' || app.status === statusFilter;
+            const matchesPayment = paymentFilter === '' || app.paymentStatus === paymentFilter;
+            return matchesSearch && matchesStatus && matchesPayment;
+        });
+        renderCourseEnrollments(filteredData);
+    }
+
+    function filterTutoringRequests() {
+        const searchText = document.getElementById('tutoring-req-search-input').value.toLowerCase();
+        const statusFilter = document.getElementById('tutoring-req-status-filter').value;
+        const subjectFilter = document.getElementById('tutoring-req-subject-filter').value;
+
+        const filteredData = tutoringRequestsData.filter(app => {
+            const matchesSearch = app.student.toLowerCase().includes(searchText) ||
+                                  app.subject.toLowerCase().includes(searchText) ||
+                                  (app.requestedTutor !== 'Any' ? app.requestedTutor.toLowerCase().includes(searchText) : false) ||
+                                  app.message.toLowerCase().includes(searchText);
+            const matchesStatus = statusFilter === '' || app.status === statusFilter;
+            const matchesSubject = subjectFilter === '' || app.subject === subjectFilter;
+            return matchesSearch && matchesStatus && matchesSubject;
+        });
+        renderTutoringRequests(filteredData);
+    }
+
+    function filterInstructorApplications() {
+        const searchText = document.getElementById('instructor-app-search-input').value.toLowerCase();
+        const statusFilter = document.getElementById('instructor-app-status-filter').value;
+
+        const filteredData = instructorApplicationsData.filter(app => {
+            const matchesSearch = app.applicant.toLowerCase().includes(searchText) ||
+                                  app.subjects.toLowerCase().includes(searchText) ||
+                                  app.personalStatement.toLowerCase().includes(searchText);
+            const matchesStatus = statusFilter === '' || app.status === statusFilter;
+            return matchesSearch && matchesStatus;
+        });
+        renderInstructorApplications(filteredData);
+    }
+
+    // Attach filters
+    document.getElementById('all-app-search-input').addEventListener('keyup', filterAllApplications);
+    document.getElementById('all-app-type-filter').addEventListener('change', filterAllApplications);
+    document.getElementById('all-app-status-filter').addEventListener('change', filterAllApplications);
+
+    document.getElementById('job-app-search-input').addEventListener('keyup', filterJobApplications);
+    document.getElementById('job-app-status-filter').addEventListener('change', filterJobApplications);
+
+    document.getElementById('course-enroll-search-input').addEventListener('keyup', filterCourseEnrollments);
+    document.getElementById('course-enroll-status-filter').addEventListener('change', filterCourseEnrollments);
+    document.getElementById('course-enroll-payment-filter').addEventListener('change', filterCourseEnrollments);
+
+    document.getElementById('tutoring-req-search-input').addEventListener('keyup', filterTutoringRequests);
+    document.getElementById('tutoring-req-status-filter').addEventListener('change', filterTutoringRequests);
+    document.getElementById('tutoring-req-subject-filter').addEventListener('change', filterTutoringRequests);
+
+    document.getElementById('instructor-app-search-input').addEventListener('keyup', filterInstructorApplications);
+    document.getElementById('instructor-app-status-filter').addEventListener('change', filterInstructorApplications);
+
+
+    // --- Modals and Action Button Logic ---
+
+    // Generic handler for view details buttons to open correct modal
+    document.body.addEventListener('click', function(e) {
+        const btn = e.target.closest('.view-app-details-btn, .view-job-app-btn, .view-course-enroll-btn, .view-tutoring-req-btn, .view-instructor-app-btn');
+        if (!btn) return;
+
+        const appId = btn.dataset.appId;
+        let appData = null;
+        let modalId = '';
+
+        if (btn.classList.contains('view-job-app-btn') || btn.dataset.appType === 'job') {
+            appData = jobApplicationsData.find(app => app.id === appId);
+            modalId = 'jobApplicationDetailModal';
+        } else if (btn.classList.contains('view-course-enroll-btn') || btn.dataset.appType === 'course') {
+            appData = courseEnrollmentsData.find(app => app.id === appId);
+            modalId = 'courseEnrollmentDetailModal';
+        } else if (btn.classList.contains('view-tutoring-req-btn') || btn.dataset.appType === 'tutoring') {
+            appData = tutoringRequestsData.find(app => app.id === appId);
+            modalId = 'tutoringRequestDetailModal';
+        } else if (btn.classList.contains('view-instructor-app-btn') || btn.dataset.appType === 'instructor') {
+            appData = instructorApplicationsData.find(app => app.id === appId);
+            modalId = 'instructorApplicationDetailModal';
+        }
+
+        if (appData && modalId) {
+            const modalElement = document.getElementById(modalId);
+            const modal = new bootstrap.Modal(modalElement);
+            populateModal(modalId, appData);
+            modal.show();
+        }
+    });
+
+    // Populate Modals
+    function populateModal(modalId, data) {
+        switch(modalId) {
+            case 'jobApplicationDetailModal':
+                document.getElementById('modal-job-app-id').textContent = data.id;
+                document.getElementById('modal-job-app-applicant').textContent = data.applicant;
+                document.getElementById('modal-job-app-user-profile').href = `./admin_user_management.html?userId=${data.userId}`; // Dummy link
+                document.getElementById('modal-job-app-title').textContent = data.jobTitle;
+                document.getElementById('modal-job-app-job-link').href = `./admin_job_listings.html?jobId=${data.jobId}`; // Dummy link
+                document.getElementById('modal-job-app-employer').textContent = data.employer;
+                document.getElementById('modal-job-app-date').textContent = data.dateApplied;
+                document.getElementById('modal-job-app-status').innerHTML = getStatusBadgeHtml(data.status);
+                document.getElementById('modal-job-app-resume-link').href = data.resumeLink; // Placeholder
+                document.getElementById('modal-job-app-cover-letter').textContent = data.coverLetter;
+                document.getElementById('modal-job-app-status-select').value = data.status;
+                document.getElementById('update-job-app-status-btn').dataset.appId = data.id;
+                break;
+            case 'courseEnrollmentDetailModal':
+                document.getElementById('modal-course-enroll-id').textContent = data.id;
+                document.getElementById('modal-course-enroll-student').textContent = data.student;
+                document.getElementById('modal-course-enroll-user-profile').href = `./admin_user_management.html?userId=${data.userId}`; // Dummy link
+                document.getElementById('modal-course-enroll-course-name').textContent = data.courseName;
+                document.getElementById('modal-course-enroll-course-link').href = `./admin_courses.html?courseId=${data.courseId}`; // Dummy link
+                document.getElementById('modal-course-enroll-instructor').textContent = data.instructor;
+                document.getElementById('modal-course-enroll-date').textContent = data.dateEnrolled;
+                document.getElementById('modal-course-enroll-payment-status').innerHTML = getStatusBadgeHtml(data.paymentStatus);
+                document.getElementById('modal-course-enroll-status').innerHTML = getStatusBadgeHtml(data.status);
+                document.getElementById('modal-course-enroll-status-select').value = data.status;
+                document.getElementById('update-course-enroll-status-btn').dataset.appId = data.id;
+                break;
+            case 'tutoringRequestDetailModal':
+                document.getElementById('modal-tutoring-req-id').textContent = data.id;
+                document.getElementById('modal-tutoring-req-student').textContent = data.student;
+                document.getElementById('modal-tutoring-req-user-profile').href = `./admin_user_management.html?userId=${data.userId}`; // Dummy link
+                document.getElementById('modal-tutoring-req-subject').textContent = data.subject;
+                document.getElementById('modal-tutoring-req-tutor').textContent = data.requestedTutor;
+                document.getElementById('modal-tutoring-req-tutor-profile').href = data.tutorId ? `./admin_user_management.html?userId=${data.tutorId}` : '#'; // Dummy link
+                document.getElementById('modal-tutoring-req-datetime').textContent = data.preferredDateTime;
+                document.getElementById('modal-tutoring-req-date').textContent = data.dateRequested;
+                document.getElementById('modal-tutoring-req-status').innerHTML = getStatusBadgeHtml(data.status);
+                document.getElementById('modal-tutoring-req-message').textContent = data.message;
+                document.getElementById('assign-tutor-btn').dataset.appId = data.id;
+                document.getElementById('reject-tutoring-req-btn').dataset.appId = data.id;
+                break;
+            case 'instructorApplicationDetailModal':
+                document.getElementById('modal-instructor-app-id').textContent = data.id;
+                document.getElementById('modal-instructor-app-applicant').textContent = data.applicant;
+                document.getElementById('modal-instructor-app-user-profile').href = `./admin_user_management.html?userId=${data.userId}`; // Dummy link
+                document.getElementById('modal-instructor-app-type').textContent = data.applyingFor;
+                document.getElementById('modal-instructor-app-subjects').textContent = data.subjects;
+                document.getElementById('modal-instructor-app-date').textContent = data.dateApplied;
+                document.getElementById('modal-instructor-app-status').innerHTML = getStatusBadgeHtml(data.status);
+                document.getElementById('modal-instructor-app-resume-link').href = data.resumeLink; // Placeholder
+                document.getElementById('modal-instructor-app-statement').textContent = data.personalStatement;
+                document.getElementById('modal-instructor-app-status-select').value = data.status;
+                document.getElementById('update-instructor-app-status-btn').dataset.appId = data.id;
+                break;
+        }
+    }
+
+    // Update Status Buttons (within Modals)
+    document.getElementById('update-job-app-status-btn')?.addEventListener('click', function() {
+        const appId = this.dataset.appId;
+        const newStatus = document.getElementById('modal-job-app-status-select').value;
+        const appIndex = jobApplicationsData.findIndex(app => app.id === appId);
+        if (appIndex !== -1) {
+            jobApplicationsData[appIndex].status = newStatus;
+            alert(`Job application ${appId} status updated to ${newStatus}.`);
+            filterJobApplications();
+            filterAllApplications(); // Update all apps view as well
+            bootstrap.Modal.getInstance(document.getElementById('jobApplicationDetailModal')).hide();
+        }
+    });
+
+    document.getElementById('update-course-enroll-status-btn')?.addEventListener('click', function() {
+        const appId = this.dataset.appId;
+        const newStatus = document.getElementById('modal-course-enroll-status-select').value;
+        const appIndex = courseEnrollmentsData.findIndex(app => app.id === appId);
+        if (appIndex !== -1) {
+            courseEnrollmentsData[appIndex].status = newStatus;
+            alert(`Course enrollment ${appId} status updated to ${newStatus}.`);
+            filterCourseEnrollments();
+            filterAllApplications();
+            bootstrap.Modal.getInstance(document.getElementById('courseEnrollmentDetailModal')).hide();
+        }
+    });
+
+    document.getElementById('assign-tutor-btn')?.addEventListener('click', function() {
+        const appId = this.dataset.appId;
+        const selectedTutor = document.getElementById('modal-tutoring-req-assign-tutor').value;
+        if (selectedTutor) {
+            const appIndex = tutoringRequestsData.findIndex(app => app.id === appId);
+            if (appIndex !== -1) {
+                tutoringRequestsData[appIndex].requestedTutor = selectedTutor;
+                tutoringRequestsData[appIndex].status = 'Accepted'; // Or 'Pending Tutor Confirmation'
+                alert(`Tutoring request ${appId} assigned to ${selectedTutor}.`);
+                filterTutoringRequests();
+                filterAllApplications();
+                bootstrap.Modal.getInstance(document.getElementById('tutoringRequestDetailModal')).hide();
+            }
+        } else {
+            alert('Please select a tutor.');
+        }
+    });
+
+    document.getElementById('reject-tutoring-req-btn')?.addEventListener('click', function() {
+        const appId = this.dataset.appId;
+        if (confirm(`Are you sure you want to reject tutoring request ${appId}?`)) {
+            const appIndex = tutoringRequestsData.findIndex(app => app.id === appId);
+            if (appIndex !== -1) {
+                tutoringRequestsData[appIndex].status = 'Rejected';
+                alert(`Tutoring request ${appId} rejected.`);
+                filterTutoringRequests();
+                filterAllApplications();
+                bootstrap.Modal.getInstance(document.getElementById('tutoringRequestDetailModal')).hide();
+            }
+        }
+    });
+
+    document.getElementById('update-instructor-app-status-btn')?.addEventListener('click', function() {
+        const appId = this.dataset.appId;
+        const newStatus = document.getElementById('modal-instructor-app-status-select').value;
+        const appIndex = instructorApplicationsData.findIndex(app => app.id === appId);
+        if (appIndex !== -1) {
+            instructorApplicationsData[appIndex].status = newStatus;
+            alert(`Instructor application ${appId} status updated to ${newStatus}.`);
+            filterInstructorApplications();
+            filterAllApplications();
+            bootstrap.Modal.getInstance(document.getElementById('instructorApplicationDetailModal')).hide();
+        }
+    });
+
+    // Quick Action Buttons (Approve/Reject from table row)
+    document.body.addEventListener('click', function(e) {
+        const approveJobBtn = e.target.closest('.approve-job-app-btn');
+        const rejectJobBtn = e.target.closest('.reject-job-app-btn');
+        const approveCourseBtn = e.target.closest('.approve-course-enroll-btn');
+        const rejectCourseBtn = e.target.closest('.reject-course-enroll-btn');
+        const approveInstructorBtn = e.target.closest('.approve-instructor-app-btn');
+        const rejectInstructorBtn = e.target.closest('.reject-instructor-app-btn');
+
+        if (approveJobBtn) {
+            const appId = approveJobBtn.dataset.appId;
+            if (confirm(`Approve job application ${appId}?`)) {
+                const appIndex = jobApplicationsData.findIndex(app => app.id === appId);
+                if (appIndex !== -1) {
+                    jobApplicationsData[appIndex].status = 'Approved';
+                    alert(`Job application ${appId} approved.`);
+                    filterJobApplications();
+                    filterAllApplications();
+                }
+            }
+        } else if (rejectJobBtn) {
+            const appId = rejectJobBtn.dataset.appId;
+            if (confirm(`Reject job application ${appId}?`)) {
+                const appIndex = jobApplicationsData.findIndex(app => app.id === appId);
+                if (appIndex !== -1) {
+                    jobApplicationsData[appIndex].status = 'Rejected';
+                    alert(`Job application ${appId} rejected.`);
+                    filterJobApplications();
+                    filterAllApplications();
+                }
+            }
+        } else if (approveCourseBtn) {
+            const appId = approveCourseBtn.dataset.appId;
+            if (confirm(`Approve course enrollment ${appId}?`)) {
+                const appIndex = courseEnrollmentsData.findIndex(app => app.id === appId);
+                if (appIndex !== -1) {
+                    courseEnrollmentsData[appIndex].status = 'Approved';
+                    alert(`Course enrollment ${appId} approved.`);
+                    filterCourseEnrollments();
+                    filterAllApplications();
+                }
+            }
+        } else if (rejectCourseBtn) {
+            const appId = rejectCourseBtn.dataset.appId;
+            if (confirm(`Reject course enrollment ${appId}?`)) {
+                const appIndex = courseEnrollmentsData.findIndex(app => app.id === appId);
+                if (appIndex !== -1) {
+                    courseEnrollmentsData[appIndex].status = 'Rejected';
+                    alert(`Course enrollment ${appId} rejected.`);
+                    filterCourseEnrollments();
+                    filterAllApplications();
+                }
+            }
+        } else if (approveInstructorBtn) {
+            const appId = approveInstructorBtn.dataset.appId;
+            if (confirm(`Approve instructor application ${appId}?`)) {
+                const appIndex = instructorApplicationsData.findIndex(app => app.id === appId);
+                if (appIndex !== -1) {
+                    instructorApplicationsData[appIndex].status = 'Approved';
+                    alert(`Instructor application ${appId} approved.`);
+                    filterInstructorApplications();
+                    filterAllApplications();
+                }
+            }
+        } else if (rejectInstructorBtn) {
+            const appId = rejectInstructorBtn.dataset.appId;
+            if (confirm(`Reject instructor application ${appId}?`)) {
+                const appIndex = instructorApplicationsData.findIndex(app => app.id === appId);
+                if (appIndex !== -1) {
+                    instructorApplicationsData[appIndex].status = 'Rejected';
+                    alert(`Instructor application ${appId} rejected.`);
+                    filterInstructorApplications();
+                    filterAllApplications();
+                }
+            }
+        }
+    });
+
+    // Initial Render of all tabs
+    filterAllApplications();
+    filterJobApplications();
+    filterCourseEnrollments();
+    filterTutoringRequests();
+    filterInstructorApplications();
+
+    // Set initial active content section
+    showContent('all-applications-content');
+});
+</script>
+</body>
+</html>

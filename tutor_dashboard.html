@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Tutor Dashboard</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+
+    <!-- Your Custom Styles -->
+    <style>
+      html {
+        scroll-behavior: smooth;
+      }
+      body {
+        transition: background 0.3s, color 0.3s;
+      }
+      .navbar {
+        padding: 1rem 2rem;
+      }
+      .navbar-brand img {
+        height: 80px;
+      }
+      .hero-section {
+        background: linear-gradient(to right, #220359, #4906bf);
+        color: white;
+        padding: 4rem 0;
+        text-align: center;
+        position: relative;
+      }
+      .hero-section h1 {
+        font-size: 2.5rem;
+      }
+      .hero-section .highlight {
+        background-color: #ffc107;
+        color: #000;
+        padding: 0 6px;
+        border-radius: 4px;
+      }
+      .floating-box {
+        position: absolute;
+        background: white;
+        color: #000;
+        padding: 8px 12px;
+        border-radius: 10px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        font-size: 0.9rem;
+        font-weight: 500;
+      }
+      .floating-box.students {
+        top: 20px;
+        right: 0;
+      }
+      .floating-box.enrolled {
+        bottom: 20px;
+        left: 0;
+      }
+
+      .courses-section {
+        background: linear-gradient(to right, #220359, #4906bf);
+        color: white;
+        padding: 5rem 0;
+      }
+      .courses-section .card {
+        background-color: rgba(255, 255, 255, 0.95);
+        border: none;
+        border-radius: 12px;
+      }
+      .courses-section .card h5 {
+        color: #220359;
+      }
+      .courses-section .table {
+        background: white;
+        border-radius: 10px;
+      }
+      .courses-section th,
+      .courses-section td {
+        vertical-align: middle;
+      }
+
+      footer {
+        background-color: #000;
+        color: white;
+        padding: 3rem 0;
+      }
+      @media (max-width: 768px) {
+        .hero-section h1 {
+          font-size: 1.8rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- HEADER -->
+    <nav class="navbar navbar-expand-lg bg-white shadow-sm">
+      <div class="container-fluid">
+        <a class="navbar-brand d-flex align-items-center" href="#">
+          <img src="./logo.jpeg" alt="SkillConnect Logo" />
+          <span class="ms-3 fw-bold">SkillConnect Dashboard</span>
+        </a>
+      </div>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero-section">
+      <div class="container">
+        <h1>Welcome, <span class="highlight">Tutor!</span></h1>
+        <p class="lead">Manage your courses and student schedules here.</p>
+        <div class="floating-box students">👨‍🏫 Total Students: 65</div>
+        <div class="floating-box enrolled">📚 Total Courses: 3</div>
+      </div>
+    </section>
+
+    <!-- COURSES + STUDENTS + TIMETABLE -->
+    <section class="courses-section">
+      <div class="container">
+        <h2 class="text-center mb-5">Your Courses Overview</h2>
+
+        <!-- Course 1 -->
+        <div class="card p-4 mb-5">
+          <h5>📘 Mathematics - 25 Students</h5>
+          <div class="table-responsive mt-3">
+            <table class="table table-bordered table-hover">
+              <thead class="table-light">
+                <tr>
+                  <th>#</th>
+                  <th>Student Name</th>
+                  <th>Time Slot</th>
+                  <th>Day</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1</td>
+                  <td>Ali Khan</td>
+                  <td>10:00 AM - 11:00 AM</td>
+                  <td>Monday</td>
+                </tr>
+                <tr>
+                  <td>2</td>
+                  <td>Fatima Noor</td>
+                  <td>11:00 AM - 12:00 PM</td>
+                  <td>Wednesday</td>
+                </tr>
+                <tr>
+                  <td>3</td>
+                  <td>Ahmed Raza</td>
+                  <td>2:00 PM - 3:00 PM</td>
+                  <td>Friday</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Course 2 -->
+        <div class="card p-4 mb-5">
+          <h5>📗 Physics - 18 Students</h5>
+          <div class="table-responsive mt-3">
+            <table class="table table-bordered table-hover">
+              <thead class="table-light">
+                <tr>
+                  <th>#</th>
+                  <th>Student Name</th>
+                  <th>Time Slot</th>
+                  <th>Day</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1</td>
+                  <td>Sara Tariq</td>
+                  <td>1:00 PM - 2:00 PM</td>
+                  <td>Tuesday</td>
+                </tr>
+                <tr>
+                  <td>2</td>
+                  <td>Omar Farooq</td>
+                  <td>3:00 PM - 4:00 PM</td>
+                  <td>Thursday</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Course 3 -->
+        <div class="card p-4 mb-5">
+          <h5>📕 Chemistry - 22 Students</h5>
+          <div class="table-responsive mt-3">
+            <table class="table table-bordered table-hover">
+              <thead class="table-light">
+                <tr>
+                  <th>#</th>
+                  <th>Student Name</th>
+                  <th>Time Slot</th>
+                  <th>Day</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>1</td>
+                  <td>Hania Malik</td>
+                  <td>9:00 AM - 10:00 AM</td>
+                  <td>Monday</td>
+                </tr>
+                <tr>
+                  <td>2</td>
+                  <td>Zain Ali</td>
+                  <td>12:00 PM - 1:00 PM</td>
+                  <td>Friday</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6">
+            <h5>SkillConnect</h5>
+            <p>Empowering Tutors to Connect & Educate</p>
+          </div>
+          <div class="col-md-6 text-md-end">
+            <p>&copy; 2025 SkillConnect. All rights reserved.</p>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>

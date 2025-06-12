@@ -1,0 +1,1003 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>SkillConnect Admin - Messages</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+    
+    <style>
+        html { scroll-behavior: smooth; }
+        body { background-color: #f8f9fa; }
+        .navbar { padding: 1rem 2rem; }
+        .navbar-nav .nav-link { font-weight: 600; margin: 0 10px; }
+        .navbar-brand img { height: 80px; }
+
+        .admin-sidebar {
+            background: linear-gradient(to bottom, #220359, #4906bf);
+            color: white;
+            padding-top: 20px;
+            min-height: calc(100vh - 80px);
+            position: sticky;
+            top: 0;
+            left: 0;
+            z-index: 1000; 
+        }
+
+        .admin-sidebar .nav-link {
+            color: rgba(255, 255, 255, 0.8);
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        .admin-sidebar .nav-link:hover,
+        .admin-sidebar .nav-link.active {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            border-left: 3px solid #ffc107;
+        }
+
+        .admin-sidebar .nav-link i { margin-right: 10px; font-size: 1.1rem; }
+        .admin-content { padding: 30px; flex-grow: 1; }
+        .admin-card {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .btn-primary { background-color: #0d6efd; border-color: #0d6efd; }
+        .btn-primary:hover { background-color: #0b5ed7; border-color: #0a58ca; }
+        .btn-outline-primary { color: #0d6efd; border-color: #0d6efd; }
+        .btn-outline-primary:hover { background-color: #0d6efd; color: white; }
+        .text-primary { color: #0d6efd !important; }
+
+        .badge.bg-success { background-color: #198754 !important; }
+        .badge.bg-danger { background-color: #dc3545 !important; }
+        .badge.bg-warning { background-color: #ffc107 !important; }
+        .badge.bg-info { background-color: #0dcaf0 !important; }
+        
+        footer { background-color: #212529 !important; color: white; }
+        footer .text-muted { color: rgba(255, 255, 255, 0.7) !important; }
+
+        .offcanvas { transition: none !important; }
+        
+        @media (max-width: 767.98px) {
+            .admin-sidebar { display: none; }
+            .offcanvas-start { width: 250px; }
+            .admin-content { width: 100%; }
+            .navbar-toggler { display: block; }
+        }
+
+        @media (min-width: 768px) {
+            .navbar-toggler { display: none; }
+            .admin-sidebar { display: block !important; }
+            .offcanvas { visibility: hidden; }
+            .offcanvas.show { transform: translateX(-100%); }
+        }
+
+        .sub-content-section { display: none; }
+        .sub-content-section.active { display: block; }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg bg-white shadow-sm">
+    <div class="container-fluid">
+        <button class="navbar-toggler me-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#adminSidebarOffcanvas" aria-controls="adminSidebarOffcanvas">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <a class="navbar-brand d-flex align-items-center" href="./landing_page.html">
+            <img src="./logo.jpeg" alt="SkillConnect Logo"/>
+        </a>
+        <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
+            <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+                <li class="nav-item"><a class="nav-link" href="./landing_page.html">Home (Go to Main Site)</a></li>
+                <li class="nav-item"><a class="nav-link" href="./admin_dashboard.html">Admin Dashboard</a></li>
+                <li class="nav-item"><a class="nav-link" href="./admin_user_management.html">Users</a></li>
+                <li class="nav-item"><a class="nav-link" href="./admin_courses.html">Courses</a></li>
+                <li class="nav-item"><a class="nav-link" href="./admin_tutoring.html">Tutoring</a></li>
+                <li class="nav-item"><a class="nav-link" href="./admin_job_listings.html">Jobs</a></li>
+                <li class="nav-item"><a class="nav-link active" href="./admin_messages.html">Messages</a></li>
+                <li class="nav-item"><a class="nav-link" href="./admin_reports.html">Reports</a></li>
+            </ul>
+            <div class="d-flex align-items-center nav-icons">
+                <span class="me-3 fw-bold">Admin User</span>
+                <i class="bi bi-person-circle fs-4 me-3"></i>
+                <div class="nav-buttons">
+                    <a href="./login.html" id="logout-btn" class="btn btn-outline-primary">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<div class="d-flex">
+    <div class="admin-sidebar col-md-2">
+        <ul class="nav flex-column">
+            <li class="nav-item"><a class="nav-link" href="./admin_dashboard.html"><i class="bi bi-speedometer2"></i> Dashboard</a></li>
+            <li class="nav-item"><a class="nav-link" href="./admin_user_management.html"><i class="bi bi-people"></i> Users</a></li>
+            <li class="nav-item"><a class="nav-link" href="./admin_courses.html"><i class="bi bi-book"></i> Courses</a></li>
+            <li class="nav-item"><a class="nav-link" href="./admin_tutoring.html"><i class="bi bi-calendar-check"></i> Tutoring Sessions</a></li>
+            <li class="nav-item"><a class="nav-link" href="./admin_job_listings.html"><i class="bi bi-briefcase"></i> Job Listings</a></li>
+            <li class="nav-item"><a class="nav-link" href="#"><i class="bi bi-file-earmark-text"></i> Applications</a></li>
+            <li class="nav-item"><a class="nav-link active" href="./admin_messages.html"><i class="bi bi-chat-dots"></i> Messages</a></li>
+            <li class="nav-item"><a class="nav-link" href="./admin_reports.html"><i class="bi bi-graph-up"></i> Reports</a></li>
+            <li class="nav-item"><a class="nav-link" href="#"><i class="bi bi-box-seam"></i> System Settings</a></li>
+        </ul>
+    </div>
+
+    <div class="offcanvas offcanvas-start admin-sidebar" tabindex="-1" id="adminSidebarOffcanvas">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title text-white">Admin Navigation</h5>
+            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body p-0">
+            <ul class="nav flex-column">
+                <li class="nav-item"><a class="nav-link" href="./admin_dashboard.html"><i class="bi bi-speedometer2"></i> Dashboard</a></li>
+                <li class="nav-item"><a class="nav-link" href="./admin_user_management.html"><i class="bi bi-people"></i> Users</a></li>
+                <li class="nav-item"><a class="nav-link" href="./admin_courses.html"><i class="bi bi-book"></i> Courses</a></li>
+                <li class="nav-item"><a class="nav-link" href="./admin_tutoring.html"><i class="bi bi-calendar-check"></i> Tutoring Sessions</a></li>
+                <li class="nav-item"><a class="nav-link" href="./admin_job_listings.html"><i class="bi bi-briefcase"></i> Job Listings</a></li>
+                <li class="nav-item"><a class="nav-link" href="#"><i class="bi bi-file-earmark-text"></i> Applications</a></li>
+                <li class="nav-item"><a class="nav-link active" href="./admin_messages.html"><i class="bi bi-chat-dots"></i> Messages</a></li>
+                <li class="nav-item"><a class="nav-link" href="./admin_reports.html"><i class="bi bi-graph-up"></i> Reports</a></li>
+                <li class="nav-item"><a class="nav-link" href="#"><i class="bi bi-box-seam"></i> System Settings</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="admin-content col-md-10">
+        <h1 class="mb-4 fw-bold text-primary">Message Management</h1>
+
+        <ul class="nav nav-tabs mb-4">
+            <li class="nav-item">
+                <a class="nav-link active" href="#" data-target="user-inquiries-content">User Inquiries</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" data-target="system-notifications-content">System Notifications</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" data-target="announcements-content">Announcements</a>
+            </li>
+        </ul>
+
+        <div id="user-inquiries-content" class="sub-content-section active">
+            <div class="admin-card">
+                <h4 class="mb-3 text-primary">User Inquiries / Support Tickets</h4>
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <div class="input-group">
+                            <input type="text" id="inquiry-search-input" class="form-control" placeholder="Search by Subject, Sender, or Content...">
+                            <button class="btn btn-outline-primary" type="button"><i class="bi bi-search"></i></button>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <select id="inquiry-status-filter" class="form-select">
+                            <option value="">Filter by Status</option>
+                            <option value="New">New</option>
+                            <option value="Open">Open</option>
+                            <option value="Replied">Replied</option>
+                            <option value="Closed">Closed</option>
+                            <option value="Archived">Archived</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <select id="inquiry-category-filter" class="form-select">
+                            <option value="">Filter by Category</option>
+                            <option value="Technical Issue">Technical Issue</option>
+                            <option value="General Inquiry">General Inquiry</option>
+                            <option value="Feature Request">Feature Request</option>
+                            <option value="Abuse Report">Abuse Report</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover align-middle">
+                        <thead>
+                            <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">Sender</th>
+                                <th scope="col">Subject</th>
+                                <th scope="col">Date Received</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Category</th>
+                                <th scope="col">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="user-inquiries-table">
+                            <tr>
+                                <td>INQ-001</td>
+                                <td><a href="#" class="text-primary" data-bs-toggle="tooltip" title="View User Profile">alice@example.com</a></td>
+                                <td class="inquiry-subject">Problem with course enrollment</td>
+                                <td>2025-06-11</td>
+                                <td><span class="badge bg-danger">New</span></td>
+                                <td>Technical Issue</td>
+                                <td>
+                                    <button class="btn btn-sm btn-info me-1 view-inquiry-btn" data-bs-toggle="modal" data-bs-target="#viewInquiryModal"><i class="bi bi-eye"></i> View</button>
+                                    <button class="btn btn-sm btn-success me-1 mark-inquiry-read-btn" title="Mark as Read"><i class="bi bi-envelope-open"></i></button>
+                                    <button class="btn btn-sm btn-secondary archive-inquiry-btn" title="Archive"><i class="bi bi-archive"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>INQ-002</td>
+                                <td><a href="#" class="text-primary" data-bs-toggle="tooltip" title="View User Profile">bob@example.com</a></td>
+                                <td class="inquiry-subject">Question about job application</td>
+                                <td>2025-06-10</td>
+                                <td><span class="badge bg-warning">Open</span></td>
+                                <td>General Inquiry</td>
+                                <td>
+                                    <button class="btn btn-sm btn-info me-1 view-inquiry-btn" data-bs-toggle="modal" data-bs-target="#viewInquiryModal"><i class="bi bi-eye"></i> View</button>
+                                    <button class="btn btn-sm btn-success me-1 mark-inquiry-read-btn" title="Mark as Read"><i class="bi bi-envelope-open"></i></button>
+                                    <button class="btn btn-sm btn-secondary archive-inquiry-btn" title="Archive"><i class="bi bi-archive"></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <nav>
+                    <ul class="pagination justify-content-center">
+                        <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
+                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+
+        <div id="system-notifications-content" class="sub-content-section">
+            <div class="admin-card">
+                <h4 class="mb-3 text-primary">System Notifications / Alerts</h4>
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <div class="input-group">
+                            <input type="text" id="notification-search-input" class="form-control" placeholder="Search by Notification Type or Details...">
+                            <button class="btn btn-outline-primary" type="button"><i class="bi bi-search"></i></button>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <select id="notification-type-filter" class="form-select">
+                            <option value="">Filter by Type</option>
+                            <option value="New Job Posted">New Job Posted</option>
+                            <option value="User Registered">User Registered</option>
+                            <option value="Payment Failed">Payment Failed</option>
+                            <option value="Course Created">Course Created</option>
+                            <option value="System Error">System Error</option>
+                        </select>
+                    </div>
+                    <div class="col-md-3">
+                        <select id="notification-status-filter" class="form-select">
+                            <option value="">Filter by Status</option>
+                            <option value="New">New</option>
+                            <option value="Read">Read</option>
+                            <option value="Dismissed">Dismissed</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover align-middle">
+                        <thead>
+                            <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">Type</th>
+                                <th scope="col">Details</th>
+                                <th scope="col">Related Entity</th>
+                                <th scope="col">Date/Time</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="system-notifications-table">
+                            <tr>
+                                <td>NOT-001</td>
+                                <td><span class="badge bg-info"><i class="bi bi-briefcase"></i> New Job Posted</span></td>
+                                <td class="notification-details">New job listing "Junior Web Developer" by Acme Corp.</td>
+                                <td><a href="./admin_job_listings.html" class="text-primary" data-bs-toggle="tooltip" title="View Job">JOB-501</a></td>
+                                <td>2025-06-12 10:30 AM</td>
+                                <td><span class="badge bg-danger">New</span></td>
+                                <td>
+                                    <button class="btn btn-sm btn-info me-1 view-notification-btn" data-bs-toggle="modal" data-bs-target="#viewNotificationModal"><i class="bi bi-eye"></i></button>
+                                    <button class="btn btn-sm btn-success dismiss-notification-btn" title="Mark as Read/Dismiss"><i class="bi bi-check-lg"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>NOT-002</td>
+                                <td><span class="badge bg-success"><i class="bi bi-person-plus"></i> User Registered</span></td>
+                                <td class="notification-details">New user "Sarah Connor" has registered.</td>
+                                <td><a href="./admin_user_management.html" class="text-primary" data-bs-toggle="tooltip" title="View User">USR-105</a></td>
+                                <td>2025-06-11 04:15 PM</td>
+                                <td><span class="badge bg-success">Read</span></td>
+                                <td>
+                                    <button class="btn btn-sm btn-info me-1 view-notification-btn" data-bs-toggle="modal" data-bs-target="#viewNotificationModal"><i class="bi bi-eye"></i></button>
+                                    <button class="btn btn-sm btn-success dismiss-notification-btn" title="Mark as Read/Dismiss"><i class="bi bi-check-lg"></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <nav>
+                    <ul class="pagination justify-content-center">
+                        <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
+                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+
+        <div id="announcements-content" class="sub-content-section">
+            <div class="admin-card mb-4">
+                <h4 class="mb-3 text-primary">Compose New Announcement</h4>
+                <form id="compose-announcement-form">
+                    <div class="mb-3">
+                        <label for="announcementSubject" class="form-label">Subject</label>
+                        <input type="text" class="form-control" id="announcementSubject" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="announcementRecipients" class="form-label">Recipients</label>
+                        <select class="form-select" id="announcementRecipients" required>
+                            <option value="all">All Users</option>
+                            <option value="students">All Students</option>
+                            <option value="employers">All Employers</option>
+                            <option value="tutors">All Tutors</option>
+                            <option value="custom">Specific Users (Future Implementation)</option>
+                        </select>
+                        <div class="form-text">For "Specific Users", a user selection interface would be added here.</div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="announcementBody" class="form-label">Message Body</label>
+                        <textarea class="form-control" id="announcementBody" rows="8" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary me-2"><i class="bi bi-send-fill"></i> Send Announcement</button>
+                    <button type="button" class="btn btn-outline-secondary" id="save-announcement-draft-btn"><i class="bi bi-save"></i> Save as Draft</button>
+                </form>
+            </div>
+
+            <div class="admin-card">
+                <h4 class="mb-3 text-primary">Sent Announcements / Drafts</h4>
+                <div class="input-group mb-3">
+                    <input type="text" id="announcement-search-input" class="form-control" placeholder="Search announcements...">
+                    <button class="btn btn-outline-primary" type="button"><i class="bi bi-search"></i></button>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover align-middle">
+                        <thead>
+                            <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">Subject</th>
+                                <th scope="col">Recipients</th>
+                                <th scope="col">Sender</th>
+                                <th scope="col">Date/Time</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="announcements-table">
+                            <tr>
+                                <td>ANN-001</td>
+                                <td class="announcement-subject">Important Platform Update</td>
+                                <td>All Users</td>
+                                <td>Admin User</td>
+                                <td>2025-06-05 09:00 AM</td>
+                                <td><span class="badge bg-success">Sent</span></td>
+                                <td>
+                                    <button class="btn btn-sm btn-info me-1 view-announcement-btn" data-bs-toggle="modal" data-bs-target="#viewAnnouncementModal"><i class="bi bi-eye"></i></button>
+                                    <button class="btn btn-sm btn-danger delete-announcement-btn" title="Delete"><i class="bi bi-trash"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>ANN-002</td>
+                                <td class="announcement-subject">Upcoming Maintenance Window (Draft)</td>
+                                <td>All Students</td>
+                                <td>Admin User</td>
+                                <td>N/A</td>
+                                <td><span class="badge bg-secondary">Draft</span></td>
+                                <td>
+                                    <button class="btn btn-sm btn-primary me-1 view-announcement-btn" data-bs-toggle="modal" data-bs-target="#viewAnnouncementModal"><i class="bi bi-pencil"></i> Edit</button>
+                                    <button class="btn btn-sm btn-danger delete-announcement-btn" title="Delete"><i class="bi bi-trash"></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <nav>
+                    <ul class="pagination justify-content-center">
+                        <li class="page-item disabled"><a class="page-link" href="#">Previous</a></li>
+                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                        <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="viewInquiryModal" tabindex="-1" aria-labelledby="viewInquiryModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="viewInquiryModalLabel">User Inquiry Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p><strong>ID:</strong> <span id="modal-inquiry-id"></span></p>
+                <p><strong>Sender:</strong> <span id="modal-inquiry-sender"></span></p>
+                <p><strong>Subject:</strong> <span id="modal-inquiry-subject"></span></p>
+                <p><strong>Date Received:</strong> <span id="modal-inquiry-date"></span></p>
+                <p><strong>Status:</strong> <span id="modal-inquiry-status"></span></p>
+                <p><strong>Category:</strong> <span id="modal-inquiry-category"></span></p>
+                <hr>
+                <h6>Message:</h6>
+                <p id="modal-inquiry-message" class="alert alert-light border"></p>
+                <hr>
+                <h6>Reply:</h6>
+                <textarea class="form-control mb-3" id="inquiry-reply-textarea" rows="4" placeholder="Type your reply here..."></textarea>
+                <button type="button" class="btn btn-primary me-2" id="send-reply-btn"><i class="bi bi-send-fill"></i> Send Reply</button>
+                <button type="button" class="btn btn-outline-success" id="mark-resolved-btn"><i class="bi bi-check-circle"></i> Mark as Resolved</button>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="viewNotificationModal" tabindex="-1" aria-labelledby="viewNotificationModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="viewNotificationModalLabel">System Notification Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p><strong>ID:</strong> <span id="modal-notification-id"></span></p>
+                <p><strong>Type:</strong> <span id="modal-notification-type"></span></p>
+                <p><strong>Details:</strong> <span id="modal-notification-details"></span></p>
+                <p><strong>Related Entity:</strong> <span id="modal-notification-entity"></span></p>
+                <p><strong>Date/Time:</strong> <span id="modal-notification-datetime"></span></p>
+                <p><strong>Status:</strong> <span id="modal-notification-status"></span></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary dismiss-notification-modal-btn"><i class="bi bi-check-lg"></i> Dismiss</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="viewAnnouncementModal" tabindex="-1" aria-labelledby="viewAnnouncementModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="viewAnnouncementModalLabel">Announcement Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p><strong>Subject:</strong> <span id="modal-announcement-subject"></span></p>
+                <p><strong>Recipients:</strong> <span id="modal-announcement-recipients"></span></p>
+                <p><strong>Sender:</strong> <span id="modal-announcement-sender"></span></p>
+                <p><strong>Date/Time:</strong> <span id="modal-announcement-datetime"></span></p>
+                <p><strong>Status:</strong> <span id="modal-announcement-status"></span></p>
+                <hr>
+                <h6>Message:</h6>
+                <p id="modal-announcement-body" class="alert alert-light border"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary d-none" id="modal-edit-announcement-btn"><i class="bi bi-pencil"></i> Edit</button>
+                <button type="button" class="btn btn-success d-none" id="modal-send-announcement-btn"><i class="bi bi-send-fill"></i> Send Now</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<footer class="bg-dark text-white pt-5 pb-4">
+    <div class="container text-center p-4 text-muted">© 2025 SkillConnect. All rights reserved.</div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const mainTabs = document.querySelectorAll('.nav-tabs .nav-link');
+    const contentSections = document.querySelectorAll('.admin-content .sub-content-section');
+
+    function showContent(targetId) {
+        contentSections.forEach(section => section.classList.remove('active'));
+        const targetContent = document.getElementById(targetId);
+        if (targetContent) {
+            targetContent.classList.add('active');
+        }
+        mainTabs.forEach(tab => tab.classList.toggle('active', tab.dataset.target === targetId));
+    }
+
+    mainTabs.forEach(tab => {
+        tab.addEventListener('click', function(e) {
+            e.preventDefault();
+            showContent(this.dataset.target);
+        });
+    });
+
+    // Initialize tooltips
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl)
+    });
+
+    // --- User Inquiries Section (Tab 1) ---
+    const userInquiriesTableBody = document.getElementById('user-inquiries-table');
+    const inquirySearchInput = document.getElementById('inquiry-search-input');
+    const inquiryStatusFilter = document.getElementById('inquiry-status-filter');
+    const inquiryCategoryFilter = document.getElementById('inquiry-category-filter');
+
+    // Dummy data for user inquiries
+    const userInquiriesData = [
+        { id: 'INQ-001', sender: 'alice@example.com', subject: 'Problem with course enrollment', date: '2025-06-11', status: 'New', category: 'Technical Issue', message: 'I am unable to enroll in the Python Basics course. When I click "Enroll", nothing happens.' },
+        { id: 'INQ-002', sender: 'bob@example.com', subject: 'Question about job application', date: '2025-06-10', status: 'Open', category: 'General Inquiry', message: 'I applied for the "Senior Frontend Developer" role, but I haven\'t heard back. Can you check the status?' },
+        { id: 'INQ-003', sender: 'charlie@example.com', subject: 'Feedback on new UI', date: '2025-06-09', status: 'Replied', category: 'Feature Request', message: 'I really like the new design, but the navigation feels a bit clunky on mobile.', reply: 'Thank you for your valuable feedback, Charlie! We are actively working on optimizing the mobile experience.' },
+        { id: 'INQ-004', sender: 'diana@example.com', subject: 'Report a fake job listing', date: '2025-06-08', status: 'New', category: 'Abuse Report', message: 'The job listing for "Work From Home Millionaire" appears to be a scam. Please investigate.' },
+        { id: 'INQ-005', sender: 'eve@example.com', subject: 'Password Reset Issue', date: '2025-06-07', status: 'Closed', category: 'Technical Issue', message: 'I tried to reset my password, but the email never arrived.', reply: 'The password reset issue should now be resolved. Please try again. If the problem persists, let us know.' }
+    ];
+
+    function renderUserInquiries(data) {
+        userInquiriesTableBody.innerHTML = '';
+        data.forEach(inquiry => {
+            const row = document.createElement('tr');
+            let statusBadgeClass;
+            switch(inquiry.status) {
+                case 'New': statusBadgeClass = 'bg-danger'; break;
+                case 'Open': statusBadgeClass = 'bg-warning'; break;
+                case 'Replied': statusBadgeClass = 'bg-info'; break;
+                case 'Closed': statusBadgeClass = 'bg-success'; break;
+                case 'Archived': statusBadgeClass = 'bg-secondary'; break;
+                default: statusBadgeClass = 'bg-primary';
+            }
+            row.innerHTML = `
+                <td>${inquiry.id}</td>
+                <td><a href="#" class="text-primary" data-bs-toggle="tooltip" title="View User Profile">${inquiry.sender}</a></td>
+                <td class="inquiry-subject">${inquiry.subject}</td>
+                <td>${inquiry.date}</td>
+                <td><span class="badge ${statusBadgeClass}">${inquiry.status}</span></td>
+                <td>${inquiry.category}</td>
+                <td>
+                    <button class="btn btn-sm btn-info me-1 view-inquiry-btn" data-bs-toggle="modal" data-bs-target="#viewInquiryModal" data-inquiry-id="${inquiry.id}"><i class="bi bi-eye"></i> View</button>
+                    <button class="btn btn-sm btn-success me-1 mark-inquiry-read-btn" data-inquiry-id="${inquiry.id}" title="Mark as Read"><i class="bi bi-envelope-open"></i></button>
+                    <button class="btn btn-sm btn-secondary archive-inquiry-btn" data-inquiry-id="${inquiry.id}" title="Archive"><i class="bi bi-archive"></i></button>
+                </td>
+            `;
+            userInquiriesTableBody.appendChild(row);
+        });
+    }
+
+    function filterUserInquiries() {
+        const searchText = inquirySearchInput.value.toLowerCase();
+        const statusFilter = inquiryStatusFilter.value;
+        const categoryFilter = inquiryCategoryFilter.value;
+
+        const filteredData = userInquiriesData.filter(inquiry => {
+            const matchesSearch = inquiry.subject.toLowerCase().includes(searchText) ||
+                                  inquiry.sender.toLowerCase().includes(searchText) ||
+                                  inquiry.message.toLowerCase().includes(searchText);
+            const matchesStatus = statusFilter === '' || inquiry.status === statusFilter;
+            const matchesCategory = categoryFilter === '' || inquiry.category === categoryFilter;
+            return matchesSearch && matchesStatus && matchesCategory;
+        });
+        renderUserInquiries(filteredData);
+    }
+
+    inquirySearchInput.addEventListener('keyup', filterUserInquiries);
+    inquiryStatusFilter.addEventListener('change', filterUserInquiries);
+    inquiryCategoryFilter.addEventListener('change', filterUserInquiries);
+
+    // Initial render
+    renderUserInquiries(userInquiriesData);
+
+    // View Inquiry Modal Logic
+    const viewInquiryModal = document.getElementById('viewInquiryModal');
+    viewInquiryModal.addEventListener('show.bs.modal', function (event) {
+        const button = event.relatedTarget;
+        const inquiryId = button.dataset.inquiryId;
+        const inquiry = userInquiriesData.find(item => item.id === inquiryId);
+
+        if (inquiry) {
+            document.getElementById('modal-inquiry-id').textContent = inquiry.id;
+            document.getElementById('modal-inquiry-sender').textContent = inquiry.sender;
+            document.getElementById('modal-inquiry-subject').textContent = inquiry.subject;
+            document.getElementById('modal-inquiry-date').textContent = inquiry.date;
+            document.getElementById('modal-inquiry-status').textContent = inquiry.status;
+            document.getElementById('modal-inquiry-category').textContent = inquiry.category;
+            document.getElementById('modal-inquiry-message').textContent = inquiry.message;
+            document.getElementById('inquiry-reply-textarea').value = inquiry.reply || '';
+        }
+    });
+
+    document.getElementById('send-reply-btn').addEventListener('click', function() {
+        const inquiryId = document.getElementById('modal-inquiry-id').textContent;
+        const replyText = document.getElementById('inquiry-reply-textarea').value;
+        alert(`Sending reply for ${inquiryId}: "${replyText.substring(0, 50)}..."`);
+        // In a real app, send to backend, update status to 'Replied'
+        const inquiryIndex = userInquiriesData.findIndex(item => item.id === inquiryId);
+        if (inquiryIndex !== -1) {
+            userInquiriesData[inquiryIndex].status = 'Replied';
+            userInquiriesData[inquiryIndex].reply = replyText;
+            filterUserInquiries(); // Re-render table to show updated status
+        }
+        const modal = bootstrap.Modal.getInstance(viewInquiryModal);
+        modal.hide();
+    });
+
+    document.getElementById('mark-resolved-btn').addEventListener('click', function() {
+        const inquiryId = document.getElementById('modal-inquiry-id').textContent;
+        if (confirm(`Are you sure you want to mark inquiry ${inquiryId} as resolved?`)) {
+            alert(`Inquiry ${inquiryId} marked as resolved.`);
+            // In a real app, send to backend, update status to 'Closed'
+            const inquiryIndex = userInquiriesData.findIndex(item => item.id === inquiryId);
+            if (inquiryIndex !== -1) {
+                userInquiriesData[inquiryIndex].status = 'Closed';
+                filterUserInquiries(); // Re-render table to show updated status
+            }
+            const modal = bootstrap.Modal.getInstance(viewInquiryModal);
+            modal.hide();
+        }
+    });
+
+    userInquiriesTableBody.addEventListener('click', function(e) {
+        const markReadBtn = e.target.closest('.mark-inquiry-read-btn');
+        const archiveBtn = e.target.closest('.archive-inquiry-btn');
+        if (markReadBtn) {
+            const inquiryId = markReadBtn.dataset.inquiryId;
+            alert(`Marking inquiry ${inquiryId} as read.`);
+            const inquiryIndex = userInquiriesData.findIndex(item => item.id === inquiryId);
+            if (inquiryIndex !== -1 && userInquiriesData[inquiryIndex].status === 'New') {
+                userInquiriesData[inquiryIndex].status = 'Open'; // Or 'Read' if you have that status
+                filterUserInquiries();
+            }
+        } else if (archiveBtn) {
+            const inquiryId = archiveBtn.dataset.inquiryId;
+            if (confirm(`Are you sure you want to archive inquiry ${inquiryId}?`)) {
+                alert(`Inquiry ${inquiryId} archived.`);
+                const inquiryIndex = userInquiriesData.findIndex(item => item.id === inquiryId);
+                if (inquiryIndex !== -1) {
+                    userInquiriesData[inquiryIndex].status = 'Archived';
+                    filterUserInquiries();
+                }
+            }
+        }
+    });
+
+
+    // --- System Notifications Section (Tab 2) ---
+    const systemNotificationsTableBody = document.getElementById('system-notifications-table');
+    const notificationSearchInput = document.getElementById('notification-search-input');
+    const notificationTypeFilter = document.getElementById('notification-type-filter');
+    const notificationStatusFilter = document.getElementById('notification-status-filter');
+
+    // Dummy data for system notifications
+    const systemNotificationsData = [
+        { id: 'NOT-001', type: 'New Job Posted', details: 'New job listing "Junior Web Developer" by Acme Corp.', entity: 'JOB-501', dateTime: '2025-06-12 10:30 AM', status: 'New', entityLink: './admin_job_listings.html' },
+        { id: 'NOT-002', type: 'User Registered', details: 'New user "Sarah Connor" has registered.', entity: 'USR-105', dateTime: '2025-06-11 04:15 PM', status: 'Read', entityLink: './admin_user_management.html' },
+        { id: 'NOT-003', type: 'Payment Failed', details: 'Payment failed for course enrollment by John Doe (Course ID: C-012).', entity: 'USR-101', dateTime: '2025-06-10 09:00 AM', status: 'New', entityLink: './admin_user_management.html' },
+        { id: 'NOT-004', type: 'System Error', details: 'Database connection lost for 5 minutes.', entity: 'N/A', dateTime: '2025-06-09 02:00 AM', status: 'Dismissed', entityLink: '#' },
+        { id: 'NOT-005', type: 'Course Created', details: 'New course "Advanced CSS Techniques" created by Jane Smith.', entity: 'C-015', dateTime: '2025-06-08 11:00 AM', status: 'Read', entityLink: './admin_courses.html' }
+    ];
+
+    function renderSystemNotifications(data) {
+        systemNotificationsTableBody.innerHTML = '';
+        data.forEach(notification => {
+            const row = document.createElement('tr');
+            let statusBadgeClass;
+            switch(notification.status) {
+                case 'New': statusBadgeClass = 'bg-danger'; break;
+                case 'Read': statusBadgeClass = 'bg-success'; break;
+                case 'Dismissed': statusBadgeClass = 'bg-secondary'; break;
+                default: statusBadgeClass = 'bg-primary';
+            }
+            let typeIconClass = '';
+            switch(notification.type) {
+                case 'New Job Posted': typeIconClass = 'bi-briefcase'; break;
+                case 'User Registered': typeIconClass = 'bi-person-plus'; break;
+                case 'Payment Failed': typeIconClass = 'bi-credit-card-fill'; break;
+                case 'Course Created': typeIconClass = 'bi-book'; break;
+                case 'System Error': typeIconClass = 'bi-exclamation-triangle'; break;
+            }
+            const entityLinkHtml = notification.entity !== 'N/A' ? `<a href="${notification.entityLink}" class="text-primary" data-bs-toggle="tooltip" title="View Related Entity">${notification.entity}</a>` : notification.entity;
+
+            row.innerHTML = `
+                <td>${notification.id}</td>
+                <td><span class="badge bg-info"><i class="bi ${typeIconClass}"></i> ${notification.type}</span></td>
+                <td class="notification-details">${notification.details}</td>
+                <td>${entityLinkHtml}</td>
+                <td>${notification.dateTime}</td>
+                <td><span class="badge ${statusBadgeClass}">${notification.status}</span></td>
+                <td>
+                    <button class="btn btn-sm btn-info me-1 view-notification-btn" data-bs-toggle="modal" data-bs-target="#viewNotificationModal" data-notification-id="${notification.id}"><i class="bi bi-eye"></i></button>
+                    <button class="btn btn-sm btn-success dismiss-notification-btn" data-notification-id="${notification.id}" title="Mark as Read/Dismiss"><i class="bi bi-check-lg"></i></button>
+                </td>
+            `;
+            systemNotificationsTableBody.appendChild(row);
+        });
+        tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+        tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl)
+        });
+    }
+
+    function filterSystemNotifications() {
+        const searchText = notificationSearchInput.value.toLowerCase();
+        const typeFilter = notificationTypeFilter.value;
+        const statusFilter = notificationStatusFilter.value;
+
+        const filteredData = systemNotificationsData.filter(notification => {
+            const matchesSearch = notification.type.toLowerCase().includes(searchText) ||
+                                  notification.details.toLowerCase().includes(searchText);
+            const matchesType = typeFilter === '' || notification.type === typeFilter;
+            const matchesStatus = statusFilter === '' || notification.status === statusFilter;
+            return matchesSearch && matchesType && matchesStatus;
+        });
+        renderSystemNotifications(filteredData);
+    }
+
+    notificationSearchInput.addEventListener('keyup', filterSystemNotifications);
+    notificationTypeFilter.addEventListener('change', filterSystemNotifications);
+    notificationStatusFilter.addEventListener('change', filterSystemNotifications);
+
+    renderSystemNotifications(systemNotificationsData);
+
+    // View Notification Modal Logic
+    const viewNotificationModal = document.getElementById('viewNotificationModal');
+    viewNotificationModal.addEventListener('show.bs.modal', function (event) {
+        const button = event.relatedTarget;
+        const notificationId = button.dataset.notificationId;
+        const notification = systemNotificationsData.find(item => item.id === notificationId);
+
+        if (notification) {
+            document.getElementById('modal-notification-id').textContent = notification.id;
+            document.getElementById('modal-notification-type').textContent = notification.type;
+            document.getElementById('modal-notification-details').textContent = notification.details;
+            document.getElementById('modal-notification-entity').innerHTML = notification.entity !== 'N/A' ? `<a href="${notification.entityLink}" class="text-primary">${notification.entity}</a>` : notification.entity;
+            document.getElementById('modal-notification-datetime').textContent = notification.dateTime;
+            document.getElementById('modal-notification-status').textContent = notification.status;
+            viewNotificationModal.querySelector('.dismiss-notification-modal-btn').dataset.notificationId = notification.id;
+        }
+    });
+
+    systemNotificationsTableBody.addEventListener('click', function(e) {
+        const dismissBtn = e.target.closest('.dismiss-notification-btn');
+        if (dismissBtn) {
+            const notificationId = dismissBtn.dataset.notificationId;
+            alert(`Dismissing notification ${notificationId}.`);
+            const notificationIndex = systemNotificationsData.findIndex(item => item.id === notificationId);
+            if (notificationIndex !== -1) {
+                systemNotificationsData[notificationIndex].status = 'Dismissed';
+                filterSystemNotifications();
+            }
+        }
+    });
+
+    document.querySelector('.dismiss-notification-modal-btn').addEventListener('click', function(e) {
+        const notificationId = e.target.dataset.notificationId;
+        alert(`Dismissing notification ${notificationId} from modal.`);
+        const notificationIndex = systemNotificationsData.findIndex(item => item.id === notificationId);
+            if (notificationIndex !== -1) {
+                systemNotificationsData[notificationIndex].status = 'Dismissed';
+                filterSystemNotifications();
+            }
+        const modal = bootstrap.Modal.getInstance(viewNotificationModal);
+        modal.hide();
+    });
+
+
+    // --- Announcements Section (Tab 3) ---
+    const composeAnnouncementForm = document.getElementById('compose-announcement-form');
+    const announcementsTableBody = document.getElementById('announcements-table');
+    const announcementSearchInput = document.getElementById('announcement-search-input');
+
+    // Dummy data for announcements
+    const announcementsData = [
+        { id: 'ANN-001', subject: 'Important Platform Update', recipients: 'All Users', sender: 'Admin User', dateTime: '2025-06-05 09:00 AM', status: 'Sent', body: 'Dear users, we have rolled out a major update to the platform with new features and performance improvements. Please check the blog for details.' },
+        { id: 'ANN-002', subject: 'Upcoming Maintenance Window (Draft)', recipients: 'All Students', sender: 'Admin User', dateTime: 'N/A', status: 'Draft', body: 'Heads up students! We will have a scheduled maintenance on [Date] from [Time] to [Time]. Services might be interrupted.' },
+        { id: 'ANN-003', subject: 'New Employer Features', recipients: 'All Employers', sender: 'Admin User', dateTime: '2025-06-01 10:00 AM', status: 'Sent', body: 'Employers, discover our new recruiting tools designed to streamline your hiring process. Log in to try them out!' }
+    ];
+
+    function renderAnnouncements(data) {
+        announcementsTableBody.innerHTML = '';
+        data.forEach(announcement => {
+            const row = document.createElement('tr');
+            let statusBadgeClass;
+            switch(announcement.status) {
+                case 'Sent': statusBadgeClass = 'bg-success'; break;
+                case 'Draft': statusBadgeClass = 'bg-secondary'; break;
+                case 'Scheduled': statusBadgeClass = 'bg-info'; break;
+                default: statusBadgeClass = 'bg-primary';
+            }
+            const actionButton = announcement.status === 'Draft' ?
+                `<button class="btn btn-sm btn-primary me-1 view-announcement-btn" data-bs-toggle="modal" data-bs-target="#viewAnnouncementModal" data-announcement-id="${announcement.id}"><i class="bi bi-pencil"></i> Edit</button>` :
+                `<button class="btn btn-sm btn-info me-1 view-announcement-btn" data-bs-toggle="modal" data-bs-target="#viewAnnouncementModal" data-announcement-id="${announcement.id}"><i class="bi bi-eye"></i></button>`;
+
+            row.innerHTML = `
+                <td>${announcement.id}</td>
+                <td class="announcement-subject">${announcement.subject}</td>
+                <td>${announcement.recipients}</td>
+                <td>${announcement.sender}</td>
+                <td>${announcement.dateTime}</td>
+                <td><span class="badge ${statusBadgeClass}">${announcement.status}</span></td>
+                <td>
+                    ${actionButton}
+                    <button class="btn btn-sm btn-danger delete-announcement-btn" data-announcement-id="${announcement.id}" title="Delete"><i class="bi bi-trash"></i></button>
+                </td>
+            `;
+            announcementsTableBody.appendChild(row);
+        });
+    }
+
+    function filterAnnouncements() {
+        const searchText = announcementSearchInput.value.toLowerCase();
+        const filteredData = announcementsData.filter(announcement => {
+            return announcement.subject.toLowerCase().includes(searchText) ||
+                   announcement.recipients.toLowerCase().includes(searchText) ||
+                   announcement.body.toLowerCase().includes(searchText);
+        });
+        renderAnnouncements(filteredData);
+    }
+
+    announcementSearchInput.addEventListener('keyup', filterAnnouncements);
+    renderAnnouncements(announcementsData); // Initial render
+
+    // Compose New Announcement Form Submission
+    composeAnnouncementForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        const subject = document.getElementById('announcementSubject').value.trim();
+        const recipients = document.getElementById('announcementRecipients').value;
+        const body = document.getElementById('announcementBody').value.trim();
+
+        if (!subject || !body) {
+            alert('Please fill out the subject and message body for the announcement.');
+            return;
+        }
+
+        const newAnnouncementId = `ANN-${Math.floor(Math.random() * 1000) + 100}`;
+        const now = new Date();
+        const dateTime = `${now.getFullYear()}-${(now.getMonth() + 1).toString().padStart(2, '0')}-${now.getDate().toString().padStart(2, '0')} ${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')} ${now.getHours() >= 12 ? 'PM' : 'AM'}`;
+
+        announcementsData.push({
+            id: newAnnouncementId,
+            subject: subject,
+            recipients: recipients === 'all' ? 'All Users' :
+                        recipients === 'students' ? 'All Students' :
+                        recipients === 'employers' ? 'All Employers' :
+                        recipients === 'tutors' ? 'All Tutors' : 'Custom',
+            sender: 'Admin User', // Hardcoded for example
+            dateTime: dateTime,
+            status: 'Sent',
+            body: body
+        });
+        alert(`Announcement "${subject}" sent successfully!`);
+        composeAnnouncementForm.reset();
+        filterAnnouncements(); // Re-render with new data
+    });
+
+    document.getElementById('save-announcement-draft-btn').addEventListener('click', function() {
+        const subject = document.getElementById('announcementSubject').value.trim();
+        const recipients = document.getElementById('announcementRecipients').value;
+        const body = document.getElementById('announcementBody').value.trim();
+
+        if (!subject && !body) {
+            alert('Cannot save empty draft. Please add subject or message content.');
+            return;
+        }
+
+        const newAnnouncementId = `ANN-${Math.floor(Math.random() * 1000) + 100}`;
+        announcementsData.push({
+            id: newAnnouncementId,
+            subject: subject || 'Untitled Draft',
+            recipients: recipients === 'all' ? 'All Users' :
+                        recipients === 'students' ? 'All Students' :
+                        recipients === 'employers' ? 'All Employers' :
+                        recipients === 'tutors' ? 'All Tutors' : 'Custom',
+            sender: 'Admin User',
+            dateTime: 'N/A',
+            status: 'Draft',
+            body: body
+        });
+        alert(`Announcement "${subject || 'Untitled Draft'}" saved as draft.`);
+        composeAnnouncementForm.reset();
+        filterAnnouncements();
+    });
+
+    // View Announcement Modal Logic
+    const viewAnnouncementModal = document.getElementById('viewAnnouncementModal');
+    viewAnnouncementModal.addEventListener('show.bs.modal', function (event) {
+        const button = event.relatedTarget;
+        const announcementId = button.dataset.announcementId;
+        const announcement = announcementsData.find(item => item.id === announcementId);
+
+        if (announcement) {
+            document.getElementById('modal-announcement-subject').textContent = announcement.subject;
+            document.getElementById('modal-announcement-recipients').textContent = announcement.recipients;
+            document.getElementById('modal-announcement-sender').textContent = announcement.sender;
+            document.getElementById('modal-announcement-datetime').textContent = announcement.dateTime;
+            document.getElementById('modal-announcement-status').textContent = announcement.status;
+            document.getElementById('modal-announcement-body').textContent = announcement.body;
+
+            const editBtn = document.getElementById('modal-edit-announcement-btn');
+            const sendNowBtn = document.getElementById('modal-send-announcement-btn');
+
+            if (announcement.status === 'Draft') {
+                editBtn.classList.remove('d-none');
+                sendNowBtn.classList.remove('d-none');
+                editBtn.onclick = () => {
+                    // Populate compose form with draft data for editing
+                    document.getElementById('announcementSubject').value = announcement.subject;
+                    document.getElementById('announcementRecipients').value = announcement.recipients.includes('Students') ? 'students' :
+                                                                                announcement.recipients.includes('Employers') ? 'employers' :
+                                                                                announcement.recipients.includes('Tutors') ? 'tutors' : 'all'; // Simplified
+                    document.getElementById('announcementBody').value = announcement.body;
+
+                    // Remove draft from list after moving to edit
+                    const index = announcementsData.findIndex(item => item.id === announcement.id);
+                    if (index !== -1) {
+                        announcementsData.splice(index, 1);
+                        filterAnnouncements();
+                    }
+
+                    const modal = bootstrap.Modal.getInstance(viewAnnouncementModal);
+                    modal.hide();
+                    showContent('announcements-content'); // Switch to compose tab
+                };
+                sendNowBtn.onclick = () => {
+                    if (confirm(`Send this draft announcement "${announcement.subject}" now?`)) {
+                        const now = new Date();
+                        announcement.dateTime = `${now.getFullYear()}-${(now.getMonth() + 1).toString().padStart(2, '0')}-${now.getDate().toString().padStart(2, '0')} ${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')} ${now.getHours() >= 12 ? 'PM' : 'AM'}`;
+                        announcement.status = 'Sent';
+                        alert(`Announcement "${announcement.subject}" sent.`);
+                        filterAnnouncements();
+                        const modal = bootstrap.Modal.getInstance(viewAnnouncementModal);
+                        modal.hide();
+                    }
+                };
+            } else {
+                editBtn.classList.add('d-none');
+                sendNowBtn.classList.add('d-none');
+            }
+        }
+    });
+
+    announcementsTableBody.addEventListener('click', function(e) {
+        const deleteBtn = e.target.closest('.delete-announcement-btn');
+        if (deleteBtn) {
+            const announcementId = deleteBtn.dataset.announcementId;
+            if (confirm(`Are you sure you want to delete announcement ${announcementId}?`)) {
+                const index = announcementsData.findIndex(item => item.id === announcementId);
+                if (index !== -1) {
+                    announcementsData.splice(index, 1);
+                    alert(`Announcement ${announcementId} deleted.`);
+                    filterAnnouncements();
+                }
+            }
+        }
+    });
+
+
+    // Universal Logout Button
+    document.getElementById('logout-btn')?.addEventListener('click', function(e) {
+        e.preventDefault();
+        if (confirm('Are you sure you want to logout?')) {
+            alert('You have been logged out.');
+            window.location.href = './login.html'; // Redirect to login page
+        }
+    });
+    
+    // Set initial active content section
+    showContent('user-inquiries-content');
+});
+</script>
+</body>
+</html>s

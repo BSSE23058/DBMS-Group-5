@@ -177,11 +177,11 @@
           <h2 class="text-center mb-4 fw-bold">Create Your Account</h2>
           <div class="col-lg-8">
             <div class="card registration-card p-4 p-md-5">
-              <h3 class="text-center mb-4 fw-bold">Student Registeration</h3>
+              <h3 class="text-center mb-4 fw-bold">Student Registration</h3>
 
               <form
                 method="POST"
-                action="/register-student"
+                action="student_register.php"
                 enctype="multipart/form-data"
               >
                 <div class="row">
@@ -308,6 +308,7 @@
                     class="form-control"
                     id="photo"
                     name="photo"
+                    accept="image/*"
                     required
                   />
                 </div>
@@ -426,7 +427,7 @@
                 <div class="text-center mt-3">
                   <p class="text-muted">
                     Already have an account?
-                    <a href="#" class="text-primary">Login here</a>
+                    <a href="./login.html" class="text-primary">Login here</a>
                   </p>
                 </div>
               </form>

@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>SkillConnect Admin - Job Listing Management</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+    
+    <style>
+        html { scroll-behavior: smooth; }
+        body { background-color: #f8f9fa; }
+        .navbar { padding: 1rem 2rem; }
+        .navbar-nav .nav-link { font-weight: 600; margin: 0 10px; }
+        .navbar-brand img { height: 80px; }
+
+        .admin-sidebar {
+            background: linear-gradient(to bottom, #220359, #4906bf);
+            color: white;
+            padding-top: 20px;
+            min-height: calc(100vh - 80px);
+            position: sticky;
+            top: 0;
+            left: 0;
+            z-index: 1000; 
+        }
+
+        .admin-sidebar .nav-link {
+            color: rgba(255, 255, 255, 0.8);
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        .admin-sidebar .nav-link:hover,
+        .admin-sidebar .nav-link.active {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            border-left: 3px solid #ffc107;
+        }
+
+        .admin-sidebar .nav-link i { margin-right: 10px; font-size: 1.1rem; }
+        .admin-content { padding: 30px; flex-grow: 1; }
+        .admin-card {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        .btn-primary { background-color: #0d6efd; border-color: #0d6efd; }
+        .btn-primary:hover { background-color: #0b5ed7; border-color: #0a58ca; }
+        .btn-outline-primary { color: #0d6efd; border-color: #0d6efd; }
+        .btn-outline-primary:hover { background-color: #0d6efd; color: white; }
+        .text-primary { color: #0d6efd !important; }
+
+        .badge.bg-success { background-color: #198754 !important; }
+        .badge.bg-danger { background-color: #dc3545 !important; }
+        .badge.bg-warning { background-color: #ffc107 !important; }
+        .badge.bg-info { background-color: #0dcaf0 !important; }
+        
+        footer { background-color: #212529 !important; color: white; }
+        footer .text-muted { color: rgba(255, 255, 255, 0.7) !important; }
+
+        .offcanvas { transition: none !important; }
+        
+        @media (max-width: 767.98px) {
+            .admin-sidebar { display: none; }
+            .offcanvas-start { width: 250px; }
+            .admin-content { width: 100%; }
+            .navbar-toggler { display: block; }
+        }
+
+        @media (min-width: 768px) {
+            .navbar-toggler { display: none; }
+            .admin-sidebar { display: block !important; }
+            .offcanvas { visibility: hidden; }
+            .offcanvas.show { transform: translateX(-100%); }
+        }
+
+        .sub-content-section { display: none; }
+        .sub-content-section.active { display: block; }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg bg-white shadow-sm">
+    <div class="container-fluid">
+        <button class="navbar-toggler me-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#adminSidebarOffcanvas" aria-controls="adminSidebarOffcanvas">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <a class="navbar-brand d-flex align-items-center" href="./landing_page.html">
+            <img src="./logo.jpeg" alt="SkillConnect Logo"/>
+        </a>
+        <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
+            <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+                <li class="nav-item"><a class="nav-link" href="./landing_page.html">Home</a></li>
+                <li class="nav-item"><a class="nav-link" href="./admin_dashboard.html">Admin Dashboard</a></li>
+                <li class="nav-item"><a class="nav-link" href="./admin_user_management.html">Users</a></li>
+                <li class="nav-item"><a class="nav-link" href="./admin_courses.html">Courses</a></li>
+                <li class="nav-item"><a class="nav-link" href="./admin_tutoring.html">Tutoring</a></li>
+                <li class="nav-item"><a class="nav-link" href="./admin_job_listings.html">Job Listings</a></li>
+                <li class="nav-item"><a class="nav-link" href="#" data-target="reports-content">Reports</a></li>
+                <li class="nav-item"><a class="nav-link" href="#" data-target="messages-content">Messages</a></li>
+            </ul>
+            <div class="d-flex align-items-center nav-icons">
+                <span class="me-3 fw-bold">Admin User</span>
+                <i class="bi bi-person-circle fs-4 me-3"></i>
+                <div class="nav-buttons">
+                    <a href="./login.html" id="logout-btn" class="btn btn-outline-primary">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<div class="d-flex">
+    <div class="admin-sidebar col-md-2">
+        <ul class="nav flex-column">
+            <li class="nav-item"><a class="nav-link" href="./admin_dashboard.html"><i class="bi bi-speedometer2"></i> Dashboard</a></li>
+            <li class="nav-item"><a class="nav-link" href="./admin_user_management.html"><i class="bi bi-people"></i> Users</a></li>
+            <li class="nav-item"><a class="nav-link" href="./admin_courses.html"><i class="bi bi-book"></i> Courses</a></li>
+            <li class="nav-item"><a class="nav-link" href="./admin_tutoring.html"><i class="bi bi-calendar-check"></i> Tutoring Sessions</a></li>
+            <li class="nav-item"><a class="nav-link active" href="#" data-target="active-listings-content"><i class="bi bi-briefcase"></i> Job Listings</a></li>
+            <li class="nav-item"><a class="nav-link" href="#"><i class="bi bi-file-earmark-text"></i> Applications</a></li>
+            <li class="nav-item"><a class="nav-link" href="#" data-target="reports-content"><i class="bi bi-graph-up"></i> Reports</a></li>
+            <li class="nav-item"><a class="nav-link" href="#" data-target="messages-content"><i class="bi bi-chat-dots"></i> Messages</a></li>
+            <li class="nav-item"><a class="nav-link" href="#"><i class="bi bi-box-seam"></i> System Settings</a></li>
+        </ul>
+    </div>
+
+    <div class="offcanvas offcanvas-start admin-sidebar" tabindex="-1" id="adminSidebarOffcanvas">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title text-white">Admin Navigation</h5>
+            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body p-0">
+            <ul class="nav flex-column">
+                <li class="nav-item"><a class="nav-link" href="./admin_dashboard.html"><i class="bi bi-speedometer2"></i> Dashboard</a></li>
+                <li class="nav-item"><a class="nav-link" href="./admin_user_management.html"><i class="bi bi-people"></i> Users</a></li>
+                <li class="nav-item"><a class="nav-link" href="./admin_courses.html"><i class="bi bi-book"></i> Courses</a></li>
+                <li class="nav-item"><a class="nav-link" href="./admin_tutoring.html"><i class="bi bi-calendar-check"></i> Tutoring Sessions</a></li>
+                <li class="nav-item"><a class="nav-link active" href="#" data-target="active-listings-content"><i class="bi bi-briefcase"></i> Job Listings</a></li>
+                <li class="nav-item"><a class="nav-link" href="#"><i class="bi bi-file-earmark-text"></i> Applications</a></li>
+                <li class="nav-item"><a class="nav-link" href="#" data-target="reports-content"><i class="bi bi-graph-up"></i> Reports</a></li>
+                <li class="nav-item"><a class="nav-link" href="#" data-target="messages-content"><i class="bi bi-chat-dots"></i> Messages</a></li>
+                <li class="nav-item"><a class="nav-link" href="#"><i class="bi bi-box-seam"></i> System Settings</a></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="admin-content col-md-10">
+        <h1 class="mb-4 fw-bold text-primary">Job Listing Management</h1>
+
+        <ul class="nav nav-tabs mb-4">
+            <li class="nav-item">
+                <a class="nav-link active" href="#" data-target="active-listings-content">Active Listings</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" data-target="pending-approvals-content">Pending Approvals</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" data-target="post-job-content">Post a New Job</a>
+            </li>
+            
+        </ul>
+
+        <div id="active-listings-content" class="sub-content-section active">
+            <div class="admin-card">
+                <h4 class="mb-3 text-primary">Active Job Listings</h4>
+                <div class="input-group mb-3">
+                    <input type="text" id="job-search-input" class="form-control" placeholder="Search by Job Title, Company, or Location...">
+                    <button class="btn btn-outline-primary" type="button"><i class="bi bi-search"></i></button>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover align-middle">
+                        <thead>
+                            <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">Job Title</th>
+                                <th scope="col">Company</th>
+                                <th scope="col">Location</th>
+                                <th scope="col">Date Posted</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="active-jobs-table">
+                            <tr>
+                                <td class="job-id">J-451</td>
+                                <td class="job-title">Senior Frontend Developer</td>
+                                <td class="job-company">Tech Solutions Inc.</td>
+                                <td class="job-location">San Francisco, CA</td>
+                                <td class="job-date">2025-06-10</td>
+                                <td><span class="badge bg-success">Active</span></td>
+                                <td>
+                                    <button class="btn btn-sm btn-info me-1 action-btn" data-action="view-applicants" title="View Applicants"><i class="bi bi-people-fill"></i></button>
+                                    <button class="btn btn-sm btn-danger me-1 action-btn" data-action="expire-listing" title="Expire Listing"><i class="bi bi-calendar-x"></i></button>
+                                    <button class="btn btn-sm btn-secondary action-btn" data-action="edit-listing" title="Edit Listing"><i class="bi bi-pencil"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="job-id">J-450</td>
+                                <td class="job-title">UX/UI Designer</td>
+                                <td class="job-company">Creative Minds LLC</td>
+                                <td class="job-location">New York, NY</td>
+                                <td class="job-date">2025-06-08</td>
+                                <td><span class="badge bg-success">Active</span></td>
+                                <td>
+                                    <button class="btn btn-sm btn-info me-1 action-btn" data-action="view-applicants" title="View Applicants"><i class="bi bi-people-fill"></i></button>
+                                    <button class="btn btn-sm btn-danger me-1 action-btn" data-action="expire-listing" title="Expire Listing"><i class="bi bi-calendar-x"></i></button>
+                                    <button class="btn btn-sm btn-secondary action-btn" data-action="edit-listing" title="Edit Listing"><i class="bi bi-pencil"></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        
+        <div id="pending-approvals-content" class="sub-content-section">
+            <div class="admin-card">
+                <h4 class="mb-3 text-primary">Pending Job Approvals</h4>
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover align-middle">
+                        <thead>
+                            <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">Job Title</th>
+                                <th scope="col">Company</th>
+                                <th scope="col">Submitted By</th>
+                                <th scope="col">Date Submitted</th>
+                                <th scope="col">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="pending-jobs-table">
+                            <tr>
+                                <td class="job-id">J-452</td>
+                                <td class="job-title">Data Analyst</td>
+                                <td class="job-company">Data Insights Co.</td>
+                                <td class="job-location" style="display:none;">Boston, MA</td>
+                                <td>Charlie Brown (Employer)</td>
+                                <td class="job-date">2025-06-12</td>
+                                <td>
+                                    <button class="btn btn-sm btn-success me-1 action-btn" data-action="approve-listing" title="Approve Listing"><i class="bi bi-check-lg"></i> Approve</button>
+                                    <button class="btn btn-sm btn-danger me-1 action-btn" data-action="reject-listing" title="Reject Listing"><i class="bi bi-x-lg"></i> Reject</button>
+                                    <button class="btn btn-sm btn-secondary action-btn" data-action="view-details" title="View Details"><i class="bi bi-eye"></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div id="post-job-content" class="sub-content-section">
+            <div class="admin-card">
+                <h4 class="mb-3 text-primary">Post a New Job Listing</h4>
+                <form id="post-job-form">
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="jobTitle" class="form-label">Job Title</label>
+                            <input type="text" class="form-control" id="jobTitle" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="companyName" class="form-label">Company Name</label>
+                            <input type="text" class="form-control" id="companyName" required>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="jobLocation" class="form-label">Location</label>
+                            <input type="text" class="form-control" id="jobLocation" placeholder="e.g., Chicago, IL" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="jobType" class="form-label">Job Type</label>
+                            <select class="form-select" id="jobType" required>
+                                <option selected disabled value="">Choose...</option>
+                                <option>Full-time</option>
+                                <option>Part-time</option>
+                                <option>Contract</option>
+                                <option>Internship</option>
+                                <option>Remote</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="jobDescription" class="form-label">Job Description</label>
+                        <textarea class="form-control" id="jobDescription" rows="6" required></textarea>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Post Job Listing</button>
+                </form>
+            </div>
+        </div>
+
+        <div id="reports-content" class="sub-content-section">
+            <div class="admin-card">
+                <h4 class="mb-3 text-primary">System Reports and Analytics</h4>
+                <div class="mb-4">
+                    <p>Here you can view various reports about job listings, user activity, and system performance.</p>
+                    <img src="./image_f8eb49.png" class="img-fluid mb-3" alt="Job Listing Report Graph">
+                    <p><strong>Job Listing Trends:</strong></p>
+                    <table class="table table-bordered">
+                        <thead>
+                            <tr>
+                                <th>Month</th>
+                                <th>New Listings</th>
+                                <th>Approved Listings</th>
+                                <th>Expired Listings</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Jan 2025</td>
+                                <td>150</td>
+                                <td>140</td>
+                                <td>10</td>
+                            </tr>
+                            <tr>
+                                <td>Feb 2025</td>
+                                <td>180</td>
+                                <td>165</td>
+                                <td>15</td>
+                            </tr>
+                            <tr>
+                                <td>Mar 2025</td>
+                                <td>200</td>
+                                <td>190</td>
+                                <td>10</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <img src="./image_f8eb31.png" class="img-fluid mt-3 mb-3" alt="User Activity Chart">
+                    <p><strong>User Engagement Overview:</strong></p>
+                    <ul class="list-group">
+                        <li class="list-group-item">Total Registered Users: 5000+</li>
+                        <li class="list-group-item">Active Job Seekers: 2500+</li>
+                        <li class="list-group-item">Active Employers: 300+</li>
+                        <li class="list-group-item">Average Daily Logins: 1200</li>
+                    </ul>
+                    <img src="./image_f8eb2e.png" class="img-fluid mt-3" alt="System Performance Metrics">
+                    <p class="mt-3">Additional reports on application rates, popular job categories, and more can be generated here.</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="messages-content" class="sub-content-section">
+            <div class="admin-card">
+                <h4 class="mb-3 text-primary">Admin Messages and Notifications</h4>
+                <div class="list-group">
+                    <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1">New Employer Registration</h5>
+                            <small class="text-muted">3 days ago</small>
+                        </div>
+                        <p class="mb-1">A new employer, "Global Innovations Ltd.", has registered and is awaiting verification.</p>
+                        <small>Action required: Verify employer account.</small>
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1">Reported Job Listing</h5>
+                            <small class="text-muted">1 week ago</small>
+                        </div>
+                        <p class="mb-1">Job ID J-420 (Marketing Specialist at XYZ Corp) has been reported for inappropriate content.</p>
+                        <small>Action required: Review and take appropriate action.</small>
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
+                        <div class="d-flex w-100 justify-content-between">
+                            <h5 class="mb-1">System Update Notification</h5>
+                            <small class="text-muted">2 weeks ago</small>
+                        </div>
+                        <p class="mb-1">The SkillConnect platform will undergo scheduled maintenance on 2025-07-01 from 2 AM to 4 AM PKT.</p>
+                        <small>No action required.</small>
+                    </a>
+                </div>
+                <div class="mt-4">
+                    <img src="./image_f8eb2c.png" class="img-fluid mb-3" alt="Message Inbox Icon">
+                    <p class="text-muted">For detailed messages and communication history, please visit the full message center.</p>
+                    <img src="./image_f867a7.png" class="img-fluid" alt="Email Notification Icon">
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<footer class="bg-dark text-white pt-5 pb-4">
+    <div class="container text-center p-4 text-muted">© 2025 SkillConnect. All rights reserved.</div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const mainTabs = document.querySelectorAll('.nav-tabs .nav-link');
+    const contentSections = document.querySelectorAll('.admin-content .sub-content-section');
+    const activeJobsTableBody = document.getElementById('active-jobs-table');
+
+    function showContent(targetId) {
+        contentSections.forEach(section => section.classList.remove('active'));
+        const targetContent = document.getElementById(targetId);
+        if (targetContent) {
+            targetContent.classList.add('active');
+        }
+        mainTabs.forEach(tab => tab.classList.toggle('active', tab.dataset.target === targetId));
+
+        // Update sidebar active link
+        document.querySelectorAll('.admin-sidebar .nav-link').forEach(link => {
+            link.classList.remove('active');
+            if (link.dataset.target === targetId || (link.href.includes('admin_job_listings.html') && targetId.includes('listing'))) {
+                 link.classList.add('active');
+            } else if (link.href.includes('admin_dashboard.html') && targetId === 'dashboard-content') {
+                 link.classList.add('active');
+            } else if (link.href.includes('admin_user_management.html') && targetId === 'user-management-content') {
+                 link.classList.add('active');
+            } else if (link.href.includes('admin_courses.html') && targetId === 'courses-content') {
+                 link.classList.add('active');
+            } else if (link.href.includes('admin_tutoring.html') && targetId === 'tutoring-content') {
+                 link.classList.add('active');
+            }
+        });
+    }
+
+    mainTabs.forEach(tab => {
+        tab.addEventListener('click', function(e) {
+            e.preventDefault();
+            showContent(this.dataset.target);
+        });
+    });
+
+    // Handle sidebar navigation clicks for content switching
+    document.querySelectorAll('.admin-sidebar .nav-link').forEach(link => {
+        link.addEventListener('click', function(e) {
+            // Prevent default for job listing, reports, and messages links that use data-target
+            if (this.dataset.target) {
+                e.preventDefault();
+                showContent(this.dataset.target);
+            }
+        });
+    });
+
+
+    document.body.addEventListener('click', function(e) {
+        const button = e.target.closest('.action-btn');
+        if (!button) return;
+
+        e.preventDefault();
+        const action = button.dataset.action;
+        const jobRow = button.closest('tr');
+        const jobTitle = jobRow.querySelector('.job-title')?.textContent.trim() || 'this job';
+
+        switch(action) {
+            case 'view-applicants':
+                alert(`Viewing applicants for "${jobTitle}".`);
+                break;
+            case 'expire-listing':
+                if (confirm(`Are you sure you want to expire the listing for "${jobTitle}"?`)) {
+                    alert(`Listing "${jobTitle}" has been expired and removed.`);
+                    jobRow.remove();
+                }
+                break;
+            case 'edit-listing':
+                alert(`Opening editor for "${jobTitle}".`);
+                break;
+            case 'approve-listing':
+                if (confirm(`Approve the job listing for "${jobTitle}"?`)) {
+                    const jobData = {
+                        id: jobRow.querySelector('.job-id').textContent,
+                        title: jobRow.querySelector('.job-title').textContent,
+                        company: jobRow.querySelector('.job-company').textContent,
+                        location: jobRow.querySelector('.job-location').textContent,
+                        date: jobRow.querySelector('.job-date').textContent
+                    };
+                    addJobToActiveTable(jobData.id, jobData.title, jobData.company, jobData.location, jobData.date);
+                    alert(`Job listing "${jobTitle}" has been approved and is now active.`);
+                    jobRow.remove();
+                }
+                break;
+            case 'reject-listing':
+                if (confirm(`Are you sure you want to reject the listing for "${jobTitle}"?`)) {
+                    alert(`The job listing "${jobTitle}" has been rejected.`);
+                    jobRow.remove();
+                }
+                break;
+            case 'view-details':
+                alert(`Viewing details for pending job "${jobTitle}".`);
+                break;
+        }
+    });
+
+    const postJobForm = document.getElementById('post-job-form');
+    if (postJobForm) { // Check if the form exists before adding event listener
+        postJobForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const title = document.getElementById('jobTitle').value.trim();
+            const company = document.getElementById('companyName').value.trim();
+            const location = document.getElementById('jobLocation').value.trim();
+
+            if (!title || !company || !location) {
+                alert('Please fill out all required fields: Job Title, Company, and Location.');
+                return;
+            }
+
+            const newJobId = `J-${Math.floor(Math.random() * 100) + 500}`;
+            const today = new Date().toISOString().slice(0, 10); // Get today's date in YYYY-MM-DD format
+
+            addJobToActiveTable(newJobId, title, company, location, today);
+            
+            alert(`Successfully posted new job: "${title}"!`);
+            postJobForm.reset();
+            showContent('active-listings-content');
+        });
+    }
+    
+    function addJobToActiveTable(id, title, company, location, date) {
+        const newRow = document.createElement('tr');
+        newRow.innerHTML = `
+            <td class="job-id">${id}</td>
+            <td class="job-title">${title}</td>
+            <td class="job-company">${company}</td>
+            <td class="job-location">${location}</td>
+            <td class="job-date">${date}</td>
+            <td><span class="badge bg-success">Active</span></td>
+            <td>
+                <button class="btn btn-sm btn-info me-1 action-btn" data-action="view-applicants" title="View Applicants"><i class="bi bi-people-fill"></i></button>
+                <button class="btn btn-sm btn-danger me-1 action-btn" data-action="expire-listing" title="Expire Listing"><i class="bi bi-calendar-x"></i></button>
+                <button class="btn btn-sm btn-secondary action-btn" data-action="edit-listing" title="Edit Listing"><i class="bi bi-pencil"></i></button>
+            </td>
+        `;
+        activeJobsTableBody.appendChild(newRow);
+    }
+
+    const searchInput = document.getElementById('job-search-input');
+    if (searchInput) { // Check if searchInput exists before adding event listener
+        searchInput.addEventListener('keyup', function() {
+            const filter = searchInput.value.toLowerCase();
+            const jobRows = activeJobsTableBody.getElementsByTagName('tr');
+            
+            for (let row of jobRows) {
+                const title = row.querySelector('.job-title')?.textContent.toLowerCase();
+                const company = row.querySelector('.job-company')?.textContent.toLowerCase();
+                const location = row.querySelector('.job-location')?.textContent.toLowerCase();
+                
+                if (title.includes(filter) || company.includes(filter) || location.includes(filter)) {
+                    row.style.display = "";
+                } else {
+                    row.style.display = "none";
+                }
+            }
+        });
+    }
+
+    document.getElementById('logout-btn')?.addEventListener('click', function(e) {
+        e.preventDefault();
+        if (confirm('Are you sure you want to logout?')) {
+            alert('You have been logged out.');
+            window.location.href = './login.html'; // Redirect to login page
+        }
+    });
+    
+    // Set the initial active tab and content section on page load
+    showContent('active-listings-content');
+});
+</script>
+</body>
+</html>

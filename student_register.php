@@ -1,15 +1,18 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 // DB credentials
-$host = "gondola.proxy.rlwy.net";
-$port = "49915";
-$db = "railway";
-$user = "postgres";
-$pass = "BGBZmAksCrOBHIwzdPnEOmBKLyfPNRAP";
+$host = "sql12.freesqldatabase.com";
+$port = "3306";
+$db = "sql12784403";
+$user = "sql12784403";
+$pass = "WAuJFq9xaX";
 
-// PostgreSQL connection
-$conn = pg_connect("host=$host port=$port dbname=$db user=$user password=$pass");
-if (!$conn) {
-    die("Connection failed: " . pg_last_error());
+// MySQLi connection
+$conn = new mysqli($host, $user, $pass, $db, $port);
+
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
 }
 
 // Collecting data from POST
@@ -17,7 +20,7 @@ $first_name = $_POST['first_name'];
 $last_name = $_POST['last_name'];
 $username = $_POST['username'];
 $email = $_POST['email'];
-$password = password_hash($_POST['password'], PASSWORD_DEFAULT);  // Secure password storage
+$password = password_hash($_POST['password'], PASSWORD_DEFAULT);
 $date_of_birth = $_POST['date_of_birth'];
 $cnic = $_POST['cnic'];
 $age = $_POST['age'];
@@ -32,34 +35,41 @@ $street = $_POST['street'];
 $postal_code = $_POST['postal_code'];
 $agreed_terms = isset($_POST['agreed_terms']) ? 'true' : 'false';
 
-// Optional: photo handling (you can skip this if storing path or not uploading now)
+// Check if passwords match
+if ($_POST['password'] !== $_POST['confirm_password']) {
+    die("Passwords do not match.");
+}
+
+// Optional: photo handling (store as blob)
 $photo = null;
 if (isset($_FILES['photo']) && $_FILES['photo']['error'] == 0) {
-    $photo = pg_escape_bytea(file_get_contents($_FILES['photo']['tmp_name']));
+    $photo = file_get_contents($_FILES['photo']['tmp_name']);
 }
 
 // Build INSERT query
 $sql = "INSERT INTO students (
     first_name, last_name, username, email, password, date_of_birth, cnic, age, phone,
     photo, bio, academic_history, country, province, city, area, street, postal_code, agreed_terms
-) VALUES (
-    $1, $2, $3, $4, $5, $6, $7, $8, $9,
-    $10, $11, $12, $13, $14, $15, $16, $17, $18, $19
-)";
+) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
-// Prepare & execute
-$result = pg_query_params($conn, $sql, [
+$stmt = $conn->prepare($sql);
+$stmt->bind_param(
+    "sssssssisbsssssssss",
     $first_name, $last_name, $username, $email, $password, $date_of_birth, $cnic, $age, $phone,
     $photo, $bio, $academic_history, $country, $province, $city, $area, $street, $postal_code, $agreed_terms
-]);
+);
 
-// Response
-if ($result) {
-    echo "Student registered successfully.";
+// Execute and check result
+if ($stmt->execute()) {
+    header("Location: login.html");
+    exit;
 } else {
-    echo "Error: " . pg_last_error($conn);
+    echo "Registration failed: " . $stmt->error;
 }
 
-// Close DB connection
-pg_close($conn);
-?>
+echo count([$first_name, $last_name, $username, $email, $password, $date_of_birth, $cnic, $age, $phone,
+    $photo, $bio, $academic_history, $country, $province, $city, $area, $street, $postal_code, $agreed_terms]);
+
+// Close connection
+$stmt->close();
+$conn->close();

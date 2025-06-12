@@ -1,0 +1,791 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>SkillConnect Admin - Course Management</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+    
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            transition: background 0.3s, color 0.3s;
+            background-color: #f8f9fa; /* Light grey background for admin */
+        }
+
+        .navbar {
+            padding: 1rem 2rem;
+        }
+
+        .navbar-nav .nav-link {
+            font-weight: 600;
+            margin: 0 10px;
+        }
+
+        .nav-icons i {
+            font-size: 1.3rem;
+            margin-right: 15px;
+            color: #1e1e2f; /* Dark text for icons */
+            cursor: pointer;
+        }
+
+        .nav-buttons .btn {
+            margin-left: 10px;
+        }
+
+        .navbar-brand img {
+            height: 80px;
+        }
+
+        /* Admin specific styles */
+        .admin-sidebar {
+            background: linear-gradient(to bottom, #220359, #4906bf); /* Dark gradient from hero section */
+            color: white;
+            padding-top: 20px;
+            min-height: calc(100vh - 80px); /* Assuming navbar height around 80px */
+            position: sticky;
+            top: 0;
+            left: 0;
+            z-index: 1000; 
+        }
+
+        .admin-sidebar .nav-link {
+            color: rgba(255, 255, 255, 0.8);
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        .admin-sidebar .nav-link:hover,
+        .admin-sidebar .nav-link.active {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: white;
+            border-left: 3px solid #ffc107; /* Highlight color from hero */
+        }
+
+        .admin-sidebar .nav-link i {
+            margin-right: 10px;
+            font-size: 1.1rem;
+        }
+
+        .admin-content {
+            padding: 30px;
+            background-color: #f8f9fa;
+            flex-grow: 1; /* Allow content to take remaining space */
+        }
+
+        .admin-card {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        
+        /* Consistent button styles from landing page */
+        .btn-primary {
+            background-color: #0d6efd; /* Bootstrap primary blue */
+            border-color: #0d6efd;
+        }
+        .btn-primary:hover {
+            background-color: #0b5ed7;
+            border-color: #0a58ca;
+        }
+
+        .btn-outline-primary {
+            color: #0d6efd;
+            border-color: #0d6efd;
+        }
+        .btn-outline-primary:hover {
+            background-color: #0d6efd;
+            color: white;
+        }
+
+        .text-primary {
+            color: #0d6efd !important;
+        }
+
+        .bg-primary {
+            background-color: #0d6efd !important;
+        }
+        
+        .highlight {
+            background-color: #ffc107; /* Yellow highlight */
+            color: #000;
+            padding: 0 6px;
+            border-radius: 4px;
+        }
+
+        /* Specific badge color from landing page */
+        .badge.bg-success { background-color: #198754 !important; } /* Bootstrap green */
+        .badge.bg-danger { background-color: #dc3545 !important; } /* Bootstrap red */
+        .badge.bg-info { background-color: #0dcaf0 !important; } /* Bootstrap info */
+        .badge.bg-warning { background-color: #ffc107 !important; } /* Bootstrap warning */
+        .badge.bg-purple { background-color: #6f42c1 !important; } /* Custom purple, adjust if needed */
+
+        /* Footer specific styles to match */
+        footer {
+            background-color: #212529 !important; /* Dark background */
+            color: white;
+        }
+
+        footer .text-muted {
+            color: rgba(255, 255, 255, 0.7) !important;
+        }
+
+        footer .text-white {
+            color: white !important;
+        }
+
+        footer .text-white:hover {
+            color: #ffc107 !important; /* Yellow highlight on hover for consistency */
+        }
+
+        /* Responsive adjustments for sidebar/offcanvas */
+        .offcanvas {
+            transition: none !important;
+        }
+        
+        @media (max-width: 767.98px) {
+            .admin-sidebar {
+                display: none; /* Hide default sidebar on small screens */
+            }
+            .offcanvas-start {
+                width: 250px; /* Adjust offcanvas width */
+            }
+            .admin-content {
+                width: 100%; /* Full width content on small screens */
+            }
+            .navbar-toggler {
+                display: block; /* Show toggler button */
+            }
+        }
+
+        @media (min-width: 768px) {
+            .navbar-toggler {
+                display: none; /* Hide toggler button on large screens */
+            }
+            .admin-sidebar {
+                display: block !important; /* Always show sidebar on large screens */
+            }
+            .offcanvas {
+                visibility: hidden; /* Hide offcanvas completely on large screens */
+            }
+            .offcanvas.show { /* Override Bootstrap's default for show on large screens */
+                transform: translateX(-100%); 
+            }
+        }
+
+        /* Specific content sections for course management page */
+        .sub-content-section {
+            display: none; /* Hide all sub-content sections by default */
+        }
+        .sub-content-section.active {
+            display: block; /* Show active sub-content section */
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg bg-white shadow-sm">
+    <div class="container-fluid">
+        <button class="navbar-toggler me-3" type="button" data-bs-toggle="offcanvas" data-bs-target="#adminSidebarOffcanvas" aria-controls="adminSidebarOffcanvas" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <a class="navbar-brand d-flex align-items-center" href="./landing_page.html">
+            <img src="./logo.jpeg" alt="SkillConnect Logo"/>
+        </a>
+
+        <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
+            <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+                <li class="nav-item"><a class="nav-link" href="./landing_page.html">Home </a></li>
+                <li class="nav-item"><a class="nav-link" href="./admin_dashboard.html">Admin Dashboard</a></li> 
+                <li class="nav-item"><a class="nav-link" href="./user_management.html">User Management</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">All Jobs</a></li>
+                <li class="nav-item"><a class="nav-link" href="#">All Courses</a></li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Services
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="./registration_form_students_tutor.html">Tutoring</a></li>
+                        <li><a class="dropdown-item" href="./registration_form_jobSeekers_Employeers.html">Job Matching</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item"><a class="nav-link" href="./faq.html">Contact</a></li>
+                <li class="nav-item"><a class="nav-link" href="./aboutUs.html">About Us</a></li>
+            </ul>
+
+            <div class="d-flex align-items-center nav-icons">
+                <span class="me-3 fw-bold">Admin User</span>
+                <i class="bi bi-person-circle fs-4 me-3"></i>
+                <div class="nav-buttons">
+                    <a href="./login.html" id="logout-btn" class="btn btn-outline-primary">Logout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<div class="d-flex">
+    <div class="admin-sidebar col-md-2">
+        <ul class="nav flex-column">
+            <li class="nav-item">
+                <a class="nav-link" href="./admin_dashboard.html">
+                    <i class="bi bi-speedometer2"></i> Dashboard
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="./user_management.html">
+                    <i class="bi bi-people"></i> Users
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" data-target="roles-content">
+                    <i class="bi bi-person-badge"></i> Roles
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="courses_page_admin.html" data-target="all-courses-content">
+                    <i class="bi bi-book"></i> Courses
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" data-target="tutoring-sessions-content">
+                    <i class="bi bi-calendar-check"></i> Tutoring Sessions
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" data-target="job-listings-content">
+                    <i class="bi bi-briefcase"></i> Job Listings
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" data-target="applications-content">
+                    <i class="bi bi-file-earmark-text"></i> Applications
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" data-target="messages-content">
+                    <i class="bi bi-chat-dots"></i> Messages
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" data-target="system-settings-content">
+                    <i class="bi bi-box-seam"></i> System Settings
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" data-target="reports-content">
+                    <i class="bi bi-graph-up"></i> Reports
+                </a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="offcanvas offcanvas-start admin-sidebar" tabindex="-1" id="adminSidebarOffcanvas" aria-labelledby="adminSidebarOffcanvasLabel">
+        <div class="offcanvas-header">
+            <h5 class="offcanvas-title text-white" id="adminSidebarOffcanvasLabel">Admin Navigation</h5>
+            <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body p-0">
+            <ul class="nav flex-column">
+                <li class="nav-item">
+                    <a class="nav-link" href="./admin_dashboard.html">
+                        <i class="bi bi-speedometer2"></i> Dashboard
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="./user_management.html">
+                        <i class="bi bi-people"></i> Users
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" data-target="roles-content">
+                        <i class="bi bi-person-badge"></i> Roles
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="#" data-target="all-courses-content">
+                        <i class="bi bi-book"></i> Courses
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" data-target="tutoring-sessions-content">
+                        <i class="bi bi-calendar-check"></i> Tutoring Sessions
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" data-target="job-listings-content">
+                        <i class="bi bi-briefcase"></i> Job Listings
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" data-target="applications-content">
+                        <i class="bi bi-file-earmark-text"></i> Applications
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" data-target="messages-content">
+                        <i class="bi bi-chat-dots"></i> Messages
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" data-target="system-settings-content">
+                        <i class="bi bi-box-seam"></i> System Settings
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#" data-target="reports-content">
+                        <i class="bi bi-graph-up"></i> Reports
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="admin-content col-md-10">
+        <h1 class="mb-4 fw-bold text-primary">Course Management</h1>
+
+        <ul class="nav nav-tabs mb-4">
+            <li class="nav-item">
+                <a class="nav-link active" href="#" data-target="all-courses-content">All Courses</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" data-target="add-course-content">Add New Course</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" data-target="pending-courses-content">Pending Courses</a>
+            </li>
+        </ul>
+
+        <div id="all-courses-content" class="sub-content-section active">
+            <div class="admin-card">
+                <h4 class="mb-3 text-primary">All Available Courses</h4>
+                <div class="input-group mb-3">
+                    <input type="text" id="course-search-input" class="form-control" placeholder="Search courses by title or instructor...">
+                    <button class="btn btn-outline-primary" type="button"><i class="bi bi-search"></i> Search</button>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover align-middle">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Title</th>
+                                <th scope="col">Instructor</th>
+                                <th scope="col">Category</th>
+                                <th scope="col">Status</th>
+                                <th scope="col">Enrolled</th>
+                                <th scope="col">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="all-courses-table">
+                            <tr>
+                                <td class="course-id">1</td>
+                                <td class="course-title">Introduction to Python</td>
+                                <td class="course-instructor">Dr. Alice Wonderland</td>
+                                <td class="course-category">Programming</td>
+                                <td><span class="badge bg-success">Active</span></td>
+                                <td class="course-enrolled">120</td>
+                                <td>
+                                    <button class="btn btn-sm btn-info me-1 action-btn" data-action="edit" title="Edit Course"><i class="bi bi-pencil"></i></button>
+                                    <button class="btn btn-sm btn-danger me-1 action-btn" data-action="deactivate" title="Deactivate Course"><i class="bi bi-slash-circle"></i></button>
+                                    <button class="btn btn-sm btn-secondary action-btn" data-action="view" title="View Course"><i class="bi bi-eye"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="course-id">2</td>
+                                <td class="course-title">Graphic Design Basics</td>
+                                <td class="course-instructor">Ms. Bob Ross</td>
+                                <td class="course-category">Design</td>
+                                <td><span class="badge bg-success">Active</span></td>
+                                <td class="course-enrolled">85</td>
+                                <td>
+                                    <button class="btn btn-sm btn-info me-1 action-btn" data-action="edit" title="Edit Course"><i class="bi bi-pencil"></i></button>
+                                    <button class="btn btn-sm btn-danger me-1 action-btn" data-action="deactivate" title="Deactivate Course"><i class="bi bi-slash-circle"></i></button>
+                                    <button class="btn btn-sm btn-secondary action-btn" data-action="view" title="View Course"><i class="bi bi-eye"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="course-id">3</td>
+                                <td class="course-title">Advanced Web Development</td>
+                                <td class="course-instructor">Prof. Charlie Code</td>
+                                <td class="course-category">Web Development</td>
+                                <td><span class="badge bg-success">Active</span></td>
+                                <td class="course-enrolled">60</td>
+                                <td>
+                                    <button class="btn btn-sm btn-info me-1 action-btn" data-action="edit" title="Edit Course"><i class="bi bi-pencil"></i></button>
+                                    <button class="btn btn-sm btn-danger me-1 action-btn" data-action="deactivate" title="Deactivate Course"><i class="bi bi-slash-circle"></i></button>
+                                    <button class="btn btn-sm btn-secondary action-btn" data-action="view" title="View Course"><i class="bi bi-eye"></i></button>
+                                </td>
+                            </tr>
+                            </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div id="add-course-content" class="sub-content-section">
+            <div class="admin-card">
+                <h4 class="mb-3 text-primary">Add New Course</h4>
+                <p class="text-muted">Fill in the details below to add a new course to the platform.</p>
+                <form id="add-course-form">
+                    <div class="mb-3">
+                        <label for="courseTitle" class="form-label">Course Title</label>
+                        <input type="text" class="form-control" id="courseTitle" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="instructorName" class="form-label">Instructor Name</label>
+                        <input type="text" class="form-control" id="instructorName" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="courseCategory" class="form-label">Category</label>
+                        <select class="form-select" id="courseCategory" required>
+                            <option selected disabled value="">Choose...</option>
+                            <option>Programming</option>
+                            <option>Design</option>
+                            <option>Marketing</option>
+                            <option>Business</option>
+                            <option>Language</option>
+                            <option>Technology</option>
+                            <option>Photography</option>
+                            <option>Other</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="courseDescription" class="form-label">Course Description</label>
+                        <textarea class="form-control" id="courseDescription" rows="5" required></textarea>
+                    </div>
+                    <div class="mb-3">
+                        <label for="coursePrice" class="form-label">Price ($)</label>
+                        <input type="number" class="form-control" id="coursePrice" step="0.01" min="0" value="0">
+                    </div>
+                    <div class="mb-3">
+                        <label for="courseImage" class="form-label">Course Image</label>
+                        <input class="form-control" type="file" id="courseImage">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add Course</button>
+                </form>
+            </div>
+        </div>
+
+        <div id="pending-courses-content" class="sub-content-section">
+            <div class="admin-card">
+                <h4 class="mb-3 text-primary">Pending Course Approvals</h4>
+                <p class="text-muted">Review and approve new courses submitted by instructors.</p>
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover align-middle">
+                        <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Title</th>
+                                <th scope="col">Instructor</th>
+                                <th scope="col">Category</th>
+                                <th scope="col">Submitted On</th>
+                                <th scope="col">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="pending-courses-table">
+                            <tr>
+                                <td class="course-id">4</td>
+                                <td class="course-title">Basics of Photography</td>
+                                <td class="course-instructor">Diana Lens</td>
+                                <td class="course-category">Photography</td>
+                                <td>2023-05-20</td>
+                                <td>
+                                    <button class="btn btn-sm btn-success me-1 action-btn" data-action="approve" title="Approve Course"><i class="bi bi-check-lg"></i> Approve</button>
+                                    <button class="btn btn-sm btn-danger me-1 action-btn" data-action="reject" title="Reject Course"><i class="bi bi-x-lg"></i> Reject</button>
+                                    <button class="btn btn-sm btn-secondary action-btn" data-action="view-details" title="View Details"><i class="bi bi-eye"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="course-id">5</td>
+                                <td class="course-title">Introduction to AI</td>
+                                <td class="course-instructor">Eve Data</td>
+                                <td class="course-category">Technology</td>
+                                <td>2023-05-22</td>
+                                <td>
+                                    <button class="btn btn-sm btn-success me-1 action-btn" data-action="approve" title="Approve Course"><i class="bi bi-check-lg"></i> Approve</button>
+                                    <button class="btn btn-sm btn-danger me-1 action-btn" data-action="reject" title="Reject Course"><i class="bi bi-x-lg"></i> Reject</button>
+                                    <button class="btn btn-sm btn-secondary action-btn" data-action="view-details" title="View Details"><i class="bi bi-eye"></i></button>
+                                </td>
+                            </tr>
+                            </tbody>
+                    </table>
+                </div>
+                <p class="text-muted small mt-3">No pending course approvals at this time.</p>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<footer class="bg-dark text-white pt-5 pb-4">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 mb-4">
+                <a class="navbar-brand d-flex align-items-center mb-3" href="./landing_page.html">
+                    <img src="./logo.jpeg" alt="SkillConnect Logo" height="60">
+                </a>
+                <p class="text-muted">Temporary minds. Share skills. Shape the future – with skillConnect.</p>
+                <p class="text-muted small">© 2023 SkillConnect. All rights reserved.</p>
+                <p class="text-muted small mb-0">Group B</p>
+            </div>
+
+            <div class="col-lg-2 col-md-4 mb-4">
+                <h5 class="text-uppercase fw-bold mb-4">All Pages</h5>
+                <ul class="list-unstyled">
+                    <li class="mb-2"><a href="./landing_page.html" class="text-white text-decoration-none">Home</a></li>
+                    <li class="mb-2"><a href="#" class="text-white text-decoration-none">All Courses</a></li>
+                    <li class="mb-2"><a href="./faq.html" class="text-white text-decoration-none">Contact</a></li>
+                    <li class="mb-2"><a href="./aboutUs.html" class="text-white text-decoration-none">About Us</a></li>
+                    <li class="mb-2"><a href="#" class="text-white text-decoration-none">Jobs</a></li>
+                </ul>
+            </div>
+
+            <div class="col-lg-3 col-md-4 mb-4">
+                <h5 class="text-uppercase fw-bold mb-4">Policies</h5>
+                <ul class="list-unstyled">
+                    <li class="mb-2"><a href="#" class="text-white text-decoration-none">Privacy Policy</a></li>
+                    <li class="mb-2"><a href="#" class="text-white text-decoration-none">Terms and Conditions</a></li>
+                    <li class="mb-2"><a href="#" class="text-white text-decoration-none">Refund and Returns Policy</a></li>
+                </ul>
+            </div>
+
+            <div class="col-lg-3 col-md-4 mb-4">
+                <h5 class="text-uppercase fw-bold mb-4">Stay Updated</h5>
+                <p class="text-muted">Subscribe to our newsletter for the latest updates.</p>
+                <div class="input-group mb-3">
+                    <input type="email" id="newsletter-email" class="form-control" placeholder="Your Email">
+                    <button class="btn btn-primary" type="button" id="subscribe-btn">Subscribe</button>
+                </div>
+                <div class="d-flex">
+                    <a href="#" class="text-white me-3"><i class="bi bi-facebook"></i></a>
+                    <a href="#" class="text-white me-3"><i class="bi bi-twitter"></i></a>
+                    <a href="#" class="text-white me-3"><i class="bi bi-instagram"></i></a>
+                    <a href="#" class="text-white me-3"><i class="bi bi-linkedin"></i></a>
+                </div>
+            </div>
+        </div>
+        <hr class="my-4 bg-secondary">
+        <div class="row">
+            <div class="col-md-6 text-center text-md-start">
+                <p class="small text-muted mb-0">© 2023 SkillConnect. All rights reserved.</p>
+            </div>
+            <div class="col-md-6 text-center text-md-end">
+                <p class="small text-muted mb-0">Group B</p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const sidebarLinks = document.querySelectorAll('.admin-sidebar .nav-link');
+    const courseManagementTabs = document.querySelectorAll('.nav-tabs .nav-link');
+    const contentSections = document.querySelectorAll('.admin-content .sub-content-section');
+    const allCoursesTableBody = document.getElementById('all-courses-table');
+
+    function showContent(targetId) {
+        contentSections.forEach(section => section.classList.remove('active'));
+        const targetContent = document.getElementById(targetId);
+        if (targetContent) {
+            targetContent.classList.add('active');
+        }
+        
+        courseManagementTabs.forEach(tab => {
+            if (tab.dataset.target === targetId) {
+                tab.classList.add('active');
+            } else {
+                tab.classList.remove('active');
+            }
+        });
+
+        sidebarLinks.forEach(link => {
+            const linkTarget = link.dataset.target;
+            const isCourseLink = ['all-courses-content', 'add-course-content', 'pending-courses-content'].includes(linkTarget);
+            const isTargetCourseSection = ['all-courses-content', 'add-course-content', 'pending-courses-content'].includes(targetId);
+
+            if (isCourseLink && isTargetCourseSection) {
+                 link.classList.add('active');
+            } else if (linkTarget === targetId) {
+                link.classList.add('active');
+            } else {
+                 // Deactivate if it's not a course link or the target doesn't match
+                if (!isCourseLink) {
+                    link.classList.remove('active');
+                }
+            }
+        });
+    }
+
+    sidebarLinks.forEach(link => {
+        if (link.getAttribute('href') === '#') {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.dataset.target;
+                if (targetId) {
+                    // Special handling for the main "Courses" link to default to the "All Courses" tab
+                    if (targetId === "all-courses-content") {
+                         showContent('all-courses-content');
+                    } else {
+                         // This part is for other sidebar links on this page which are not implemented yet
+                         alert(`Navigating to ${this.textContent.trim()} section...`);
+                    }
+                }
+            });
+        }
+    });
+
+    courseManagementTabs.forEach(tab => {
+        tab.addEventListener('click', function(e) {
+            e.preventDefault();
+            const targetId = this.dataset.target;
+            showContent(targetId);
+        });
+    });
+
+    // --- MAIN ACTION BUTTONS & ALERTS ---
+    document.body.addEventListener('click', function(e) {
+        const button = e.target.closest('.action-btn');
+        if (!button) return;
+
+        e.preventDefault();
+        const action = button.dataset.action;
+        const courseRow = button.closest('tr');
+        const courseTitle = courseRow.querySelector('.course-title')?.textContent.trim() || 'this course';
+
+        switch(action) {
+            case 'edit':
+                alert(`Action: Edit details for course "${courseTitle}".`);
+                break;
+            case 'deactivate':
+                if (confirm(`Are you sure you want to deactivate "${courseTitle}"?`)) {
+                    alert(`Course "${courseTitle}" has been deactivated.`);
+                    courseRow.remove();
+                }
+                break;
+            case 'view':
+                 alert(`Action: View details for course "${courseTitle}".`);
+                break;
+            case 'approve':
+                 if (confirm(`Are you sure you want to approve "${courseTitle}"?`)) {
+                    const courseData = {
+                        id: courseRow.querySelector('.course-id').textContent,
+                        title: courseRow.querySelector('.course-title').textContent,
+                        instructor: courseRow.querySelector('.course-instructor').textContent,
+                        category: courseRow.querySelector('.course-category').textContent
+                    };
+                    addCourseToAllTable(courseData.id, courseData.title, courseData.instructor, courseData.category, 0);
+                    alert(`Course "${courseTitle}" has been approved and is now live.`);
+                    courseRow.remove();
+                }
+                break;
+            case 'reject':
+                 if (confirm(`Are you sure you want to reject "${courseTitle}"?`)) {
+                    alert(`Submission for "${courseTitle}" has been rejected.`);
+                    courseRow.remove();
+                }
+                break;
+            case 'view-details':
+                alert(`Action: Viewing submission details for "${courseTitle}".`);
+                break;
+        }
+    });
+
+    // --- ADD NEW COURSE FORM ---
+    const addCourseForm = document.getElementById('add-course-form');
+    addCourseForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const title = document.getElementById('courseTitle').value.trim();
+        const instructor = document.getElementById('instructorName').value.trim();
+        const category = document.getElementById('courseCategory').value;
+
+        if (!title || !instructor || !category) {
+            alert('Please fill out all required fields: Title, Instructor, and Category.');
+            return;
+        }
+
+        const newCourseId = Math.floor(Math.random() * 1000) + 10; // Generate a random ID
+        addCourseToAllTable(newCourseId, title, instructor, category, 0);
+        
+        alert(`Successfully added new course: "${title}"!`);
+        addCourseForm.reset();
+        
+        // Switch back to the "All Courses" tab to show the new addition
+        showContent('all-courses-content');
+    });
+    
+    // Helper function to add a new row to the main course table
+    function addCourseToAllTable(id, title, instructor, category, enrolled) {
+        const newRow = document.createElement('tr');
+        newRow.innerHTML = `
+            <td class="course-id">${id}</td>
+            <td class="course-title">${title}</td>
+            <td class="course-instructor">${instructor}</td>
+            <td class="course-category">${category}</td>
+            <td><span class="badge bg-success">Active</span></td>
+            <td class="course-enrolled">${enrolled}</td>
+            <td>
+                <button class="btn btn-sm btn-info me-1 action-btn" data-action="edit" title="Edit Course"><i class="bi bi-pencil"></i></button>
+                <button class="btn btn-sm btn-danger me-1 action-btn" data-action="deactivate" title="Deactivate Course"><i class="bi bi-slash-circle"></i></button>
+                <button class="btn btn-sm btn-secondary action-btn" data-action="view" title="View Course"><i class="bi bi-eye"></i></button>
+            </td>
+        `;
+        allCoursesTableBody.appendChild(newRow);
+    }
+
+    // --- COURSE SEARCH FUNCTIONALITY ---
+    const searchInput = document.getElementById('course-search-input');
+    searchInput.addEventListener('keyup', function() {
+        const filter = searchInput.value.toLowerCase();
+        const courseRows = allCoursesTableBody.getElementsByTagName('tr');
+        
+        for (let i = 0; i < courseRows.length; i++) {
+            const titleCell = courseRows[i].querySelector('.course-title');
+            const instructorCell = courseRows[i].querySelector('.course-instructor');
+            if (titleCell || instructorCell) {
+                const titleText = titleCell.textContent.toLowerCase();
+                const instructorText = instructorCell.textContent.toLowerCase();
+                if (titleText.includes(filter) || instructorText.includes(filter)) {
+                    courseRows[i].style.display = "";
+                } else {
+                    courseRows[i].style.display = "none";
+                }
+            }
+        }
+    });
+
+    // --- FOOTER & LOGOUT BUTTONS ---
+    document.getElementById('subscribe-btn').addEventListener('click', function() {
+        const emailInput = document.getElementById('newsletter-email');
+        if (emailInput.value && emailInput.value.includes('@')) {
+            alert(`Thank you for subscribing with ${emailInput.value}!`);
+            emailInput.value = '';
+        } else {
+            alert('Please enter a valid email address.');
+        }
+    });
+    
+    document.getElementById('logout-btn').addEventListener('click', function(e) {
+        e.preventDefault();
+        if (confirm('Are you sure you want to logout?')) {
+            alert('You have been logged out.');
+            window.location.href = './login.html'; // Uncomment to redirect
+        }
+    });
+
+    // Initialize view
+    showContent('all-courses-content');
+});
+</script>
+</body>
+</html>

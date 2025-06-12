@@ -166,14 +166,37 @@
       <div class="col-lg-6">
         <div class="login-card">
           <h1 class="login-title text-center">HI, Welcome back!</h1>
-          <form>
+          <form action="login.php" method="POST">
             <div class="mb-3">
               <label for="username" class="form-label">Username or Email Address</label>
-              <input type="text" class="form-control" id="username" placeholder="Enter your username or email">
+              <input type="text" class="form-control" id="username" name="username" placeholder="Enter your username or email" required>
             </div>
             <div class="mb-3">
               <label for="password" class="form-label">Password</label>
-              <input type="password" class="form-control" id="password" placeholder="Enter your password">
+              <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password" required>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Login as:</label><br>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="role" id="student" value="student" required>
+                <label class="form-check-label" for="student">Student</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="role" id="tutor" value="tutor" required>
+                <label class="form-check-label" for="tutor">Tutor</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="role" id="employer" value="employer" required>
+                <label class="form-check-label" for="employer">Employer</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="role" id="jobseeker" value="jobseeker" required>
+                <label class="form-check-label" for="jobseeker">Job Seeker</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="role" id="admin" value="admin" required>
+                <label class="form-check-label" for="admin">Admin</label>
+              </div>
             </div>
             <div class="mb-4 keep-signed">
               <div class="form-check">
@@ -188,7 +211,27 @@
               <a href="#" class="text-decoration-none">Forgot password?</a>
             </div>
             <div class="text-center">
-              <p class="mb-0">Don't have an account? <a href="#" class="text-decoration-none fw-bold">Register Now</a></p>
+              <p class="mb-0">
+                Don't have an account?
+                <a href="#" class="text-decoration-none fw-bold" data-bs-toggle="dropdown" aria-expanded="false" id="registerDropdownLink">Register Now</a>
+                <ul class="dropdown-menu" aria-labelledby="registerDropdownLink" style="display:inline-block;position:relative;">
+                  <li>
+                    <a class="dropdown-item" href="./registration_form_students_tutor.html">
+                      Student / Tutor Registration
+                    </a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="./registration_form_employer.html">
+                      Employer Registration
+                    </a>
+                  </li>
+                  <li>
+                    <a class="dropdown-item" href="./registration_form_jobseeker.html">
+                      Job Seeker Registration
+                    </a>
+                  </li>
+                </ul>
+              </p>
             </div>
           </form>
         </div>
