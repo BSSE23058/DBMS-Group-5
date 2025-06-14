@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Job Listings | SkillConnect</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+  <style>
+    /* Same styles as landing_page.html */
+    html {
+      scroll-behavior: smooth;
+    }
+    body {
+      transition: background 0.3s, color 0.3s;
+    }
+    .navbar {
+      padding: 1rem 2rem;
+    }
+    .navbar-nav .nav-link {
+      font-weight: 600;
+      margin: 0 10px;
+    }
+    .nav-icons i {
+      font-size: 1.3rem;
+      margin-right: 15px;
+      color: #1e1e2f;
+      cursor: pointer;
+    }
+    .nav-buttons .btn {
+      margin-left: 10px;
+    }
+    .navbar-brand img {
+      height: 80px;
+    }
+    @media (max-width: 768px) {
+      .hero-section h1 {
+        font-size: 1.8rem;
+        text-align: center;
+      }
+    }
+    .job-listings-section {
+      padding: 5rem 0;
+    }
+    .job-card {
+      border-radius: 10px;
+      transition: all 0.3s ease;
+      margin-bottom: 20px;
+    }
+    .job-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
+    .job-type-badge {
+      font-size: 0.75rem;
+      padding: 0.35em 0.65em;
+    }
+    .job-save-btn {
+      color: #6c757d;
+      transition: all 0.3s ease;
+    }
+    .job-save-btn:hover, .job-save-btn.saved {
+      color: #dc3545;
+    }
+    .search-filter-section {
+      background-color: #f8f9fa;
+      padding: 2rem;
+      border-radius: 10px;
+      margin-bottom: 2rem;
+    }
+  </style>
+</head>
+<body>
+
+<!-- Same Navbar as landing_page.html -->
+<nav class="navbar navbar-expand-lg bg-white shadow-sm">
+  <div class="container-fluid">
+    <a class="navbar-brand d-flex align-items-center" href="#">
+      <img src="./logo.jpeg" alt="SkillConnect Logo"/>
+    </a>
+
+    <div class="collapse navbar-collapse justify-content-between">
+      <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
+        <li class="nav-item"><a class="nav-link" href="./landing_page.html">Home</a></li>
+        <li class="nav-item"><a class="nav-link active" href="./job_listings.html">All Jobs</a></li>
+        <li class="nav-item"><a class="nav-link" href="#">All Courses</a></li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+            Services
+          </a>
+          <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><a class="dropdown-item" href="./registration_form_student.html">Tutoring</a></li>
+            <li><a class="dropdown-item" href="./registration_form_jobSeekers_Employeers.html">Job Matching</a></li>
+          </ul>
+        </li>
+        <li class="nav-item"><a class="nav-link" href="./faq.html">Contact</a></li>
+        <li class="nav-item"><a class="nav-link" href="./aboutUs.html">About Us</a></li>
+      </ul>
+
+      <div class="d-flex align-items-center nav-icons">
+        <i class="bi bi-search"></i>
+        <span class="me-2">0.0 $</span>
+        <i class="bi bi-bag"></i>
+        <i class="bi bi-person-circle"></i>
+        <div class="nav-buttons">
+          <a href="./login.html" class="btn btn-primary">Login</a>
+          <a href="./registration_form_jobSeekers_Employeers.html" class="btn btn-outline-primary">Register</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- Job Listings Hero Section -->
+<section class="hero-section py-5">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-md-8 text-white">
+        <h1 class="fw-bold mb-4">Find Your Dream Job</h1>
+        <p class="lead mb-4">Browse through hundreds of opportunities that match your skills and aspirations.</p>
+        <a href="./job_posting_form.html" class="btn btn-light rounded-pill px-4 py-2 me-2">
+          Post a Job <i class="bi bi-briefcase ms-2"></i>
+        </a>
+        <a href="./saved_jobs.html" class="btn btn-outline-light rounded-pill px-4 py-2">
+          Saved Jobs <i class="bi bi-bookmark ms-2"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Job Listings Section -->
+<section class="job-listings-section">
+  <div class="container">
+    <!-- Search and Filter Section -->
+    <div class="search-filter-section">
+      <div class="row">
+        <div class="col-md-8 mb-3 mb-md-0">
+          <div class="input-group">
+            <input type="text" class="form-control form-control-lg" placeholder="Search by job title, company, or keywords">
+            <button class="btn btn-primary" type="button">
+              <i class="bi bi-search"></i> Search
+            </button>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <select class="form-select form-select-lg">
+            <option selected>Filter by Job Type</option>
+            <option>All Types</option>
+            <option>Full-time</option>
+            <option>Part-time</option>
+            <option>Contract</option>
+            <option>Internship</option>
+            <option>Freelance</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Job Listings -->
+    <div class="row">
+      <div class="col-lg-4 mb-4">
+        <!-- Filters Sidebar -->
+        <div class="card shadow-sm">
+          <div class="card-body">
+            <h5 class="card-title mb-4">Filters</h5>
+            
+            <div class="mb-4">
+              <h6 class="fw-bold mb-3">Location</h6>
+              <div class="form-check mb-2">
+                <input class="form-check-input" type="checkbox" id="remoteCheck" checked>
+                <label class="form-check-label" for="remoteCheck">Remote</label>
+              </div>
+              <div class="form-check mb-2">
+                <input class="form-check-input" type="checkbox" id="hybridCheck">
+                <label class="form-check-label" for="hybridCheck">Hybrid</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="onsiteCheck">
+                <label class="form-check-label" for="onsiteCheck">On-site</label>
+              </div>
+            </div>
+            
+            <div class="mb-4">
+              <h6 class="fw-bold mb-3">Experience Level</h6>
+              <div class="form-check mb-2">
+                <input class="form-check-input" type="checkbox" id="entryLevel">
+                <label class="form-check-label" for="entryLevel">Entry Level</label>
+              </div>
+              <div class="form-check mb-2">
+                <input class="form-check-input" type="checkbox" id="midLevel" checked>
+                <label class="form-check-label" for="midLevel">Mid Level</label>
+              </div>
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="seniorLevel">
+                <label class="form-check-label" for="seniorLevel">Senior Level</label>
+              </div>
+            </div>
+            
+            <div class="mb-4">
+              <h6 class="fw-bold mb-3">Salary Range</h6>
+              <select class="form-select">
+                <option selected>Any Salary</option>
+                <option>$30,000+</option>
+                <option>$50,000+</option>
+                <option>$75,000+</option>
+                <option>$100,000+</option>
+              </select>
+            </div>
+            
+            <button class="btn btn-primary w-100">Apply Filters</button>
+          </div>
+        </div>
+      </div>
+      
+      <div class="col-lg-8">
+        <!-- Job Cards -->
+        <div class="card job-card">
+          <div class="card-body">
+            <div class="d-flex justify-content-between">
+              <div>
+                <h4 class="card-title mb-1">Frontend Developer (React)</h4>
+                <p class="text-muted mb-2">TechSolutions Inc. • <span class="text-success">Remote</span></p>
+              </div>
+              <div>
+                <button class="btn btn-sm job-save-btn" title="Save job">
+                  <i class="bi bi-bookmark"></i>
+                </button>
+              </div>
+            </div>
+            
+            <div class="d-flex flex-wrap gap-2 mb-3">
+              <span class="badge bg-primary job-type-badge">Full-time</span>
+              <span class="badge bg-secondary job-type-badge">$70,000 - $90,000</span>
+              <span class="badge bg-info job-type-badge">React</span>
+              <span class="badge bg-info job-type-badge">JavaScript</span>
+              <span class="badge bg-info job-type-badge">CSS</span>
+            </div>
+            
+            <p class="card-text mb-3">We're looking for a skilled Frontend Developer with 3+ years of experience in React to join our growing team. You'll be responsible for building user interfaces and implementing new features.</p>
+            
+            <div class="d-flex justify-content-between align-items-center">
+              <small class="text-muted">Posted 2 days ago</small>
+              <div>
+                <a href="#" class="btn btn-outline-primary btn-sm me-2">View Details</a>
+                <a href="#" class="btn btn-primary btn-sm">Apply Now</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="card job-card">
+          <div class="card-body">
+            <div class="d-flex justify-content-between">
+              <div>
+                <h4 class="card-title mb-1">UX/UI Designer</h4>
+                <p class="text-muted mb-2">CreativeMinds • <span class="text-warning">Hybrid (New York)</span></p>
+              </div>
+              <div>
+                <button class="btn btn-sm job-save-btn saved" title="Unsave job">
+                  <i class="bi bi-bookmark-fill"></i>
+                </button>
+              </div>
+            </div>
+            
+            <div class="d-flex flex-wrap gap-2 mb-3">
+              <span class="badge bg-primary job-type-badge">Full-time</span>
+              <span class="badge bg-secondary job-type-badge">$60,000 - $80,000</span>
+              <span class="badge bg-info job-type-badge">Figma</span>
+              <span class="badge bg-info job-type-badge">Adobe XD</span>
+              <span class="badge bg-info job-type-badge">User Research</span>
+            </div>
+            
+            <p class="card-text mb-3">Join our design team to create beautiful and intuitive user experiences. We're looking for someone with a strong portfolio showcasing UX/UI design skills and 2+ years of experience.</p>
+            
+            <div class="d-flex justify-content-between align-items-center">
+              <small class="text-muted">Posted 1 week ago</small>
+              <div>
+                <a href="#" class="btn btn-outline-primary btn-sm me-2">View Details</a>
+                <a href="#" class="btn btn-primary btn-sm">Apply Now</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="card job-card">
+          <div class="card-body">
+            <div class="d-flex justify-content-between">
+              <div>
+                <h4 class="card-title mb-1">Backend Developer (Node.js)</h4>
+                <p class="text-muted mb-2">DataSystems • <span class="text-success">Remote</span></p>
+              </div>
+              <div>
+                <button class="btn btn-sm job-save-btn" title="Save job">
+                  <i class="bi bi-bookmark"></i>
+                </button>
+              </div>
+            </div>
+            
+            <div class="d-flex flex-wrap gap-2 mb-3">
+              <span class="badge bg-primary job-type-badge">Contract</span>
+              <span class="badge bg-secondary job-type-badge">$50 - $70/hr</span>
+              <span class="badge bg-info job-type-badge">Node.js</span>
+              <span class="badge bg-info job-type-badge">MongoDB</span>
+              <span class="badge bg-info job-type-badge">AWS</span>
+            </div>
+            
+            <p class="card-text mb-3">Looking for an experienced Node.js developer for a 6-month contract to help build our API infrastructure. Must have experience with MongoDB and cloud services.</p>
+            
+            <div class="d-flex justify-content-between align-items-center">
+              <small class="text-muted">Posted 3 days ago</small>
+              <div>
+                <a href="#" class="btn btn-outline-primary btn-sm me-2">View Details</a>
+                <a href="#" class="btn btn-primary btn-sm">Apply Now</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="card job-card">
+          <div class="card-body">
+            <div class="d-flex justify-content-between">
+              <div>
+                <h4 class="card-title mb-1">Marketing Intern</h4>
+                <p class="text-muted mb-2">GrowthMarketing • <span class="text-danger">On-site (Chicago)</span></p>
+              </div>
+              <div>
+                <button class="btn btn-sm job-save-btn" title="Save job">
+                  <i class="bi bi-bookmark"></i>
+                </button>
+              </div>
+            </div>
+            
+            <div class="d-flex flex-wrap gap-2 mb-3">
+              <span class="badge bg-primary job-type-badge">Internship</span>
+              <span class="badge bg-secondary job-type-badge">$20 - $25/hr</span>
+              <span class="badge bg-info job-type-badge">Social Media</span>
+              <span class="badge bg-info job-type-badge">Content Creation</span>
+              <span class="badge bg-info job-type-badge">SEO</span>
+            </div>
+            
+            <p class="card-text mb-3">Great opportunity for marketing students to gain real-world experience. You'll assist with social media campaigns, content creation, and analytics reporting.</p>
+            
+            <div class="d-flex justify-content-between align-items-center">
+              <small class="text-muted">Posted 5 days ago</small>
+              <div>
+                <a href="#" class="btn btn-outline-primary btn-sm me-2">View Details</a>
+                <a href="#" class="btn btn-primary btn-sm">Apply Now</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Pagination -->
+        <nav aria-label="Job listings pagination" class="mt-4">
+          <ul class="pagination justify-content-center">
+            <li class="page-item disabled">
+              <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Previous</a>
+            </li>
+            <li class="page-item active"><a class="page-link" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">2</a></li>
+            <li class="page-item"><a class="page-link" href="#">3</a></li>
+            <li class="page-item">
+              <a class="page-link" href="#">Next</a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Same Footer as landing_page.html -->
+<footer class="bg-dark text-white pt-5 pb-4">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-4 mb-4">
+        <a class="navbar-brand d-flex align-items-center mb-3" href="#">
+          <img src="./logo.jpeg" alt="SkillConnect Logo" height="60">
+        </a>
+        <p class="text-muted">Temporary minds. Share skills. Shape the future – with skillConnect.</p>
+        <p class="text-muted small">© 2023 SkillConnect. All rights reserved.</p>
+        <p class="text-muted small mb-0">Group B</p>
+      </div>
+
+      <div class="col-lg-2 col-md-4 mb-4">
+        <h5 class="text-uppercase fw-bold mb-4">All Pages</h5>
+        <ul class="list-unstyled">
+          <li class="mb-2"><a href="./landing_page.html" class="text-white text-decoration-none">Home</a></li>
+          <li class="mb-2"><a href="#" class="text-white text-decoration-none">All Courses</a></li>
+          <li class="mb-2"><a href="./faq.html" class="text-white text-decoration-none">Contact</a></li>
+          <li class="mb-2"><a href="./aboutUs.html" class="text-white text-decoration-none">About Us</a></li>
+          <li class="mb-2"><a href="./job_listings.html" class="text-white text-decoration-none">Jobs</a></li>
+        </ul>
+      </div>
+
+      <div class="col-lg-3 col-md-4 mb-4">
+        <h5 class="text-uppercase fw-bold mb-4">Policies</h5>
+        <ul class="list-unstyled">
+          <li class="mb-2"><a href="#" class="text-white text-decoration-none">Privacy Policy</a></li>
+          <li class="mb-2"><a href="#" class="text-white text-decoration-none">Terms and Conditions</a></li>
+          <li class="mb-2"><a href="#" class="text-white text-decoration-none">Refund and Returns Policy</a></li>
+        </ul>
+      </div>
+
+      <div class="col-lg-3 col-md-4 mb-4">
+        <h5 class="text-uppercase fw-bold mb-4">Stay Updated</h5>
+        <p class="text-muted">Subscribe to our newsletter for the latest updates.</p>
+        <div class="input-group mb-3">
+          <input type="email" class="form-control" placeholder="Your Email">
+          <button class="btn btn-primary" type="button">Subscribe</button>
+        </div>
+        <div class="d-flex">
+          <a href="#" class="text-white me-3"><i class="bi bi-facebook"></i></a>
+          <a href="#" class="text-white me-3"><i class="bi bi-twitter"></i></a>
+          <a href="#" class="text-white me-3"><i class="bi bi-instagram"></i></a>
+          <a href="#" class="text-white me-3"><i class="bi bi-linkedin"></i></a>
+        </div>
+      </div>
+    </div>
+    <hr class="my-4 bg-secondary">
+    <div class="row">
+      <div class="col-md-6 text-center text-md-start">
+        <p class="small text-muted mb-0">© 2023 SkillConnect. All rights reserved.</p>
+      </div>
+      <div class="col-md-6 text-center text-md-end">
+        <p class="small text-muted mb-0">Group B</p>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  // Toggle save job button
+  document.querySelectorAll('.job-save-btn').forEach(button => {
+    button.addEventListener('click', function() {
+      this.classList.toggle('saved');
+      if (this.classList.contains('saved')) {
+        this.innerHTML = '<i class="bi bi-bookmark-fill"></i>';
+        this.title = 'Unsave job';
+      } else {
+        this.innerHTML = '<i class="bi bi-bookmark"></i>';
+        this.title = 'Save job';
+      }
+    });
+  });
+</script>
+</body>
+</html>

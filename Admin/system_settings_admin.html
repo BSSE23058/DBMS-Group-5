@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>SkillConnect Admin - System Settings</title>
+    <title>SkillConnect Admin - Admin Management</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"/>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
@@ -102,26 +102,26 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <a class="navbar-brand d-flex align-items-center" href="./landing_page.html">
-            <img src="./logo.jpeg" alt="SkillConnect Logo"/>
+            <img src="logo.jpeg" alt="SkillConnect Logo"/>
         </a>
         <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
             <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
-                <li class="nav-item"><a class="nav-link" href="./landing_page.html">Home (Go to Main Site)</a></li>
-                <li class="nav-item"><a class="nav-link" href="./admin_dashboard.html">Admin Dashboard</a></li>
-                <li class="nav-item"><a class="nav-link" href="./admin_user_management.html">Users</a></li>
-                <li class="nav-item"><a class="nav-link" href="./admin_courses.html">Courses</a></li>
-                <li class="nav-item"><a class="nav-link" href="./admin_tutoring.html">Tutoring</a></li>
-                <li class="nav-item"><a class="nav-link" href="./admin_job_listings.html">Jobs</a></li>
-                <li class="nav-item"><a class="nav-link" href="./admin_messages.html">Messages</a></li>
-                <li class="nav-item"><a class="nav-link" href="./admin_applications.html">Applications</a></li>
-                <li class="nav-item"><a class="nav-link active" href="./admin_system_settings.html">System Settings</a></li>
-                <li class="nav-item"><a class="nav-link" href="./admin_reports.html">Reports</a></li>
+                <li class="nav-item"><a class="nav-link" href="./landing_page.html">Home </a></li>
+                <li class="nav-item"><a class="nav-link" href="./admin_dashboard.html"><i class="bi bi-speedometer2"></i> Dashboard</a></li>
+                <li class="nav-item"><a class="nav-link" href="./employee_management.html"><i class="bi bi-people"></i> Employees</a></li>
+                <li class="nav-item"><a class="nav-link" href="./courses_page_admin.html"><i class="bi bi-book"></i> Courses</a></li>
+                <li class="nav-item"><a class="nav-link" href="./tutor_management.html"><i class="bi bi-calendar-check"></i> Tutoring Sessions</a></li>
+                <li class="nav-item"><a class="nav-link" href="./job_listing_management.html"><i class="bi bi-briefcase"></i> Job Listings</a></li>
+                <li class="nav-item"><a class="nav-link" href="./applications_admin.html"><i class="bi bi-file-earmark-text"></i> Applications</a></li>
+                <li class="nav-item"><a class="nav-link" href="./admin_messages.html"><i class="bi bi-chat-dots"></i> Messages</a></li>
+                <li class="nav-item"><a class="nav-link" href="./reports_admin.html"><i class="bi bi-graph-up"></i> Reports</a></li>
+                <li class="nav-item"><a class="nav-link active" href="./system_settings_admin.html"><i class="bi bi-box-seam"></i> System Settings</a></li>
             </ul>
             <div class="d-flex align-items-center nav-icons">
                 <span class="me-3 fw-bold">Admin User</span>
                 <i class="bi bi-person-circle fs-4 me-3"></i>
                 <div class="nav-buttons">
-                    <a href="./login.html" id="logout-btn" class="btn btn-outline-primary">Logout</a>
+                    <a href="../login.html" id="logout-btn" class="btn btn-outline-primary">Logout</a>
                 </div>
             </div>
         </div>
@@ -131,16 +131,16 @@
 <div class="d-flex">
     <div class="admin-sidebar col-md-2">
         <ul class="nav flex-column">
-            <li class="nav-item"><a class="nav-link" href="./admin_dashboard.html"><i class="bi bi-speedometer2"></i> Dashboard</a></li>
-            <li class="nav-item"><a class="nav-link" href="./admin_user_management.html"><i class="bi bi-people"></i> Users</a></li>
-            <li class="nav-item"><a class="nav-link" href="./admin_courses.html"><i class="bi bi-book"></i> Courses</a></li>
-            <li class="nav-item"><a class="nav-link" href="./admin_tutoring.html"><i class="bi bi-calendar-check"></i> Tutoring Sessions</a></li>
-            <li class="nav-item"><a class="nav-link" href="./admin_job_listings.html"><i class="bi bi-briefcase"></i> Job Listings</a></li>
-            <li class="nav-item"><a class="nav-link" href="./admin_applications.html"><i class="bi bi-file-earmark-text"></i> Applications</a></li>
-            <li class="nav-item"><a class="nav-link" href="./admin_messages.html"><i class="bi bi-chat-dots"></i> Messages</a></li>
-            <li class="nav-item"><a class="nav-link active" href="./admin_system_settings.html"><i class="bi bi-box-seam"></i> System Settings</a></li>
-            <li class="nav-item"><a class="nav-link" href="./admin_reports.html"><i class="bi bi-graph-up"></i> Reports</a></li>
-        </ul>
+    <li class="nav-item"><a class="nav-link" href="./admin_dashboard.html"><i class="bi bi-speedometer2"></i> Dashboard</a></li>
+    <li class="nav-item"><a class="nav-link" href="./user_management.html"><i class="bi bi-people"></i> Manage Students </a></li>
+    <li class="nav-item"><a class="nav-link" href="./courses_page_admin.html"><i class="bi bi-book"></i>Manage Courses</a></li>
+    <li class="nav-item"><a class="nav-link" href="./tutor_management.html"><i class="bi bi-calendar-check"></i>Manage Tutoring Sessions</a></li>
+    <li class="nav-item"><a class="nav-link" href="job_listing_management.html" data-target="active-listings-content"><i class="bi bi-briefcase"></i>Manage Job Listings</a></li>
+    <li class="nav-item"><a class="nav-link" href="applications_admin.html"><i class="bi bi-file-earmark-text"></i> Manage JobSeekers</a></li>
+    <li class="nav-item"><a class="nav-link" href="reports_admin.html" data-target="reports-content"><i class="bi bi-graph-up"></i> Manage Employers</a></li>
+    <li class="nav-item"><a class="nav-link" href="admin_messages.html" data-target="messages-content"><i class="bi bi-chat-dots"></i> Manage Complaints</a></li>
+    <li class="nav-item"><a class="nav-link active" href="system_settings_admin.html"><i class="bi bi-box-seam"></i> System Settings</a></li>
+</ul>
     </div>
 
     <div class="offcanvas offcanvas-start admin-sidebar" tabindex="-1" id="adminSidebarOffcanvas">
@@ -150,357 +150,116 @@
         </div>
         <div class="offcanvas-body p-0">
             <ul class="nav flex-column">
-                <li class="nav-item"><a class="nav-link" href="./admin_dashboard.html"><i class="bi bi-speedometer2"></i> Dashboard</a></li>
-                <li class="nav-item"><a class="nav-link" href="./admin_user_management.html"><i class="bi bi-people"></i> Users</a></li>
-                <li class="nav-item"><a class="nav-link" href="./admin_courses.html"><i class="bi bi-book"></i> Courses</a></li>
-                <li class="nav-item"><a class="nav-link" href="./admin_tutoring.html"><i class="bi bi-calendar-check"></i> Tutoring Sessions</a></li>
-                <li class="nav-item"><a class="nav-link" href="./admin_job_listings.html"><i class="bi bi-briefcase"></i> Job Listings</a></li>
-                <li class="nav-item"><a class="nav-link" href="./admin_applications.html"><i class="bi bi-file-earmark-text"></i> Applications</a></li>
-                <li class="nav-item"><a class="nav-link" href="./admin_messages.html"><i class="bi bi-chat-dots"></i> Messages</a></li>
-                <li class="nav-item"><a class="nav-link active" href="./admin_system_settings.html"><i class="bi bi-box-seam"></i> System Settings</a></li>
-                <li class="nav-item"><a class="nav-link" href="./admin_reports.html"><i class="bi bi-graph-up"></i> Reports</a></li>
-            </ul>
+    <li class="nav-item"><a class="nav-link" href="./admin_dashboard.html"><i class="bi bi-speedometer2"></i> Dashboard</a></li>
+    <li class="nav-item"><a class="nav-link" href="./user_management.html"><i class="bi bi-people"></i> Manage Students </a></li>
+    <li class="nav-item"><a class="nav-link" href="./courses_page_admin.html"><i class="bi bi-book"></i>Manage Courses</a></li>
+    <li class="nav-item"><a class="nav-link" href="./tutor_management.html"><i class="bi bi-calendar-check"></i>Manage Tutoring Sessions</a></li>
+    <li class="nav-item"><a class="nav-link" href="job_listing_management.html" data-target="active-listings-content"><i class="bi bi-briefcase"></i>Manage Job Listings</a></li>
+    <li class="nav-item"><a class="nav-link" href="applications_admin.html"><i class="bi bi-file-earmark-text"></i> Manage JobSeekers</a></li>
+    <li class="nav-item"><a class="nav-link" href="reports_admin.html" data-target="reports-content"><i class="bi bi-graph-up"></i> Manage Employers</a></li>
+    <li class="nav-item"><a class="nav-link" href="admin_messages.html" data-target="messages-content"><i class="bi bi-chat-dots"></i> Manage Complaints</a></li>
+    <li class="nav-item"><a class="nav-link active" href="system_settings_admin.html"><i class="bi bi-box-seam"></i> System Settings</a></li>
+</ul>
         </div>
     </div>
 
     <div class="admin-content col-md-10">
-        <img src="image_8b06c1.png" alt="System Settings Header" class="img-fluid mb-4">
-        <h1 class="mb-4 fw-bold text-primary">System Settings</h1>
+        <h1 class="mb-4 fw-bold text-primary">Admin Management</h1>
 
         <ul class="nav nav-tabs mb-4">
             <li class="nav-item">
-                <a class="nav-link active" href="#" data-target="general-settings-content">General Site</a>
+                <a class="nav-link active" href="#" data-target="manage-admins-content">Manage Admins</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#" data-target="user-settings-content">User Management</a>
+                <a class="nav-link" href="#" data-target="add-admin-content">Add New Admin</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#" data-target="content-settings-content">Content Management</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#" data-target="notification-settings-content">Notifications</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#" data-target="integrations-settings-content">Integrations</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#" data-target="security-settings-content">Security & Logging</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#" data-target="appearance-settings-content">Appearance</a>
+                <a class="nav-link" href="#" data-target="change-admin-password-content">Change Admin Password</a>
             </li>
         </ul>
 
-        <!-- General Site Settings Content -->
-        <div id="general-settings-content" class="sub-content-section active">
+        <!-- Manage Admins Content -->
+        <div id="manage-admins-content" class="sub-content-section active">
             <div class="admin-card">
-                <h4 class="mb-3 text-primary">General Site Information</h4>
-                <form id="general-settings-form">
+                <h4 class="mb-3 text-primary">Existing Administrators</h4>
+                <div class="input-group mb-3">
+                    <input type="text" id="admin-search-input" class="form-control" placeholder="Search by Username or Email...">
+                    <button class="btn btn-outline-primary search-btn" type="button" data-table="admin-table"><i class="bi bi-search"></i> Search</button>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover align-middle">
+                        <thead>
+                            <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">Username</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="admin-table">
+                            <!-- Admin rows will be dynamically loaded here by JavaScript -->
+                        </tbody>
+                    </table>
+                    <p class="text-muted small mt-3" id="no-admins-message" style="display: none;">No administrators found.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Add New Admin Content -->
+        <div id="add-admin-content" class="sub-content-section">
+            <div class="admin-card">
+                <h4 class="mb-3 text-primary">Add New Administrator</h4>
+                <p class="text-muted">Fill in the details below to add a new administrator account.</p>
+                <form id="add-admin-form">
                     <div class="mb-3">
-                        <label for="siteName" class="form-label">Site Name</label>
-                        <input type="text" class="form-control" id="siteName" value="SkillConnect" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="siteURL" class="form-label">Site URL</label>
-                        <input type="url" class="form-control" id="siteURL" value="https://www.skillconnect.com" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="defaultLanguage" class="form-label">Default Language</label>
-                        <select class="form-select" id="defaultLanguage">
-                            <option>English</option>
-                            <option>Spanish</option>
-                            <option>French</option>
-                            <option>German</option>
-                        </select>
-                    </div>
-                    <div class="mb-3 form-check form-switch">
-                        <input class="form-check-input" type="checkbox" id="maintenanceMode">
-                        <label class="form-check-label" for="maintenanceMode">Enable Maintenance Mode</label>
-                        <small class="form-text text-muted d-block">If enabled, a custom message will be displayed to all public users.</small>
-                    </div>
-                    <div class="mb-3" id="maintenanceMessageDiv" style="display: none;">
-                        <label for="maintenanceMessage" class="form-label">Maintenance Message</label>
-                        <textarea class="form-control" id="maintenanceMessage" rows="3">SkillConnect is currently undergoing scheduled maintenance to improve our services. We will be back online shortly!</textarea>
-                    </div>
-                    <div class="mb-3 form-check form-switch">
-                        <input class="form-check-input" type="checkbox" id="registrationOpen" checked>
-                        <label class="form-check-label" for="registrationOpen">Allow New User Registrations</label>
-                    </div>
-                    <div class="mb-3">
-                        <label for="contactEmail" class="form-label">Contact & Support Email</label>
-                        <input type="email" class="form-control" id="contactEmail" value="support@skillconnect.com" required>
+                        <label for="addAdminUsername" class="form-label">Username</label>
+                        <input type="text" class="form-control" id="addAdminUsername" name="username" required>
                     </div>
                     <div class="mb-3">
-                        <label for="adminNotificationEmail" class="form-label">Admin Notification Email</label>
-                        <input type="email" class="form-control" id="adminNotificationEmail" value="admin@skillconnect.com" required>
+                        <label for="addAdminEmail" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="addAdminEmail" name="email" required>
                     </div>
                     <div class="mb-3">
-                        <label for="siteTimezone" class="form-label">Platform Timezone</label>
-                        <select class="form-select" id="siteTimezone">
-                            <option value="UTC">UTC</option>
-                            <option value="America/New_York">America/New_York (EST)</option>
-                            <option value="Europe/London">Europe/London (GMT)</option>
-                            <option value="Asia/Karachi" selected>Asia/Karachi (PKT)</option>
-                            <option value="Asia/Tokyo">Asia/Tokyo (JST)</option>
-                        </select>
+                        <label for="addAdminPassword" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="addAdminPassword" name="password" required>
                     </div>
-                    <button type="submit" class="btn btn-primary"><i class="bi bi-save"></i> Save General Settings</button>
+                    <button type="submit" class="btn btn-primary"><i class="bi bi-person-plus"></i> Add Admin</button>
                 </form>
             </div>
         </div>
 
-        <!-- User Management Settings Content -->
-        <div id="user-settings-content" class="sub-content-section">
+        <!-- Change Admin Password Content -->
+        <div id="change-admin-password-content" class="sub-content-section">
             <div class="admin-card">
-                <h4 class="mb-3 text-primary">User Account Management</h4>
-                <form id="user-settings-form">
+                <h4 class="mb-3 text-primary">Change Administrator Password</h4>
+                <p class="text-muted">Select an admin, enter their current password, and then the new password.</p>
+                <form id="change-admin-password-form">
                     <div class="mb-3">
-                        <label for="defaultUserRole" class="form-label">Default New User Role</label>
-                        <select class="form-select" id="defaultUserRole">
-                            <option>Student</option>
-                            <option>Job Seeker</option>
-                            <option>Employer</option>
-                        </select>
-                    </div>
-                    <div class="mb-3 form-check form-switch">
-                        <input class="form-check-input" type="checkbox" id="emailVerificationRequired" checked>
-                        <label class="form-check-label" for="emailVerificationRequired">Require Email Verification for New Accounts</label>
-                    </div>
-                    <div class="mb-3 form-check form-switch">
-                        <input class="form-check-input" type="checkbox" id="strongPasswordPolicy" checked>
-                        <label class="form-check-label" for="strongPasswordPolicy">Enforce Strong Password Policy</label>
-                        <small class="form-text text-muted">Requires minimum length, uppercase, lowercase, numbers, and symbols.</small>
-                    </div>
-                    <div class="mb-3">
-                        <label for="accountLockoutThreshold" class="form-label">Account Lockout Threshold (Failed Login Attempts)</label>
-                        <input type="number" class="form-control" id="accountLockoutThreshold" value="5" min="1" max="10">
-                        <small class="form-text text-muted">Number of incorrect password attempts before an account is temporarily locked.</small>
-                    </div>
-                    <div class="mb-3">
-                        <label for="accountInactivityTimeout" class="form-label">Account Inactivity Timeout (Days)</label>
-                        <input type="number" class="form-control" id="accountInactivityTimeout" value="180" min="0">
-                        <small class="form-text text-muted">Accounts inactive for this many days will be flagged for review or archived.</small>
-                    </div>
-                    <div class="mb-3">
-                        <label for="bannedWordsFilter" class="form-label">Banned Words Filter (comma-separated)</label>
-                        <textarea class="form-control" id="bannedWordsFilter" rows="3">swear, spam, scam, fraud</textarea>
-                        <small class="form-text text-muted">Words that are not allowed in public profiles, job titles, or course descriptions.</small>
-                    </div>
-                    <button type="submit" class="btn btn-primary"><i class="bi bi-save"></i> Save User Settings</button>
-                </form>
-            </div>
-        </div>
-
-        <!-- Content Management Settings Content -->
-        <div id="content-settings-content" class="sub-content-section">
-            <div class="admin-card">
-                <h4 class="mb-3 text-primary">Content & Listing Management</h4>
-                <form id="content-settings-form">
-                    <div class="mb-3">
-                        <label for="jobListingAutoExpiration" class="form-label">Job Listing Auto-Expiration (Days)</label>
-                        <input type="number" class="form-control" id="jobListingAutoExpiration" value="30" min="7">
-                        <small class="form-text text-muted">Job listings will automatically expire after this many days.</small>
-                    </div>
-                    <div class="mb-3 form-check form-switch">
-                        <input class="form-check-input" type="checkbox" id="newJobApprovalRequired" checked>
-                        <label class="form-check-label" for="newJobApprovalRequired">New Job Postings Require Admin Approval</label>
-                    </div>
-                    <div class="mb-3 form-check form-switch">
-                        <input class="form-check-input" type="checkbox" id="courseApprovalRequired" checked>
-                        <label class="form-check-label" for="courseApprovalRequired">New Courses Require Admin Approval</label>
-                    </div>
-                    <div class="mb-3">
-                        <label for="tutoringMinDuration" class="form-label">Tutoring Session Minimum Duration (Minutes)</label>
-                        <input type="number" class="form-control" id="tutoringMinDuration" value="30" min="15">
-                    </div>
-                    <div class="mb-3">
-                        <label for="allowedFileUploads" class="form-label">Allowed File Types for Uploads (comma-separated)</label>
-                        <input type="text" class="form-control" id="allowedFileUploads" value="pdf, docx, jpg, png, jpeg" placeholder="e.g., pdf, docx, jpg">
-                        <small class="form-text text-muted">File types allowed for resumes, portfolios, and other user uploads.</small>
-                    </div>
-                    <div class="mb-3">
-                        <label for="maxFileSize" class="form-label">Maximum File Size for Uploads (MB)</label>
-                        <input type="number" class="form-control" id="maxFileSize" value="5" min="1">
-                        <small class="form-text text-muted">Maximum file size allowed for individual uploads.</small>
-                    </div>
-                    <button type="submit" class="btn btn-primary"><i class="bi bi-save"></i> Save Content Settings</button>
-                </form>
-            </div>
-        </div>
-
-        <!-- Notification & Communication Settings Content -->
-        <div id="notification-settings-content" class="sub-content-section">
-            <div class="admin-card">
-                <h4 class="mb-3 text-primary">Notification & Email Settings</h4>
-                <form id="notification-settings-form">
-                    <div class="mb-3 form-check form-switch">
-                        <input class="form-check-input" type="checkbox" id="enableSystemEmails" checked>
-                        <label class="form-check-label" for="enableSystemEmails">Enable All System Automated Emails</label>
-                    </div>
-                    <div class="mb-3">
-                        <label for="dailyDigestFrequency" class="form-label">Admin Daily Digest Frequency</label>
-                        <select class="form-select" id="dailyDigestFrequency">
-                            <option>Daily</option>
-                            <option>Weekly</option>
-                            <option>Monthly</option>
-                            <option>Never</option>
-                        </select>
-                        <small class="form-text text-muted">How often administrators receive a summary of platform activities.</small>
-                    </div>
-                    <hr>
-                    <h5>Email Template Management</h5>
-                    <p class="text-muted">Click to edit specific email templates. Use placeholders like `{{username}}`, `{{job_title}}`.</p>
-                    <ul class="list-group">
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                            <span>Welcome Email</span>
-                            <div>
-                                <button type="button" class="btn btn-sm btn-outline-info me-2"><i class="bi bi-eye"></i> Preview</button>
-                                <button type="button" class="btn btn-sm btn-secondary"><i class="bi bi-pencil"></i> Edit</button>
-                            </div>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                            <span>Password Reset Email</span>
-                            <div>
-                                <button type="button" class="btn btn-sm btn-outline-info me-2"><i class="bi bi-eye"></i> Preview</button>
-                                <button type="button" class="btn btn-sm btn-secondary"><i class="bi bi-pencil"></i> Edit</button>
-                            </div>
-                        </li>
-                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                            <span>Job Application Status Update</span>
-                            <div>
-                                <button type="button" class="btn btn-sm btn-outline-info me-2"><i class="bi bi-eye"></i> Preview</button>
-                                <button type="button" class="btn btn-sm btn-secondary"><i class="bi bi-pencil"></i> Edit</button>
-                            </div>
-                        </li>
-                    </ul>
-                    <button type="submit" class="btn btn-primary mt-4"><i class="bi bi-save"></i> Save Notification Settings</button>
-                </form>
-            </div>
-        </div>
-
-        <!-- Integrations & API Settings Content -->
-        <div id="integrations-settings-content" class="sub-content-section">
-            <div class="admin-card">
-                <h4 class="mb-3 text-primary">External Integrations & API Keys</h4>
-                <form id="integrations-settings-form">
-                    <h5>Payment Gateways</h5>
-                    <div class="mb-3">
-                        <label for="stripeApiKey" class="form-label">Stripe Secret Key</label>
-                        <input type="password" class="form-control" id="stripeApiKey" value="sk_test_********************">
-                        <small class="form-text text-muted">Used for processing secure payments.</small>
-                    </div>
-                    <div class="mb-3">
-                        <label for="paypalClientId" class="form-label">PayPal Client ID</label>
-                        <input type="text" class="form-control" id="paypalClientId" value="AWX****************************">
-                    </div>
-                    <hr>
-                    <h5>Communication Services</h5>
-                    <div class="mb-3">
-                        <label for="sendgridApiKey" class="form-label">SendGrid API Key</label>
-                        <input type="password" class="form-control" id="sendgridApiKey" value="SG.***************************************************">
-                        <small class="form-text text-muted">Used for sending transactional emails.</small>
-                    </div>
-                    <div class="mb-3">
-                        <label for="smsGatewayApiKey" class="form-label">SMS Gateway API Key</label>
-                        <input type="password" class="form-control" id="smsGatewayApiKey" value="SMS_KEY_********************">
-                    </div>
-                    <hr>
-                    <h5>Analytics & Maps</h5>
-                    <div class="mb-3">
-                        <label for="googleAnalyticsId" class="form-label">Google Analytics Tracking ID</label>
-                        <input type="text" class="form-control" id="googleAnalyticsId" value="UA-XXXXXXXXX-Y">
-                    </div>
-                    <div class="mb-3">
-                        <label for="googleMapsApiKey" class="form-label">Google Maps API Key</label>
-                        <input type="password" class="form-control" id="googleMapsApiKey" value="AIzaSy*********************">
-                        <small class="form-text text-muted">Required for displaying maps (e.g., job locations).</small>
-                    </div>
-                    <button type="submit" class="btn btn-primary"><i class="bi bi-save"></i> Save Integrations</button>
-                </form>
-            </div>
-        </div>
-
-        <!-- Security & Logging Content -->
-        <div id="security-settings-content" class="sub-content-section">
-            <div class="admin-card">
-                <h4 class="mb-3 text-primary">Security & Audit Logging</h4>
-                <form id="security-settings-form">
-                    <div class="mb-3">
-                        <label for="adminSessionTimeout" class="form-label">Admin Session Timeout (Minutes)</label>
-                        <input type="number" class="form-control" id="adminSessionTimeout" value="60" min="10">
-                        <small class="form-text text-muted">Admin sessions will automatically log out after this period of inactivity.</small>
-                    </div>
-                    <div class="mb-3">
-                        <label for="forcePasswordResetFrequency" class="form-label">Force User Password Reset Every (Days)</label>
-                        <input type="number" class="form-control" id="forcePasswordResetFrequency" value="90" min="0">
-                        <small class="form-text text-muted">Set to 0 to disable forced password resets.</small>
-                    </div>
-                    <div class="mb-3">
-                        <label for="ipWhitelist" class="form-label">IP Whitelist (comma-separated)</label>
-                        <textarea class="form-control" id="ipWhitelist" rows="3" placeholder="e.g., 192.168.1.1, 203.0.113.45"></textarea>
-                        <small class="form-text text-muted">Only allow access from these IP addresses. Leave empty to allow all.</small>
-                    </div>
-                    <div class="mb-3">
-                        <label for="ipBlacklist" class="form-label">IP Blacklist (comma-separated)</label>
-                        <textarea class="form-control" id="ipBlacklist" rows="3" placeholder="e.g., 198.51.100.2, 203.0.113.1"></textarea>
-                        <small class="form-text text-muted">Block access from these IP addresses.</small>
-                    </div>
-                    <div class="mb-3">
-                        <label for="auditLogRetention" class="form-label">Audit Log Retention Period</label>
-                        <select class="form-select" id="auditLogRetention">
-                            <option>3 Months</option>
-                            <option>6 Months</option>
-                            <option>1 Year</option>
-                            <option>Forever</option>
-                        </select>
-                        <small class="form-text text-muted">How long system and user activity logs are stored.</small>
-                    </div>
-                    <button type="submit" class="btn btn-primary"><i class="bi bi-save"></i> Save Security Settings</button>
-                </form>
-            </div>
-        </div>
-
-        <!-- Appearance & Theming Content -->
-        <div id="appearance-settings-content" class="sub-content-section">
-            <div class="admin-card">
-                <h4 class="mb-3 text-primary">Website Appearance (User-Facing)</h4>
-                <form id="appearance-settings-form">
-                    <div class="mb-3">
-                        <label for="primaryBrandColor" class="form-label">Primary Brand Color</label>
-                        <input type="color" class="form-control form-control-color" id="primaryBrandColor" value="#4906bf" title="Choose your primary brand color">
-                    </div>
-                    <div class="mb-3">
-                        <label for="secondaryBrandColor" class="form-label">Secondary Brand Color</label>
-                        <input type="color" class="form-control form-control-color" id="secondaryBrandColor" value="#ffc107" title="Choose your secondary brand color">
-                    </div>
-                    <div class="mb-3">
-                        <label for="siteFont" class="form-label">Default Site Font</label>
-                        <select class="form-select" id="siteFont">
-                            <option>Inter</option>
-                            <option>Roboto</option>
-                            <option>Open Sans</option>
-                            <option>Lato</option>
+                        <label for="selectAdminForPasswordChange" class="form-label">Select Admin</label>
+                        <select class="form-select" id="selectAdminForPasswordChange" name="admin_id" required>
+                            <option selected disabled value="">Choose an admin...</option>
+                            <!-- Admins will be dynamically loaded here -->
                         </select>
                     </div>
                     <div class="mb-3">
-                        <label for="logoUpload" class="form-label">Upload New Site Logo</label>
-                        <input class="form-control" type="file" id="logoUpload" accept="image/*">
-                        <small class="form-text text-muted">Upload a new logo for the main website. Recommended dimensions: 200x80px.</small>
+                        <label for="currentAdminPassword" class="form-label">Current Password</label>
+                        <input type="password" class="form-control" id="currentAdminPassword" name="current_password" required>
                     </div>
                     <div class="mb-3">
-                        <label for="faviconUpload" class="form-label">Upload New Favicon</label>
-                        <input class="form-control" type="file" id="faviconUpload" accept="image/x-icon, image/png">
-                        <small class="form-text text-muted">Upload a new favicon for browser tabs (ICO or PNG).</small>
+                        <label for="newAdminPassword" class="form-label">New Password</label>
+                        <input type="password" class="form-control" id="newAdminPassword" name="new_password" required>
                     </div>
                     <div class="mb-3">
-                        <label for="customCss" class="form-label">Custom CSS</label>
-                        <textarea class="form-control" id="customCss" rows="5" placeholder="/* Add your custom CSS here */"></textarea>
-                        <small class="form-text text-muted">Advanced: Apply custom CSS rules to the entire website.</small>
+                        <label for="confirmNewAdminPassword" class="form-label">Confirm New Password</label>
+                        <input type="password" class="form-control" id="confirmNewAdminPassword" name="confirm_new_password" required>
                     </div>
-                    <button type="submit" class="btn btn-primary"><i class="bi bi-save"></i> Save Appearance Settings</button>
+                    <button type="submit" class="btn btn-primary"><i class="bi bi-key"></i> Change Password</button>
                 </form>
             </div>
         </div>
+
+        <!-- Removed static content sections for Reports and Messages from this file -->
+
     </div>
 </div>
 
@@ -508,112 +267,283 @@
     <div class="container text-center p-4 text-muted">© 2025 SkillConnect. All rights reserved.</div>
 </footer>
 
+<!-- Modals for Admin Management -->
+
+<!-- Delete Admin Confirmation Modal -->
+<div class="modal fade" id="deleteAdminConfirmationModal" tabindex="-1" aria-labelledby="deleteAdminConfirmationModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteAdminConfirmationModalLabel">Confirm Admin Deletion</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to permanently delete admin <strong id="deleteAdminDisplay"></strong> (ID: <span id="deleteAdminId"></span>)? This action cannot be undone.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger" id="confirmDeleteAdminBtn">Confirm Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const mainTabs = document.querySelectorAll('.nav-tabs .nav-link');
-    const contentSections = document.querySelectorAll('.admin-content .sub-content-section');
-    const maintenanceModeSwitch = document.getElementById('maintenanceMode');
-    const maintenanceMessageDiv = document.getElementById('maintenanceMessageDiv');
+    document.addEventListener('DOMContentLoaded', function () {
+        const navLinks = document.querySelectorAll('.nav-tabs .nav-link');
+        const subContentSections = document.querySelectorAll('.sub-content-section');
+        const searchButtons = document.querySelectorAll('.search-btn');
 
-    // Function to show/hide content based on tab click
-    function showContent(targetId) {
-        contentSections.forEach(section => section.classList.remove('active'));
-        const targetContent = document.getElementById(targetId);
-        if (targetContent) {
-            targetContent.classList.add('active');
-        }
-        mainTabs.forEach(tab => tab.classList.toggle('active', tab.dataset.target === targetId));
+        // Base URL for your PHP API endpoints for Admin Management
+        // IMPORTANT: For a single-folder setup, all PHP files (including db_connect.php)
+        // should be in the SAME directory as this HTML file.
+        // The API_BASE_URL should then just be './' or an empty string.
+        const API_BASE_URL = './'; // Points to the current directory
 
-        // Update sidebar active link - important for consistent highlighting
-        document.querySelectorAll('.admin-sidebar .nav-link').forEach(link => {
-            link.classList.remove('active');
-            const linkHref = link.getAttribute('href');
-            // If the sidebar link points to this page, activate it
-            if (linkHref && linkHref.includes('admin_system_settings.html')) {
-                link.classList.add('active');
-            }
-        });
-    }
-
-    // Attach event listeners for main tab clicks
-    mainTabs.forEach(tab => {
-        tab.addEventListener('click', function(e) {
-            e.preventDefault();
-            showContent(this.dataset.target);
-        });
-    });
-
-    // Toggle maintenance message visibility
-    if (maintenanceModeSwitch) {
-        maintenanceModeSwitch.addEventListener('change', function() {
-            if (this.checked) {
-                maintenanceMessageDiv.style.display = 'block';
-            } else {
-                maintenanceMessageDiv.style.display = 'none';
-            }
-        });
-        // Initial state check
-        if (maintenanceModeSwitch.checked) {
-            maintenanceMessageDiv.style.display = 'block';
-        }
-    }
-
-    // Handle form submissions (simulated save for now)
-    document.getElementById('general-settings-form')?.addEventListener('submit', function(e) {
-        e.preventDefault();
-        alert('General settings saved!');
-    });
-    document.getElementById('user-settings-form')?.addEventListener('submit', function(e) {
-        e.preventDefault();
-        alert('User management settings saved!');
-    });
-    document.getElementById('content-settings-form')?.addEventListener('submit', function(e) {
-        e.preventDefault();
-        alert('Content management settings saved!');
-    });
-    document.getElementById('notification-settings-form')?.addEventListener('submit', function(e) {
-        e.preventDefault();
-        alert('Notification settings saved!');
-    });
-    document.getElementById('integrations-settings-form')?.addEventListener('submit', function(e) {
-        e.preventDefault();
-        alert('Integrations settings saved!');
-    });
-    document.getElementById('security-settings-form')?.addEventListener('submit', function(e) {
-        e.preventDefault();
-        alert('Security settings saved!');
-    });
-    document.getElementById('appearance-settings-form')?.addEventListener('submit', function(e) {
-        e.preventDefault();
-        alert('Appearance settings saved!');
-    });
-
-
-    // Handle offcanvas toggle (from previous pages, ensures no sliding)
-    document.querySelectorAll('[data-bs-toggle="offcanvas"]').forEach(element => {
-        element.addEventListener('click', function(e) {
-            const offcanvasElement = document.querySelector(this.getAttribute('data-bs-target'));
-            const offcanvas = new bootstrap.Offcanvas(offcanvasElement, {
-                backdrop: true, keyboard: true, scroll: false
+        // Function to show/hide content sections
+        function showContent(targetId) {
+            subContentSections.forEach(section => {
+                section.classList.remove('active');
             });
-            offcanvas.show();
+            document.getElementById(targetId).classList.add('active');
+        }
+
+        // --- Fetch and Render Admins ---
+        async function fetchAndRenderAdmins(searchTerm = '') {
+            const tableBody = document.getElementById('admin-table');
+            tableBody.innerHTML = ''; // Clear existing rows
+            const noMessageElement = document.getElementById('no-admins-message');
+            
+            let url = `${API_BASE_URL}get_admins.php`; // Endpoint to get all admins
+
+            try {
+                const response = await fetch(url);
+                
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    throw new Error(`HTTP error! Status: ${response.status} - ${errorText}`);
+                }
+
+                const result = await response.json();
+
+                if (result.success) {
+                    let admins = result.data;
+
+                    // Apply search filter if a search term is provided
+                    if (searchTerm) {
+                        const lowerCaseSearchTerm = searchTerm.toLowerCase();
+                        admins = admins.filter(admin =>
+                            admin.username.toLowerCase().includes(lowerCaseSearchTerm) ||
+                            admin.email.toLowerCase().includes(lowerCaseSearchTerm)
+                        );
+                    }
+
+                    if (admins.length === 0) {
+                        noMessageElement.textContent = searchTerm ? `No admins found matching "${searchTerm}".` : `No administrators found.`;
+                        noMessageElement.style.display = 'block';
+                        return;
+                    } else {
+                        noMessageElement.style.display = 'none';
+                    }
+
+                    // Populate the admin table and the password change dropdown
+                    const adminPasswordChangeSelect = document.getElementById('selectAdminForPasswordChange');
+                    // Clear existing options, keep the disabled default
+                    adminPasswordChangeSelect.innerHTML = '<option selected disabled value="">Choose an admin...</option>';
+
+                    admins.forEach(admin => {
+                        const row = tableBody.insertRow();
+                        row.innerHTML = `
+                            <td>${admin.id}</td>
+                            <td>${admin.username}</td>
+                            <td>${admin.email}</td>
+                            <td>
+                                <button class="btn btn-sm btn-danger delete-admin-btn" data-id="${admin.id}" data-username="${admin.username}" data-bs-toggle="modal" data-bs-target="#deleteAdminConfirmationModal"><i class="bi bi-trash"></i> Delete</button>
+                            </td>
+                        `;
+
+                        // Add option to the password change dropdown
+                        const option = document.createElement('option');
+                        option.value = admin.id;
+                        option.textContent = `${admin.username} (${admin.email})`;
+                        adminPasswordChangeSelect.appendChild(option);
+                    });
+                } else {
+                    console.error('Error fetching admins:', result.message);
+                    noMessageElement.textContent = `Error loading administrators: ${result.message || 'Unknown error.'}`;
+                    noMessageElement.style.display = 'block';
+                }
+            } catch (error) {
+                console.error('Network or parsing error:', error);
+                noMessageElement.textContent = `Error: Could not connect to the server or process data. Please ensure:
+                                                1. Your PHP server (e.g., Apache, Nginx) is running.
+                                                2. Your PHP files (e.g., get_admins.php, db_connect.php) are in the SAME directory as this HTML file.
+                                                3. The database connection in db_connect.php is correct and the database server is accessible.
+                                                (Details: ${error.message})`;
+                noMessageElement.style.display = 'block';
+            }
+        }
+
+        // --- Event Listeners and Initial Load ---
+
+        // Event listeners for tab clicks
+        navLinks.forEach(link => {
+            link.addEventListener('click', function (e) {
+                e.preventDefault();
+                navLinks.forEach(nav => nav.classList.remove('active'));
+                this.classList.add('active');
+                const targetId = this.dataset.target;
+                showContent(targetId);
+
+                // Refresh data when switching to 'Manage Admins' tab
+                if (targetId === 'manage-admins-content') {
+                    fetchAndRenderAdmins();
+                    document.getElementById('admin-search-input').value = ''; // Clear search on tab switch
+                }
+                // Also refresh admins for the password change dropdown when that tab is opened
+                if (targetId === 'change-admin-password-content') {
+                     fetchAndRenderAdmins(); // Re-populates the select dropdown
+                }
+            });
+        });
+
+        // Initial render on page load
+        showContent('manage-admins-content'); // Default to Manage Admins tab
+        fetchAndRenderAdmins(); // Load all admins initially
+
+
+        // --- Add Admin Form Submission ---
+        document.getElementById('add-admin-form').addEventListener('submit', async function (e) {
             e.preventDefault();
+            
+            const formData = new FormData(this);
+            const adminData = Object.fromEntries(formData.entries());
+
+            try {
+                const response = await fetch(`${API_BASE_URL}add_admin.php`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(adminData)
+                });
+                const result = await response.json();
+
+                if (result.success) {
+                    alert(result.message);
+                    this.reset(); // Clear the form
+                    fetchAndRenderAdmins(); // Refresh admin list
+                    // Optionally switch back to 'Manage Admins' tab
+                    navLinks.forEach(nav => nav.classList.remove('active'));
+                    document.querySelector('[data-target="manage-admins-content"]').classList.add('active');
+                    showContent('manage-admins-content');
+                } else {
+                    alert('Error: ' + result.message);
+                }
+            } catch (error) {
+                console.error('Error adding admin:', error);
+                alert('An error occurred while adding the admin. Please try again.');
+            }
+        });
+
+        // --- Change Admin Password Form Submission ---
+        document.getElementById('change-admin-password-form').addEventListener('submit', async function (e) {
+            e.preventDefault();
+            
+            const adminId = document.getElementById('selectAdminForPasswordChange').value;
+            const currentPassword = document.getElementById('currentAdminPassword').value; // Get current password
+            const newPassword = document.getElementById('newAdminPassword').value;
+            const confirmNewPassword = document.getElementById('confirmNewAdminPassword').value;
+
+            if (!adminId) {
+                alert('Please select an administrator.');
+                return;
+            }
+            if (newPassword !== confirmNewPassword) {
+                alert('New passwords do not match!');
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE_URL}change_admin_password.php`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        id: adminId,
+                        current_password: currentPassword, // Send current password
+                        new_password: newPassword
+                    })
+                });
+                const result = await response.json();
+
+                if (result.success) {
+                    alert(result.message);
+                    this.reset(); // Clear the form
+                    document.getElementById('selectAdminForPasswordChange').value = ''; // Reset dropdown
+                    fetchAndRenderAdmins(); // Refresh admin list (though password change won't visibly change table)
+                } else {
+                    alert('Error: ' + result.message);
+                }
+            } catch (error) {
+                console.error('Error changing admin password:', error);
+                alert('An error occurred while changing the admin password. Please try again.');
+            }
+        });
+
+        // --- Delete Admin Confirmation Modal Population ---
+        const deleteAdminConfirmationModal = document.getElementById('deleteAdminConfirmationModal');
+        // Using event delegation for delete buttons
+        document.getElementById('manage-admins-content').addEventListener('click', function (event) {
+            const deleteButton = event.target.closest('.delete-admin-btn');
+            if (deleteButton) {
+                const adminId = parseInt(deleteButton.dataset.id);
+                const adminUsername = deleteButton.dataset.username;
+                
+                document.getElementById('deleteAdminId').textContent = adminId;
+                document.getElementById('deleteAdminDisplay').textContent = adminUsername;
+            }
+        });
+
+        // --- Confirm Delete Admin Button Click ---
+        document.getElementById('confirmDeleteAdminBtn').addEventListener('click', async function () {
+            const adminIdToDelete = parseInt(document.getElementById('deleteAdminId').textContent);
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}delete_admin.php`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ id: adminIdToDelete })
+                });
+                const result = await response.json();
+
+                if (result.success) {
+                    alert(result.message);
+                    const modal = bootstrap.Modal.getInstance(deleteAdminConfirmationModal);
+                    modal.hide();
+                    fetchAndRenderAdmins(); // Refresh admin list
+                } else {
+                    alert('Error: ' + result.message);
+                }
+            } catch (error) {
+                console.error('Error deleting admin:', error);
+                alert('An error occurred while deleting the admin. Please try again.');
+            }
+        });
+
+        // --- Search Functionality ---
+        searchButtons.forEach(button => {
+            button.addEventListener('click', function () {
+                const searchInputId = 'admin-search-input'; // Only one search input now
+                const searchTerm = document.getElementById(searchInputId).value;
+                fetchAndRenderAdmins(searchTerm);
+            });
         });
     });
-
-    // Universal Logout Button
-    document.getElementById('logout-btn')?.addEventListener('click', function(e) {
-        e.preventDefault();
-        if (confirm('Are you sure you want to logout?')) {
-            alert('You have been logged out.');
-            window.location.href = './login.html'; // Redirect to login page
-        }
-    });
-    
-    // Set initial active content section
-    showContent('general-settings-content');
-});
 </script>
 </body>
 </html>
