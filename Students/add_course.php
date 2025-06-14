@@ -2,9 +2,8 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-session_start(); // ✅ Start session before accessing $_SESSION
+session_start();
 
-// Database connection
 $host = "sql12.freesqldatabase.com";
 $port = "3306";
 $db = "sql12784403";
@@ -17,94 +16,62 @@ if ($conn->connect_error) {
 
 // Handle add to my courses
 $message = '';
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['course_id'])) {
-    $user_id = $_SESSION['user_id'] ?? 1; // Replace with actual logged-in user id
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['add_to_my_courses'])) {
+    $user_id = $_SESSION['user_id'] ?? 1;
     $course_id = intval($_POST['course_id']);
+    $mode = $_POST['mode'] ?? '';
+    $location = ($mode === 'On-site') ? ($_POST['location'] ?? '') : '';
+    $fee_type = $_POST['fee_type'] ?? '';
+    $fee_amount = 0;
+    if ($fee_type === 'Fixed') {
+        // Always fetch the fee from the courses table for this course
+        $fee_stmt = $conn->prepare("SELECT fee_amount FROM courses WHERE course_id = ?");
+        $fee_stmt->bind_param("i", $course_id);
+        $fee_stmt->execute();
+        $fee_stmt->bind_result($fee_amount);
+        $fee_stmt->fetch();
+        $fee_stmt->close();
+    } elseif ($fee_type === 'Hourly') {
+        $fee_amount = floatval($_POST['hourly_fee'] ?? 0);
+    }
+
     // Prevent duplicates
     $check = $conn->prepare("SELECT * FROM student_courses WHERE student_id=? AND course_id=?");
     $check->bind_param("ii", $user_id, $course_id);
     $check->execute();
     $exists = $check->get_result()->fetch_assoc();
     if (!$exists) {
-        $stmt = $conn->prepare("INSERT INTO student_courses (student_id, course_id, enrolled_at) VALUES (?, ?, NOW())");
-        $stmt->bind_param("ii", $user_id, $course_id);
-        if ($stmt->execute()) {
-            $message = "Course added to your list!";
+        // Fetch course details for insertion
+        $course_stmt = $conn->prepare("SELECT subject FROM courses WHERE course_id = ?");
+        $course_stmt->bind_param("i", $course_id);
+        $course_stmt->execute();
+        $course_stmt->bind_result($subject);
+        if ($course_stmt->fetch()) {
+            $course_stmt->close();
+            $enrolled_at = date('Y-m-d H:i:s');
+            $stmt = $conn->prepare("INSERT INTO student_courses (student_id, course_id, enrolled_at, subject, location, mode, fee_type, fee_amount) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+            $stmt->bind_param("iisssssd", $user_id, $course_id, $enrolled_at, $subject, $location, $mode, $fee_type, $fee_amount);
+            if ($stmt->execute()) {
+                header("Location: my_courses.php");
+                exit;
+            } else {
+                $message = "Error adding course.";
+            }
+            $stmt->close();
         } else {
-            $message = "Error adding course.";
+            $message = "Course details not found.";
         }
     } else {
         $message = "You already added this course.";
     }
 }
 
-// Handle course addition (admin or tutor)
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    // Validate and sanitize input
-    $title = $_POST['title'] ?? '';
-    $subject = $_POST['subject'] ?? '';
-    $location = $_POST['location'] ?? '';
-    $mode = $_POST['mode'] ?? '';
-    $fee_type = $_POST['fee_type'] ?? '';
-    $fee_amount = $_POST['fee_amount'] ?? '';
-    $tutor_id = $_POST['tutor_id'] ?? '';
-    $rating = $_POST['rating'] ?? '';
-    $description = $_POST['description'] ?? '';
-    $image_url = $_FILES['image']['name'] ?? '';
-    $is_approved = 1; // Default value
-    $is_active = 1; // Default value
-
-    // Handle image upload
-    if ($image_url) {
-        $target_dir = "../uploads/courses/";
-        $target_file = $target_dir . basename($image_url);
-        move_uploaded_file($_FILES["image"]["tmp_name"], $target_file);
-    }
-
-    // Insert into database
-    $sql = "INSERT INTO courses 
-    (title, subject, location, mode, fee_type, fee_amount, tutor_id, rating, description, image_url, is_approved, is_active)
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-    $stmt = $conn->prepare($sql);
-    $stmt->bind_param(
-        "sssssdidssii",
-        $title,
-        $subject,
-        $location,
-        $mode,
-        $fee_type,
-        $fee_amount,
-        $tutor_id,
-        $rating,
-        $description,
-        $image_url,
-        $is_approved,
-        $is_active
-    );
-    if ($stmt->execute()) {
-        $message = "Course added successfully!";
-    } else {
-        $message = "Error adding course: " . $stmt->error;
-    }
-}
-
 // Fetch all courses
 $courses = [];
-$result = $conn->query("SELECT c.*, t.name AS tutor_name
-FROM courses c
-LEFT JOIN tutors t ON c.tutor_id = t.id
-WHERE c.is_approved = 1");
+$result = $conn->query("SELECT c.*, t.name AS tutor_name FROM courses c LEFT JOIN tutors t ON c.tutor_id = t.id WHERE c.is_approved = 1");
 while ($row = $result->fetch_assoc()) {
     $courses[] = $row;
 }
-
-// Fetch all tutors for the dropdown
-$tutors = [];
-$tutor_result = $conn->query("SELECT id, name FROM tutors");
-while ($row = $tutor_result->fetch_assoc()) {
-    $tutors[] = $row;
-}
-
 $conn->close();
 ?>
 <!DOCTYPE html>
@@ -200,6 +167,7 @@ $conn->close();
                             <li><a class="dropdown-item" href="add_course.php">Add Courses</a></li>
                             <li><a class="dropdown-item" href="my_courses.php">My Courses</a></li>
                             <li><a class="dropdown-item" href="timetable.php">My Timetable</a></li>
+                            <li> <a class="dropdown-item" href="schedule_student_session.php">Book Session</a></li>
                             <li><a class="dropdown-item" href="tutor_feedback.php">Tutor Feedback</a></li>
                             <li><a class="dropdown-item" href="submit_feedback.php">Complain</a></li>
                             <li><a class="dropdown-item" href="chat.php">Chat</a></li>
@@ -243,14 +211,72 @@ $conn->close();
                                 <?= htmlspecialchars($course['fee_type'] ?? 'Fee') ?>:
                                 $<?= number_format($course['fee_amount'] ?? 0, 2) ?>
                             </div>
-                            <form method="post" class="d-grid">
-                                <input type="hidden" name="course_id" value="<?= $course['course_id'] ?>">
-                                <button type="submit" class="btn btn-outline-primary w-100">Add to My Courses</button>
-                            </form>
+                            <button type="button" class="btn btn-outline-primary w-100" data-bs-toggle="modal"
+                                data-bs-target="#addCourseModal" data-course-id="<?= $course['course_id'] ?>"
+                                data-mode="<?= htmlspecialchars($course['mode']) ?>"
+                                data-location="<?= htmlspecialchars($course['location']) ?>"
+                                data-fee-type="<?= htmlspecialchars($course['fee_type']) ?>"
+                                data-fee-amount="<?= htmlspecialchars($course['fee_amount']) ?>">
+                                Add to My Courses
+                            </button>
                         </div>
                     </div>
                 </div>
             <?php endforeach; ?>
+        </div>
+    </div>
+
+    <!-- Add Course Modal -->
+    <div class="modal fade" id="addCourseModal" tabindex="-1" aria-labelledby="addCourseModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <form method="post" id="addCourseForm">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="addCourseModalLabel">Add Course Details</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <input type="hidden" name="course_id" id="modal_course_id">
+                        <input type="hidden" name="add_to_my_courses" value="1">
+                        <!-- Mode -->
+                        <div class="mb-3">
+                            <label for="modal_mode" class="form-label">Mode</label>
+                            <select class="form-select" id="modal_mode" name="mode" required>
+                                <option value="Online">Online</option>
+                                <option value="On-site">On-site</option>
+                            </select>
+                        </div>
+                        <!-- Location (only if On-site) -->
+                        <div class="mb-3 d-none" id="location_group">
+                            <label for="modal_location" class="form-label">Location</label>
+                            <input type="text" class="form-control" id="modal_location" name="location"
+                                placeholder="Enter location">
+                        </div>
+                        <!-- Fee Type -->
+                        <div class="mb-3">
+                            <label for="modal_fee_type" class="form-label">Fee Type</label>
+                            <select class="form-select" id="modal_fee_type" name="fee_type" required>
+                                <option value="Fixed">Fixed</option>
+                                <option value="Hourly">Hourly</option>
+                            </select>
+                        </div>
+                        <!-- Fixed Fee (readonly, shown if fixed) -->
+                        <div class="mb-3 d-none" id="fixed_fee_group">
+                            <label for="modal_fixed_fee" class="form-label">Fixed Fee</label>
+                            <input type="text" class="form-control" id="modal_fixed_fee" name="fixed_fee" readonly>
+                        </div>
+                        <!-- Hourly Fee (negotiation, shown if hourly) -->
+                        <div class="mb-3 d-none" id="hourly_fee_group">
+                            <label for="modal_hourly_fee" class="form-label">Proposed Hourly Fee</label>
+                            <input type="number" class="form-control" id="modal_hourly_fee" name="hourly_fee" min="0">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Add Course</button>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
 
@@ -307,6 +333,59 @@ $conn->close();
         </div>
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // Fill modal with course data
+        var addCourseModal = document.getElementById('addCourseModal');
+        addCourseModal.addEventListener('show.bs.modal', function (event) {
+            var button = event.relatedTarget;
+            var courseId = button.getAttribute('data-course-id');
+            var mode = button.getAttribute('data-mode');
+            var location = button.getAttribute('data-location');
+            var feeType = button.getAttribute('data-fee-type');
+            var feeAmount = button.getAttribute('data-fee-amount');
+
+            document.getElementById('modal_course_id').value = courseId;
+            document.getElementById('modal_mode').value = mode;
+            document.getElementById('modal_fee_type').value = feeType;
+
+            // Show/hide location field
+            document.getElementById('location_group').classList.toggle('d-none', mode !== 'On-site');
+            document.getElementById('modal_location').value = (mode === 'On-site') ? location : '';
+
+            // Show/hide fee fields
+            if (feeType === 'Fixed') {
+                document.getElementById('fixed_fee_group').classList.remove('d-none');
+                document.getElementById('hourly_fee_group').classList.add('d-none');
+                document.getElementById('modal_fixed_fee').value = feeAmount; // feeAmount comes from course data
+            } else if (feeType === 'Hourly') {
+                document.getElementById('fixed_fee_group').classList.add('d-none');
+                document.getElementById('hourly_fee_group').classList.remove('d-none');
+                document.getElementById('modal_hourly_fee').value = '';
+            } else {
+                document.getElementById('fixed_fee_group').classList.add('d-none');
+                document.getElementById('hourly_fee_group').classList.add('d-none');
+            }
+        });
+
+        // Change location field visibility on mode change
+        document.getElementById('modal_mode').addEventListener('change', function () {
+            document.getElementById('location_group').classList.toggle('d-none', this.value !== 'On-site');
+        });
+
+        // Change fee fields visibility on fee type change
+        document.getElementById('modal_fee_type').addEventListener('change', function () {
+            if (this.value === 'Fixed') {
+                document.getElementById('fixed_fee_group').classList.remove('d-none');
+                document.getElementById('hourly_fee_group').classList.add('d-none');
+            } else if (this.value === 'Hourly') {
+                document.getElementById('fixed_fee_group').classList.add('d-none');
+                document.getElementById('hourly_fee_group').classList.remove('d-none');
+            } else {
+                document.getElementById('fixed_fee_group').classList.add('d-none');
+                document.getElementById('hourly_fee_group').classList.add('d-none');
+            }
+        });
+    </script>
 </body>
 
 </html>

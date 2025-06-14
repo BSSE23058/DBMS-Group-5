@@ -2,7 +2,6 @@
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 session_start();
-var_dump($_SESSION); // Debug: See what is set
 
 $host = "sql12.freesqldatabase.com";
 $port = "3306";
@@ -127,9 +126,7 @@ if ($role === 'student') {
     if ($user['is_approved']) {
       $_SESSION['user_id'] = $user['id'];
       $_SESSION['role'] = 'employer';
-      $_SESSION['username'] = $user['username'];
-
-      header("Location: employer_dashboard.php");
+      header("Location: ./Employers/employer_dashboard.php");
       exit;
     } else {
       echo '<!DOCTYPE html>
@@ -174,7 +171,7 @@ if ($role === 'student') {
     if ($user['is_approved']) {
       $_SESSION['user_id'] = $user['id'];
       $_SESSION['role'] = 'jobseeker';
-      header("Location: jobseeker_dashboard.html");
+      header("Location: ./Job_Seekers/jobseeker_dashboard.php");
       exit;
     } else {
       echo '<!DOCTYPE html>

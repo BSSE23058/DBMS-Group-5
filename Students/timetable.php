@@ -122,6 +122,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <li><a class="dropdown-item" href="add_course.php">Add Courses</a></li>
                             <li><a class="dropdown-item" href="my_courses.php">My Courses</a></li>
                             <li><a class="dropdown-item" href="timetable.php">My Timetable</a></li>
+                            <li> <a class="dropdown-item" href="schedule_student_session.php">Book Session</a></li>
                             <li><a class="dropdown-item" href="tutor_feedback.php">Tutor Feedback</a></li>
                             <li><a class="dropdown-item" href="submit_feedback.php">Complain</a></li>
                             <li><a class="dropdown-item" href="chat.php">Chat</a></li>

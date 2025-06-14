@@ -9,14 +9,13 @@ ini_set('display_errors', 1);
 require_once 'connect.php'; // Database connection
 
 // Check if the user is logged in and is a job seeker
-if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'job_seeker') {
+if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'jobseeker') {
     // If not logged in or not a job seeker, redirect to login page
-    header("Location: login.html");
+    header("Location: ../login.html");
     exit();
 }
-
+$_SESSION['role'] = 'jobseeker';  // or 'employer', etc.
 $job_seeker_id = $_SESSION['user_id'];
-$job_seeker_username = $_SESSION['username'];
 
 // Initialize counts
 $total_applied_jobs = 0;
@@ -246,6 +245,7 @@ $conn->close();
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -257,15 +257,18 @@ $conn->close();
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             background-color: #f8f9fa;
-            display: flex; /* Use flexbox for layout */
+            display: flex;
+            /* Use flexbox for layout */
             min-height: 100vh;
         }
+
         .sidebar {
             width: 250px;
-            background: linear-gradient(to bottom, #220359, #4906bf); /* Dark gradient similar to your logo */
+            background: linear-gradient(to bottom, #220359, #4906bf);
+            /* Dark gradient similar to your logo */
             color: white;
             padding: 20px;
-            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
             position: sticky;
             top: 0;
             height: 100vh;
@@ -273,17 +276,20 @@ $conn->close();
             flex-direction: column;
             align-items: center;
         }
+
         .sidebar .logo-container {
             margin-bottom: 30px;
             text-align: center;
         }
+
         .sidebar .logo-container img {
             max-width: 120px;
             margin-bottom: 10px;
             border-radius: 10px;
         }
+
         .sidebar .nav-link {
-            color: rgba(255,255,255,0.8);
+            color: rgba(255, 255, 255, 0.8);
             padding: 10px 15px;
             margin-bottom: 5px;
             border-radius: 8px;
@@ -293,45 +299,57 @@ $conn->close();
             width: 100%;
             font-weight: 500;
         }
-        .sidebar .nav-link:hover, .sidebar .nav-link.active {
-            background-color: rgba(255,255,255,0.15);
+
+        .sidebar .nav-link:hover,
+        .sidebar .nav-link.active {
+            background-color: rgba(255, 255, 255, 0.15);
             color: white;
         }
+
         .sidebar .nav-link i {
             margin-right: 10px;
             font-size: 1.1rem;
         }
+
         .main-content {
             flex-grow: 1;
             padding: 30px;
         }
+
         .dashboard-header {
             color: #220359;
             margin-bottom: 30px;
             font-weight: 700;
         }
+
         .info-card {
             background-color: white;
             border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
             padding: 20px;
             margin-bottom: 20px;
             transition: transform 0.2s ease-in-out;
-            height: 100%; /* Make cards fill height */
+            height: 100%;
+            /* Make cards fill height */
             display: flex;
             flex-direction: column;
-            justify-content: space-between; /* Space out content vertically */
-            align-items: center; /* Center horizontally */
+            justify-content: space-between;
+            /* Space out content vertically */
+            align-items: center;
+            /* Center horizontally */
         }
+
         .info-card:hover {
             transform: translateY(-3px);
         }
+
         .info-card h4 {
             color: #4906bf;
             font-weight: 600;
             margin-bottom: 15px;
             text-align: center;
         }
+
         .info-card .display-number {
             font-size: 2.5rem;
             font-weight: 700;
@@ -339,44 +357,76 @@ $conn->close();
             margin-bottom: 10px;
             text-align: center;
         }
+
         .info-card .btn-outline-primary {
             border-color: #4906bf;
             color: #4906bf;
         }
+
         .info-card .btn-outline-primary:hover {
             background-color: #4906bf;
             color: white;
         }
+
         .recent-applications-table {
             background-color: white;
             border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
             padding: 20px;
             margin-bottom: 20px;
         }
+
         .recent-applications-table h4 {
             color: #220359;
             font-weight: 600;
             margin-bottom: 15px;
         }
+
         .recent-applications-table .status-badge {
             font-size: 0.8em;
             padding: 0.4em 0.7em;
             border-radius: 0.5rem;
         }
-        .status-pending { background-color: #ffc107; color: #343a40; } /* Warning yellow */
-        .status-shortlisted { background-color: #007bff; color: white; } /* Primary blue */
-        .status-rejected { background-color: #dc3545; color: white; } /* Danger red */
-        .status-accepted { background-color: #28a745; color: white; } /* Success green */
-        .status-withdrawn { background-color: #6c757d; color: white; } /* Secondary gray */
+
+        .status-pending {
+            background-color: #ffc107;
+            color: #343a40;
+        }
+
+        /* Warning yellow */
+        .status-shortlisted {
+            background-color: #007bff;
+            color: white;
+        }
+
+        /* Primary blue */
+        .status-rejected {
+            background-color: #dc3545;
+            color: white;
+        }
+
+        /* Danger red */
+        .status-accepted {
+            background-color: #28a745;
+            color: white;
+        }
+
+        /* Success green */
+        .status-withdrawn {
+            background-color: #6c757d;
+            color: white;
+        }
+
+        /* Secondary gray */
     </style>
 </head>
+
 <body>
     <div class="sidebar">
         <div class="logo-container">
             <img src="./logo.jpeg" alt="SkillConnect Logo">
             <h5 class="text-white mt-2">Job Seeker Panel</h5>
-            <p class="small text-white-50">Welcome, <?php echo htmlspecialchars($job_seeker_username); ?></p>
+            <p class="small text-white-50">Welcome</p>
         </div>
         <ul class="nav flex-column w-100">
             <li class="nav-item">
@@ -405,7 +455,7 @@ $conn->close();
                 </a>
             </li>
             <li class="nav-item mt-auto"> <!-- Push logout to bottom -->
-                <a class="nav-link text-danger" href="logout.php">
+                <a class="nav-link text-danger" href="../logout.php">
                     <i class="bi bi-box-arrow-right"></i> Logout
                 </a>
             </li>
@@ -420,21 +470,24 @@ $conn->close();
                 <div class="info-card text-center">
                     <h4>Total Applied Jobs</h4>
                     <div class="display-number"><?php echo $total_applied_jobs; ?></div>
-                    <a href="jobseeker_dashboard.php?filter=all_applications" class="btn btn-outline-primary mt-2">View My Applications</a>
+                    <a href="jobseeker_dashboard.php?filter=all_applications" class="btn btn-outline-primary mt-2">View
+                        My Applications</a>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="info-card text-center">
                     <h4>Pending Applications</h4>
                     <div class="display-number"><?php echo $pending_applications; ?></div>
-                    <a href="jobseeker_dashboard.php?filter=pending" class="btn btn-outline-primary mt-2">Review Pending</a>
+                    <a href="jobseeker_dashboard.php?filter=pending" class="btn btn-outline-primary mt-2">Review
+                        Pending</a>
                 </div>
             </div>
             <div class="col-md-4">
                 <div class="info-card text-center">
                     <h4>Shortlisted/Accepted</h4>
                     <div class="display-number"><?php echo $shortlisted_accepted_applications; ?></div>
-                    <a href="jobseeker_dashboard.php?filter=shortlisted_accepted" class="btn btn-outline-primary mt-2">View Opportunities</a>
+                    <a href="jobseeker_dashboard.php?filter=shortlisted_accepted"
+                        class="btn btn-outline-primary mt-2">View Opportunities</a>
                 </div>
             </div>
         </div>
@@ -445,7 +498,7 @@ $conn->close();
             // The display_applications array is already populated based on the filter logic above
             // The $conn is explicitly closed at the very end of the PHP script
             if (!empty($display_applications)):
-            ?>
+                ?>
                 <div class="table-responsive">
                     <table class="table table-hover align-middle">
                         <thead>
@@ -465,17 +518,22 @@ $conn->close();
                                     <td><?php echo htmlspecialchars($app['job_title']); ?></td>
                                     <td><?php echo htmlspecialchars($app['company_name']); ?></td>
                                     <td><?php echo htmlspecialchars($app['location']); ?></td>
-                                    <td><?php echo htmlspecialchars(date('M d, Y', strtotime($app['application_date']))); ?></td>
-                                    <td><span class="badge status-<?php echo strtolower(htmlspecialchars($app['status'])); ?>"><?php echo htmlspecialchars($app['status']); ?></span></td>
+                                    <td><?php echo htmlspecialchars(date('M d, Y', strtotime($app['application_date']))); ?>
+                                    </td>
+                                    <td><span
+                                            class="badge status-<?php echo strtolower(htmlspecialchars($app['status'])); ?>"><?php echo htmlspecialchars($app['status']); ?></span>
+                                    </td>
                                     <td>
                                         <?php if (!empty($app['interview_date']) && !empty($app['interview_time'])): ?>
-                                            <?php echo htmlspecialchars(date('M d, Y', strtotime($app['interview_date']))); ?> at <?php echo htmlspecialchars(date('h:i A', strtotime($app['interview_time']))); ?>
+                                            <?php echo htmlspecialchars(date('M d, Y', strtotime($app['interview_date']))); ?> at
+                                            <?php echo htmlspecialchars(date('h:i A', strtotime($app['interview_time']))); ?>
                                         <?php else: ?>
                                             N/A
                                         <?php endif; ?>
                                     </td>
                                     <td>
-                                        <a href="view_application_details.php?app_id=<?php echo htmlspecialchars($app['application_id']); ?>" class="btn btn-sm btn-info">View Details</a>
+                                        <a href="view_application_details.php?app_id=<?php echo htmlspecialchars($app['application_id']); ?>"
+                                            class="btn btn-sm btn-info">View Details</a>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>
@@ -493,4 +551,5 @@ $conn->close();
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>

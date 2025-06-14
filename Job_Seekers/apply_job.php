@@ -9,8 +9,8 @@ ini_set('display_errors', 1);
 require_once 'connect.php'; // Database connection
 
 // Check if user is logged in and is a job seeker
-if (!isset($_SESSION['user_id']) || $_SESSION['user_type'] !== 'job_seeker') {
-    echo "<script>alert('You must be logged in as a Job Seeker to apply for jobs.'); window.location.href='login.html';</script>";
+if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'jobseeker') {
+    echo "<script>alert('You must be logged in as a Job Seeker to apply for jobs.'); window.location.href='../login.html';</script>";
     exit();
 }
 

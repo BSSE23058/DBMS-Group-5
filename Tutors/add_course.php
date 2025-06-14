@@ -80,6 +80,11 @@ if (isset($_FILES['course_image']) && $_FILES['course_image']['error'] == UPLOAD
     }
 }
 
+// Make sure $tutor_id is set and valid
+if (!isset($tutor_id) || !is_numeric($tutor_id)) {
+    die("Invalid tutor_id");
+}
+
 // If no errors, proceed with database insertion
 if (empty($errors)) {
     // Prepare and bind
@@ -111,6 +116,9 @@ if (empty($errors)) {
         $created_at, 
         $uploadedImagePath
     );
+
+    // Debugging line
+    var_dump($tutor_id); // or whatever variable you use
 
     // Execute and respond
     if ($stmt->execute()) {

@@ -29,7 +29,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $stmt = $conn->prepare("INSERT INTO feedback (student_id, tutor_id, description, submitted_at, read_by_admin) VALUES (?, ?, ?, NOW(), 0)");
         $stmt->bind_param("iis", $student_id, $tutor_id, $description);
         if ($stmt->execute()) {
-            $message = "<div class='alert alert-success text-center'>✅ Feedback submitted successfully.</div>";
+            $message = "<div class='alert alert-success text-center'>✅ Complain submitted successfully.</div>";
         } else {
             $message = "<div class='alert alert-danger text-center'>❌ Failed to submit feedback: " . $stmt->error . "</div>";
         }
@@ -61,7 +61,7 @@ $stmt->close();
 
 <head>
     <meta charset="UTF-8">
-    <title>Student Feedback - SkillConnect</title>
+    <title>Student Compplain - SkillConnect</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" />
@@ -99,6 +99,7 @@ $stmt->close();
                             <li><a class="dropdown-item" href="add_course.php">Add Courses</a></li>
                             <li><a class="dropdown-item" href="my_courses.php">My Courses</a></li>
                             <li><a class="dropdown-item" href="timetable.php">My Timetable</a></li>
+                            <li> <a class="dropdown-item" href="schedule_student_session.php">Book Session</a></li>
                             <li><a class="dropdown-item" href="tutor_feedback.php">Tutor Feedback</a></li>
                             <li><a class="dropdown-item" href="submit_feedback.php">Complain</a></li>
                             <li><a class="dropdown-item" href="chat.php">Chat</a></li>
@@ -112,7 +113,7 @@ $stmt->close();
 
     <!-- ✅ Main Content -->
     <div class="container my-5">
-        <h2 class="text-center fw-bold mb-4">Submit Feedback</h2>
+        <h2 class="text-center fw-bold mb-4">Submit Complain</h2>
 
         <?= $message ?>
 
@@ -129,11 +130,11 @@ $stmt->close();
             </div>
 
             <div class="d-grid">
-                <button type="submit" class="btn btn-success">Submit Feedback</button>
+                <button type="submit" class="btn btn-success">Submit Complain</button>
             </div>
         </form>
 
-        <h3 class="text-center mt-5">Your Previous Feedback</h3>
+        <h3 class="text-center mt-5">Your Previous Complains</h3>
         <div class="table-responsive">
             <table class="table table-bordered table-striped bg-white mt-3">
                 <thead class="table-dark">
@@ -147,7 +148,7 @@ $stmt->close();
                 <tbody>
                     <?php if (count($feedbacks) === 0): ?>
                         <tr>
-                            <td colspan="4" class="text-center">No feedback found.</td>
+                            <td colspan="4" class="text-center">No Complains found.</td>
                         </tr>
                     <?php else: ?>
                         <?php foreach ($feedbacks as $f): ?>

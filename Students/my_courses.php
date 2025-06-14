@@ -71,6 +71,7 @@ $stmt->close();
                             <li><a class="dropdown-item" href="add_course.php">Add Courses</a></li>
                             <li><a class="dropdown-item" href="my_courses.php">My Courses</a></li>
                             <li><a class="dropdown-item" href="timetable.php">My Timetable</a></li>
+                            <li> <a class="dropdown-item" href="schedule_student_session.php">Book Session</a></li>
                             <li><a class="dropdown-item" href="tutor_feedback.php">Tutor Feedback</a></li>
                             <li><a class="dropdown-item" href="submit_feedback.php">Complain</a></li>
                             <li><a class="dropdown-item" href="chat.php">Chat</a></li>
@@ -103,14 +104,13 @@ $stmt->close();
                     <tbody>
                         <?php foreach ($enrolledCourses as $course): ?>
                             <tr>
-                                <td><?= htmlspecialchars($course['title']) ?></td>
-                                <td><?= htmlspecialchars($course['subject']) ?></td>
-                                <td><?= htmlspecialchars($course['location']) ?></td>
-                                <td><?= htmlspecialchars($course['mode']) ?></td>
-                                <td><?= htmlspecialchars($course['fee_type']) ?>:
-                                    $<?= htmlspecialchars($course['fee_amount']) ?></td>
-                                <td><?= htmlspecialchars($course['rating']) ?></td>
-                                <td><?= htmlspecialchars($course['enrolled_at']) ?></td>
+                                <td><?= htmlspecialchars($course['title'] ?? '') ?></td>
+                                <td><?= htmlspecialchars($course['subject'] ?? '') ?></td>
+                                <td><?= htmlspecialchars($course['location'] ?? '') ?></td>
+                                <td><?= htmlspecialchars($course['mode'] ?? '') ?></td>
+                                <td><?= htmlspecialchars($course['fee_amount'] ?? '') ?></td>
+                                <td><?= htmlspecialchars($course['rating'] ?? '') ?></td>
+                                <td><?= htmlspecialchars($course['enrolled_at'] ?? '') ?></td>
                             </tr>
                         <?php endforeach; ?>
                     </tbody>

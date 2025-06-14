@@ -6,12 +6,11 @@ ini_set('display_errors', 1);
 require_once 'connect.php';
 
 if (!isset($_SESSION['user_id']) || $_SESSION['role'] !== 'employer') {
-    header("Location: login.html");
+    header("Location: ../login.html"); // or the correct relative path
     exit();
 }
 
 $employer_id = $_SESSION['user_id'];
-$employer_username = $_SESSION['username'];
 
 $jobs = [];
 $recent_applications = [];
@@ -235,7 +234,7 @@ $conn->close(); // Only close after all DB work is done!
         <div class="logo-container">
             <img src="./logo.jpeg" alt="SkillConnect Logo">
             <h5 class="text-white mt-2">Employer Panel</h5>
-            <p class="small text-white-50">Welcome, <?php echo htmlspecialchars($employer_username); ?></p>
+            <p class="small text-white-50">Welcome, <?php echo htmlspecialchars($employer_id); ?></p>
         </div>
         <ul class="nav flex-column w-100">
             <li class="nav-item">
@@ -244,7 +243,7 @@ $conn->close(); // Only close after all DB work is done!
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="post_job.html">
+                <a class="nav-link" href="post_job.php">
                     <i class="bi bi-file-earmark-plus"></i> Post New Job
                 </a>
             </li>
@@ -270,7 +269,7 @@ $conn->close(); // Only close after all DB work is done!
                 </a>
             </li>
             <li class="nav-item mt-auto"> <!-- Push logout to bottom -->
-                <a class="nav-link text-danger" href="logout.php">
+                <a class="nav-link text-danger" href="../logout.php">
                     <i class="bi bi-box-arrow-right"></i> Logout
                 </a>
             </li>
@@ -300,7 +299,7 @@ $conn->close(); // Only close after all DB work is done!
                 <div class="info-card text-center">
                     <h4>New Job Posting</h4>
                     <div class="display-number"><i class="bi bi-plus-circle"></i></div>
-                    <a href="post_job.html" class="btn btn-outline-primary mt-2">Post a New Job</a>
+                    <a href="post_job.php" class="btn btn-outline-primary mt-2">Post a New Job</a>
                 </div>
             </div>
         </div>
@@ -349,5 +348,6 @@ $conn->close(); // Only close after all DB work is done!
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>
 ?>

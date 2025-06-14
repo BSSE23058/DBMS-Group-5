@@ -256,7 +256,7 @@ $conn->close();
 
 
 
-
+        
 
         <!-- Schedule Sessions Card -->
         <div class="col-md-4">
@@ -324,9 +324,11 @@ $conn->close();
               <div class="card-body">
                 <p class="card-text">See student feedback and respond to improve your rating.</p>
                 <div class="d-flex align-items-center mt-2">
-                  <span class="text-warning me-2">★★★★★</span>
+                  <span class="text-warning me-2">★★★★☆</span>
+                  <small class="text-muted">4.2/5.0 (24 reviews)</small>
                 </div>
               </div>
+            </div>
           </a>
         </div>
 
