@@ -159,31 +159,37 @@
   </head>
 
   <body>
-    <!-- Navigation Bar -->
     <nav class="navbar navbar-expand-lg bg-white shadow-sm">
       <div class="container-fluid">
+        <!-- Logo -->
         <a class="navbar-brand d-flex align-items-center" href="#">
           <img src="./logo.jpeg" alt="SkillConnect Logo" />
         </a>
+
+        <!-- Navigation links + Icons + Buttons -->
         <div class="collapse navbar-collapse justify-content-between">
+          <!-- Center nav links -->
           <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
             <li class="nav-item">
               <a class="nav-link" href="./landing_page.html">Home</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="./all_jobs.html">All Jobs</a>
+              <a class="nav-link" href="./all_jobs.php">All Jobs</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="./all_courses.html">All Courses</a>
+              <a class="nav-link" href="./all_courses.php">All Courses</a>
             </li>
             <li class="nav-item dropdown">
               <a
                 class="nav-link dropdown-toggle"
                 href="#"
                 id="navbarDropdown"
+                role="button"
                 data-bs-toggle="dropdown"
-                >Services</a
+                aria-expanded="false"
               >
+                Services
+              </a>
               <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                 <li>
                   <a
@@ -209,37 +215,44 @@
             </li>
           </ul>
 
+          <!-- Right side icons and buttons -->
           <div class="d-flex align-items-center nav-icons">
             <div class="nav-buttons">
               <a href="./login.html" class="btn btn-primary">Login</a>
+              <!-- Register dropdown for all registration options -->
               <div class="btn-group">
                 <a
                   href="#"
                   class="btn btn-outline-primary dropdown-toggle"
                   data-bs-toggle="dropdown"
-                  >Register</a
+                  aria-expanded="false"
                 >
+                  Register
+                </a>
                 <ul class="dropdown-menu dropdown-menu-end">
                   <li>
                     <a
                       class="dropdown-item"
                       href="./registration_form_students_tutor.html"
-                      >Student / Tutor Registration</a
                     >
+                      Student / Tutor Registration
+                    </a>
                   </li>
                   <li>
                     <a
                       class="dropdown-item"
                       href="./registration_form_employer.html"
-                      >Employer Registration</a
                     >
+                      Employer Registration
+                    </a>
                   </li>
                   <li>
                     <a
                       class="dropdown-item"
                       href="./registration_form_jobseeker.html"
-                      >Job Seeker Registration</a
                     >
+                      Job Seeker Registration
+                    </a>
                   </li>
                 </ul>
               </div>
@@ -526,15 +539,28 @@
     <!-- Contact Support Section -->
     <section id="contact" class="py-5 bg-light">
       <div class="container">
-      <h2 class="text-center mb-4 fw-bold" style="color: #000;">Contact Support</h2>
-      <p class="text-center mb-4" style="color: #000;">
-      Still have questions? Contact us at
-      <a href="mailto:support@skillconnect.com" class="fw-bold text-primary" style="color: #0d6efd;">support@skillconnect.com</a>
-      or call <a href="tel:+1234567890" class="fw-bold text-primary" style="color: #0d6efd;">+1 234 567 890</a>.
-      </p>
-      <p class="text-center mb-5" style="color: #000;">
-      We’re here to help and will respond as soon as possible.
-      </p>
+        <h2 class="text-center mb-4 fw-bold" style="color: #000">
+          Contact Support
+        </h2>
+        <p class="text-center mb-4" style="color: #000">
+          Still have questions? Contact us at
+          <a
+            href="mailto:support@skillconnect.com"
+            class="fw-bold text-primary"
+            style="color: #0d6efd"
+            >support@skillconnect.com</a
+          >
+          or call
+          <a
+            href="tel:+1234567890"
+            class="fw-bold text-primary"
+            style="color: #0d6efd"
+            >+1 234 567 890</a
+          >.
+        </p>
+        <p class="text-center mb-5" style="color: #000">
+          We’re here to help and will respond as soon as possible.
+        </p>
       </div>
     </section>
 

@@ -241,7 +241,8 @@ $conn->close(); // Close connection
                                 </div>
                                 <div class="card-body">
                                     <p class="applicant-info"><i class="bi bi-envelope"></i> Email:
-                                        <?php echo htmlspecialchars($applicant['applicant_email']); ?></p>
+                                        <?php echo htmlspecialchars($applicant['applicant_email']); ?>
+                                    </p>
                                     <p class="applicant-info"><i class="bi bi-calendar"></i> Applied On:
                                         <?php echo htmlspecialchars(date('M d, Y', strtotime($applicant['application_date']))); ?>
                                     </p>
@@ -253,7 +254,8 @@ $conn->close(); // Close connection
                                     <?php if (!empty($applicant['cover_letter'])): ?>
                                         <p class="applicant-info"><strong>Cover Letter:</strong></p>
                                         <p class="card-text small">
-                                            <?php echo nl2br(htmlspecialchars($applicant['cover_letter'])); ?></p>
+                                            <?php echo nl2br(htmlspecialchars($applicant['cover_letter'])); ?>
+                                        </p>
                                     <?php endif; ?>
                                     <hr>
                                     <div class="d-flex justify-content-between flex-wrap mb-3">
@@ -290,6 +292,9 @@ $conn->close(); // Close connection
                                     </div>
 
                                     <!-- Schedule Interview Section -->
+                                    <a href="interview.php?id=<?php echo htmlspecialchars($applicant['id']); ?>">
+                                        <button type="button">Interview links</button>
+                                    </a>
                                     <div class="schedule-form-section">
                                         <h6 class="fw-bold mb-2">Schedule Interview:</h6>
                                         <?php if ($applicant['interview_date'] && $applicant['interview_time']): ?>
@@ -384,21 +389,6 @@ $conn->close(); // Close connection
                         <li class="mb-2"><a href="#" class="text-white text-decoration-none">Refund and Returns
                                 Policy</a></li>
                     </ul>
-                </div>
-
-                <div class="col-lg-3 col-md-4 mb-4">
-                    <h5 class="text-uppercase fw-bold mb-4">Stay Updated</h5>
-                    <p class="text-muted">Subscribe to our newsletter for the latest updates.</p>
-                    <div class="input-group mb-3">
-                        <input type="email" class="form-control" placeholder="Your Email">
-                        <button class="btn btn-primary" type="button">Subscribe</button>
-                    </div>
-                    <div class="d-flex">
-                        <a href="#" class="text-white me-3"><i class="bi bi-facebook"></i></a>
-                        <a href="#" class="text-white me-3"><i class="bi bi-twitter"></i></a>
-                        <a href="#" class="text-white me-3"><i class="bi bi-instagram"></i></a>
-                        <a href="#" class="text-white me-3"><i class="bi bi-linkedin"></i></a>
-                    </div>
                 </div>
             </div>
             <hr class="my-4 bg-secondary">

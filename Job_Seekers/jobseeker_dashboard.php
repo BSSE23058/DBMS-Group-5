@@ -445,7 +445,7 @@ $conn->close();
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="jobseeker_dashboard.php?filter=interview_schedule">
+                <a class="nav-link" href="interview.php">
                     <i class="bi bi-calendar-check-fill"></i> Interview Schedule
                 </a>
             </li>
